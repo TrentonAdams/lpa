@@ -1,0 +1,97 @@
+# Pulp Mill., businesses, ardctest, example.com
+dn: o=Pulp Mill.,ou=businesses,dc=example,dc=com
+objectClass: tntbusiness
+objectClass: labeledURIObject
+objectClass: organization
+objectClass: top
+o: Pulp Mill.
+telephoneNumber: (123) 555-5555
+facsimileTelephoneNumber: (123) 555-5555
+street: Ldap Way
+l: Example Town
+st: AB
+postalCode: A1A 2B2
+businessContact: Contact Person
+businessCategory: Manufacturing
+businessCategory: Pulp & Paper Products
+labeledURI: http://www.example.com
+mail: someone@example.com
+
+# Hair by Person X, businesses, ardctest, example.com
+dn: o=Hair by Person X,ou=businesses,dc=example,dc=com
+objectClass: tntbusiness
+objectClass: labeledURIObject
+objectClass: organization
+objectClass: top
+o: Hair by Person X
+telephoneNumber: (123) 555-5555
+street: Ldap Way
+l: Example Town
+st: AB
+postalCode: A1A 2B2
+businessContact: Contact Person
+businessCategory: Hair Salons
+labeledURI: http://www.example.com
+
+# Hair Clinic & Tanning Centre, businesses, ardctest, example.com
+dn: o=Hair Clinic & Tanning Centre,ou=businesses,dc=example,dc=com
+objectClass: labeledURIObject
+objectClass: tntbusiness
+objectClass: organization
+objectClass: top
+o: Hair Clinic & Tanning Centre
+telephoneNumber: (123) 555-5555
+street: Ldap Way
+l: Example Town
+st: AB
+postalCode: A1A 2B2
+businessContact: Contact Person
+businessCategory: Hair Salons
+businessCategory: Tanning Salons
+
+# New Trends Hair Salon, businesses, ardctest, example.com
+dn: o=New Trends Hair Salon,ou=businesses,dc=example,dc=com
+objectClass: tntbusiness
+objectClass: labeledURIObject
+objectClass: organization
+objectClass: top
+o: New Trends Hair Salon
+telephoneNumber: (123) 555-5555
+street: Ldap Way
+l: Example Town
+st: AB
+postalCode: A1A 2B2
+businessContact: Contact Person
+businessCategory: Hair Salons
+
+# Unisex Hair Styling, businesses, ardctest, example.com
+dn: o=Unisex Hair Styling,ou=businesses,dc=example,dc=com
+objectClass: tntbusiness
+objectClass: labeledURIObject
+objectClass: organization
+objectClass: top
+o: Unisex Hair Styling
+telephoneNumber: (123) 555-5555
+street: Ldap Way
+l: Example Town
+st: AB
+postalCode: A1A 2B2
+businessContact: Contact Person
+businessCategory: Hair Salons
+
+
+# missing-object-class, businesses, ardctest, example.com
+dn: o=missing-object-class,ou=businesses,dc=example,dc=com
+objectClass: labeledURIObject
+#objectClass: tntbusiness
+objectClass: organization
+objectClass: top
+o: missing-object-class
+telephoneNumber: (123) 555-5555
+facsimileTelephoneNumber: (123) 555-5555
+street: Ldap Way
+l: Example Town
+st: AB
+postalCode: A1A 2B2
+labeledURI: http://www.example.com
+

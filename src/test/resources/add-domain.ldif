@@ -1,0 +1,21 @@
+dn: cn=Manager,dc=example,dc=com
+objectclass: organizationalRole
+cn: Manager
+
+dn: ou=People,dc=example,dc=com
+objectclass: top
+objectclass: organizationalUnit
+ou: People
+description: People with Example.com
+
+dn: ou=Groups,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: Groups
+description: Example Groups
+
+dn: ou=BusinessCategories,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: BusinessCategories
+description: Business Categories
