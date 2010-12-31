@@ -1,8 +1,9 @@
 Currently, this project is exclusively copyright Trenton D. Adams trent at
-trentonadams daught ca.
+trentonadams daught ca.  I still need to pick an OS license.  Any suggestions 
+on picking a license would be appreciated.  I hope to have one soon.
 
-I still need to pick a license.  Any suggestions on picking a license would
-be appreciated.
+For now, you can use this software for non-commercial purposes only, until
+I have determined an appropriate license.
 
 Currently, the best way to get started, on understanding how this project
 works, is to look at the LdapOrganizationTest and AnnotationsTest unit tests.
@@ -38,7 +39,5 @@ Popular google searches to catch:
  - ldap persistence api
  - java ldap api
  - java ldap api example
-
-
 
 Thanks.
