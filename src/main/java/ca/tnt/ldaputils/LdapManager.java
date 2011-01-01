@@ -26,7 +26,6 @@ import ca.tnt.ldaputils.annotations.processing.LdapEntityHandler;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.ObjectClassNotSupportedException;
 import ca.tnt.ldaputils.impl.LdapEntry;
-import ca.tnt.util.Property;
 import org.apache.log4j.Logger;
 
 import javax.naming.Context;

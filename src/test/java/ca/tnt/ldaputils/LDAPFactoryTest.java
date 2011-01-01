@@ -24,7 +24,6 @@ import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.impl.LDAPEntryImpl;
 import ca.tnt.ldaputils.impl.LdapEntry;
 import ca.tnt.ldaputils.proprietary.ILdapBusiness;
-import ca.tnt.util.Property;
 import junit.framework.TestCase;
 import org.apache.log4j.Logger;
 

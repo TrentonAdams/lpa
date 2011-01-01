@@ -22,12 +22,12 @@ See the COPYING file for more information.
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ca.climbingvine</groupId>
-  <artifactId>ldaputil</artifactId>
+  <groupId>ca.trentonadams</groupId>
+  <artifactId>lpa</artifactId>
   <packaging>jar</packaging>
   <version>0.3.0-SNAPSHOT</version>
   <name>ldaputils</name>
-  <url>http://maven.climbingvine.ca/ca/climbingvine/ldaputil</url>
+  <url>https://github.com/TrentonAdams/lpa</url>
   <properties>
     <maven.test.skip>true</maven.test.skip>
   </properties>
@@ -128,13 +128,7 @@ See the COPYING file for more information.
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.12</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>ca.climbingvine</groupId>
-      <artifactId>javautils</artifactId>
-      <version>0.1.1</version>
+      <version>1.2.16</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
