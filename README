@@ -17,6 +17,9 @@ License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
 
 See the COPYING file for more information.
 
+There is no website for this project as of yet.  Github is THE place to find
+it.
+
 Currently, the best way to get started, on understanding how this project
 works, is to look at the LdapOrganizationTest and AnnotationsTest unit tests.
 They use most of the "current" functionality available.
