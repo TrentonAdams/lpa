@@ -48,10 +48,10 @@ import java.util.*;
  *
  * @author Trenton D. Adams
  */
-public class LdapEntityHandler implements IAnnotationHandler
+public class LdapEntityLoader implements IAnnotationHandler
 {
     private static final Logger logger = Logger.getLogger(
-        LdapEntityHandler.class);
+        LdapEntityLoader.class);
     private Object object;
     private boolean isDnSet;
     private Attributes attributes;
@@ -61,7 +61,7 @@ public class LdapEntityHandler implements IAnnotationHandler
     /**
      * does nothing
      */
-    public LdapEntityHandler()
+    public LdapEntityLoader()
     {
     }
 
@@ -72,7 +72,7 @@ public class LdapEntityHandler implements IAnnotationHandler
      * @param attributes the attributes from ldap
      * @param dn         the ldap distinguished name
      */
-    public LdapEntityHandler(final Object newObject,
+    public LdapEntityLoader(final Object newObject,
         final Attributes attributes, final LdapName dn)
     {
         object = newObject;
@@ -314,11 +314,11 @@ public class LdapEntityHandler implements IAnnotationHandler
                 {   // use current ldap entry for population of aggregate
                     final AnnotationProcessor annotationProcessor =
                         new AnnotationProcessor();
-                    final LdapEntityHandler handler;
-                    handler = new LdapEntityHandler(fieldValue, attributes,
+                    final LdapEntityLoader entityLoader;
+                    entityLoader = new LdapEntityLoader(fieldValue, attributes,
                         dn);
-                    handler.setManager(manager);
-                    annotationProcessor.addHandler(handler);
+                    entityLoader.setManager(manager);
+                    annotationProcessor.addHandler(entityLoader);
                     annotationProcessor.processAnnotations();
                 }
                 else

@@ -22,7 +22,7 @@ package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.annotations.LdapEntity;
 import ca.tnt.ldaputils.annotations.processing.AnnotationProcessor;
-import ca.tnt.ldaputils.annotations.processing.LdapEntityHandler;
+import ca.tnt.ldaputils.annotations.processing.LdapEntityLoader;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.ObjectClassNotSupportedException;
 import ca.tnt.ldaputils.impl.LdapEntry;
@@ -336,10 +336,10 @@ public class LdapManager
             newObject = annotatedClass.newInstance();
             final AnnotationProcessor annotationProcessor =
                 new AnnotationProcessor();
-            final LdapEntityHandler handler = new LdapEntityHandler(newObject,
+            final LdapEntityLoader entityLoader = new LdapEntityLoader(newObject,
                 attributes, dn);
-            handler.setManager(this);
-            annotationProcessor.addHandler(handler);
+            entityLoader.setManager(this);
+            annotationProcessor.addHandler(entityLoader);
             if (!annotationProcessor.processAnnotations())
             {
                 return null;
