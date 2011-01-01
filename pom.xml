@@ -146,31 +146,6 @@ See the COPYING file for more information.
 
   </dependencies>
 
-  <repositories>
-    <repository>
-      <id>cv</id>
-      <url>http://maven.climbingvine.ca</url>
-    </repository>
-  </repositories>
-
-  <scm>
-    <connection>
-      scm:svn:svn+ssh://svn.climbingvine.ca/var/svn/repos/ldaputil/trunk
-    </connection>
-    <developerConnection>
-      scm:svn:svn+ssh://svn.climbingvine.ca/var/svn/repos/ldaputil/trunk
-    </developerConnection>
-  </scm>
-
-  <distributionManagement>
-    <repository>
-      <id>cv</id>
-      <name>CV Repository</name>
-      <url>scpexe://maven.climbingvine.ca/var/www/maven.climbingvine.ca/htdocs/
-      </url>
-    </repository>
-  </distributionManagement>
-
   <profiles>
     <profile>
       <id>test</id>
