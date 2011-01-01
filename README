@@ -21,8 +21,8 @@ There is no website for this project as of yet.  Github is THE place to find
 it.
 
 Currently, the best way to get started, on understanding how this project
-works, is to look at the LdapOrganizationTest and AnnotationsTest unit tests.
-They use most of the "current" functionality available.
+works, is to look at the unit tests, except the LDAPFactoryTest. They use most
+of the "current" functionality available.
 
 I use IDEA's TO-DO tracking.  TODOs are marked with the following...
 TODO             - probably obsolete, and should be discontinued
@@ -36,7 +36,8 @@ Currently, I'm not entirely sure how the build process works.  I do know
 that I did an "mvn install" on apacheds, by checking out
 http://svn.apache.org/repos/asf/directory/apacheds/tags/1.5.7.  The
 libraries don't tend to get up to any maven repos on the net, so you have to
-install it locally.
+install it locally.  I do plan on eventually having the apacheds libraries
+pushed to the maven repos, by giving them to sonatype to deal with.
 
 I trust that any other libraries that are needed can be resolved by maven, or
 the skill of the person attempting to build this project would come into play.

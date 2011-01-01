@@ -62,6 +62,7 @@ public class PropertyLoadTest extends AbstractLdapTestUnit
     @Before
     public void setUp()
     {
+        // call default constructor, which loads ldap information from properties
         manager = new LdapManager();
     }
 

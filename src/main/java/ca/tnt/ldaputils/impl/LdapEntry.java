@@ -368,7 +368,7 @@ public Object convertInstance(Class classType) throws NamingException
     /**
      * Updates the specified attribute from LDAP.
      * <p/>
-     * TODO : Instead of using LDAPFactory.getAttributes, using
+     * MINOR : Instead of using LDAPFactory.getAttributes, using
      * DirContext.getAttributes().  Then we can remove the getAttributes().
      *
      * @param attrName the name of the attribute

@@ -72,4 +72,6 @@ public interface ILdapGroup extends ILdapEntry
      * @return all members in DN format, in alphabetical order.
      */
     SortedSet getMembers();
+
+    SortedSet<String> getBusinessCategories();
 }

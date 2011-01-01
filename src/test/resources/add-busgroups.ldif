@@ -24,6 +24,17 @@ dn: ou=businesses,dc=example,dc=com
 ou: businesses
 objectClass: organizationalUnit
 
+# a group of all business category names
+dn: cn=categories,ou=bus-categories,dc=example,dc=com
+cn: categories
+objectClass: groupOfNames
+# member itself just to conform to "groupOfNames" style
+member: cn=categories,ou=bus-categories,dc=example,dc=com
+businessCategory: Hair Salons
+businessCategory: Manufacturing
+businessCategory: Pulp & Paper Products
+businessCategory: Tanning Salons
+
 # Hair Salons, bus-categories, ardctest, example.com
 dn: cn=Hair Salons,ou=bus-categories,dc=example,dc=com
 cn: Hair Salons

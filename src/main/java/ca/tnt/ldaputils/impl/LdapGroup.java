@@ -42,7 +42,7 @@ import java.util.*;
  * Revision : $Revision$
  * <p/>
  * <p/>
- * TODO : When removing members, check for existence, then fail silently if it
+ * MINOR : When removing members, check for existence, then fail silently if it
  * does not exist.  Otherwise, remove it.
  *
  * @author Trenton D. Adams <trenta@athabascau.ca>
@@ -58,6 +58,9 @@ public class LdapGroup extends LdapEntry
     @LdapAttribute(name = "member")
     protected final SortedSet<String> sortedMembers;
 
+    @LdapAttribute(name = "businessCategory")
+    private final SortedSet<String> businessCategories;
+
 /*    public LdapGroup(final Attributes attributes, final LdapName dn)
         throws NamingException
     {
@@ -71,6 +74,7 @@ public class LdapGroup extends LdapEntry
     {
         super();
         sortedMembers = new TreeSet<String>();
+        businessCategories = new TreeSet<String>();
     }
 
 /*    private void populateMemebrs()
@@ -176,5 +180,16 @@ public class LdapGroup extends LdapEntry
             .appendSuper(super.compareTo(o))
             .append(sortedMembers, myClass.sortedMembers)
             .toComparison();
+    }
+
+    /**
+     * Retrieves a list of business categories for this group.
+     *
+     * @return a SortedSet of category names
+     */
+    @Override
+    public SortedSet<String> getBusinessCategories()
+    {
+        return Collections.unmodifiableSortedSet(businessCategories);
     }
 }

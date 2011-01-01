@@ -145,26 +145,6 @@ public class AnnotationsTest extends AbstractLdapTestUnit
             ldapEntry.isObjectClass("labeledURIObject"));
     }
 
-    @SuppressWarnings({"ChainedMethodCall"})
-    @Test
-    public void testLdapGroup() throws InvalidNameException
-    {
-        final LdapName ldapName = new LdapName(
-            "cn=Hair Salons,ou=bus-categories,dc=example,dc=com");
-        try
-        {
-            final LdapGroup ldapEntry = (LdapGroup) manager.find(
-                LdapGroup.class, ldapName);
-            Assert.assertEquals("number of members", 4,
-                ldapEntry.getMembers().size());
-        }
-        catch (IllegalArgumentException e)
-        {   // this should happen, and we need to make a test case for this.
-            e.printStackTrace();
-            Assert.fail("ldap group should have been loaded");
-        }
-    }
-
     @Test
     public void testSubclassNotEntity() throws InvalidNameException
     {
