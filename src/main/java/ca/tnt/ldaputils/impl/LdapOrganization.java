@@ -41,8 +41,6 @@ import java.util.*;
  * <p/>
  * Revision : $Revision$
  * <p/>
- * TODO: Make getBusinessCategories() return a list of all businessCategories
- * for display on the web.
  *
  * @author Trenton D. Adams <trent.nospam@telus.net>
  */

@@ -24,7 +24,8 @@ dn: ou=businesses,dc=example,dc=com
 ou: businesses
 objectClass: organizationalUnit
 
-# a group of all business category names
+# a group of all business category names, even if they don't yet exist
+# groups cannot exist without at least one member
 dn: cn=categories,ou=bus-categories,dc=example,dc=com
 cn: categories
 objectClass: groupOfNames

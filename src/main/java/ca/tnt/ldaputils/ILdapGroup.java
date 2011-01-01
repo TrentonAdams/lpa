@@ -39,9 +39,6 @@ import java.util.SortedSet;
 public interface ILdapGroup extends ILdapEntry
 {
     /**
-     * TODO : Implement a getMembers(member type)
-     * <p/>
-     * TODO : Change the default return type to LDAP_GROUP
      *
      * @param objectType
      *
