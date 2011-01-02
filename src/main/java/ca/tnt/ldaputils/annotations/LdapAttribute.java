@@ -110,10 +110,10 @@ import java.lang.annotation.Target;
 public @interface LdapAttribute
 {
     /**
-     * The name of the attribute to store in this field.  A name of '*' requests
-     * storage of ALL attributes in an {@link Attributes} field variable. Fields
-     * with a name of '*' are ignored during binding, updating, and are used
-     * only for queries.
+     * The name of the attribute to store in this field, or '*' to store all
+     * attributes in this field.  A name of '*' requests storage of ALL
+     * attributes in an {@link Attributes} field variable. Fields with a name of
+     * '*' are ignored during binding, updating, and are used only for queries.
      * <p/>
      * In the case of an aggregate, where we take another LDAP entry, and inject
      * it, the name of the attribute in the current ldap entry that should have
