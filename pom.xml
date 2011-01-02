@@ -51,6 +51,7 @@ See the COPYING file for more information.
             -postfixpackage -nodefontsize 9
             -nodefontpackagesize 7
           </additionalparam>
+          <overview>src/main/java/overview.html</overview>
         </configuration>
       </plugin>
 
