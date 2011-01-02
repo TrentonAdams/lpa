@@ -50,15 +50,24 @@ import java.lang.annotation.Target;
  * Basically, the developer may have one Class that implements most of the
  * functionality of a particular type of ldap entry, and another that has added
  * functionality they want as well.  For example, an ldap organization cannot
- * have an email address, but perhaps you want that functionality, among other
- * things, so you add more {@link LdapEntity} annotated object classes to that
- * {@link LdapEntity} annotated object class, to allow it to have an email
- * address.
+ * have a labeled URI attribute in ldap, unless it has an objectClass of
+ * "labeledURIObject", but perhaps you want that functionality, among other
+ * things, so you add a labeled URI {@link LdapEntity} annotated object class as
+ * a field inside the ldap organization {@link LdapEntity} annotated object
+ * class, to allow it to have a url address.  In the ldap world, we do this via
+ * the "objectClass" attribute, which can have multiple types of attributes.  As
+ * an example, your objectClass attributes in ldap, may now look like
+ * <p/>
+ * <pre>
+ * objectClass: labeledURIObject
+ * objectClass: organization
+ * objectClass: top
+ * </pre>
  * <p/>
  * Best practice, is to define interfaces, that all participating classes
- * implement objects implement.  Using the previous example, we might define
- * {@link ILdapOrganization} and {@link ILabeledURI}. Then, we would aggregate
- * the two implementations of those interfaces, into our own object, while also
+ * implement.  Using the previous example, we might define {@link
+ * ILdapOrganization} and {@link ILabeledURI}. Then, we would aggregate the two
+ * implementations of those interfaces, into our own object, while also
  * implementing the interfaces.  After that, we'd proxy each method call to the
  * actual implementation object.  There is an example of this concept, in the
  * unit tests for LPA.  If you need this functionality, we recommend that you
