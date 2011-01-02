@@ -336,8 +336,7 @@ public class LdapManager
             final AnnotationProcessor annotationProcessor =
                 new AnnotationProcessor();
             final LdapEntityLoader entityLoader = new LdapEntityLoader(
-                newObject,
-                attributes, dn);
+                newObject, attributes, dn);
             entityLoader.setManager(this);
             annotationProcessor.addHandler(entityLoader);
             if (!annotationProcessor.processAnnotations())
@@ -815,18 +814,11 @@ public class LdapManager
 
 
     /**
-     * CRITICAL We are unable to move forward until we have an ObjectClasses
-     * annotation in place, or perhaps just a collection based LdapAttribute
-     * annotation, and it must be another "required" annotation on an LdapEntity
-     * annotated class.  It should only be "required" for objects that want to
-     * be able to "bind" to ldap.  The object classes must be bound to the ldap
-     * entry during creation.
+     * CRITICAL object class handling https://github.com/TrentonAdams/lpa/issues/issue/3
      * <p/>
-     * CRITICAL First order of business during binding, is to query the
-     * LdapAttribute(name="*") annotated item, which may or may not exist.  If
-     * it does not exist, then we go through all of the LdapAttribute
-     * annotations, ObjectClasses annotation and generate our own attributes
-     * from them.
+     * CRITICAL binding annotation processor https://github.com/TrentonAdams/lpa/issues/4
+     * <p/>
+     * CRITICAL updating annotation processor https://github.com/TrentonAdams/lpa/issues/5
      *
      * @param ldapEntry
      */

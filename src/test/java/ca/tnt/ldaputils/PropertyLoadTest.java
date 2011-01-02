@@ -19,7 +19,7 @@ import javax.naming.ldap.LdapName;
 import java.util.SortedMap;
 
 /**
- * Created by IntelliJ IDEA.
+ * Hardcoded port for ldap server, so we can test the loading of properties.
  * <p/>
  * Created :  31/12/10 10:30 PM MST
  * <p/>

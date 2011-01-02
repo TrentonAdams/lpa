@@ -20,8 +20,6 @@
  */
 package ca.tnt.ldaputils.annotations.processing;
 
-import ca.tnt.ldaputils.LdapManager;
-
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +67,7 @@ public class AnnotationProcessor
     {
         for (final IAnnotationHandler handler : handlers)
         {
-            final Object object = handler.getObject();
-            final Class annotatedClass;
-            annotatedClass = object.getClass();
+            final Class annotatedClass = handler.getAnnotatedClass();
             if (processAnnotation(handler, annotatedClass))
             {
                 handler.validateProcessing();

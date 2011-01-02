@@ -1,21 +1,21 @@
 /**
  * This file is part of the Ldap Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils.annotations;
@@ -111,7 +111,9 @@ public @interface LdapAttribute
 {
     /**
      * The name of the attribute to store in this field.  A name of '*' requests
-     * storage of ALL attributes in an {@link Attributes} field variable.
+     * storage of ALL attributes in an {@link Attributes} field variable. Fields
+     * with a name of '*' are ignored during binding, updating, and are used
+     * only for queries.
      * <p/>
      * In the case of an aggregate, where we take another LDAP entry, and inject
      * it, the name of the attribute in the current ldap entry that should have

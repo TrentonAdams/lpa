@@ -1,21 +1,21 @@
 /**
  * This file is part of the Ldap Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils.impl;
@@ -51,8 +51,16 @@ import java.util.*;
 public class LdapGroup extends LdapEntry
     implements ILdapGroup, Serializable, Comparable
 {
-    // REQUIRED_FEATURE replace with SortedMap of member entries
+
     /**
+     * REQUIRED_FEATURE replace with SortedMap of ILdapOrganization entries,
+     * once we have gotten around infinite recursion.  However, this should
+     * probably be done in an example object in the test package, not here, as
+     * we do not necessarily want to link back to the original object.  Then
+     * again, maybe we should simply be creating two separate sub projects.  One
+     * for common Classes, doing it the way we "think", and one that is the
+     * actual framework.
+     * <p/>
      * SortedSet of members of the group, in DN String format.
      */
     @LdapAttribute(name = "member")

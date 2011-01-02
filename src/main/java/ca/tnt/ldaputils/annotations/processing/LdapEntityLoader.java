@@ -450,9 +450,9 @@ public class LdapEntityLoader implements IAnnotationHandler
     }
 
     @Override
-    public Object getObject()
+    public Class getAnnotatedClass()
     {
-        return object;
+        return object.getClass();
     }
 
     @Override

@@ -78,7 +78,7 @@ public interface IAnnotationHandler
      *
      * @return the object to traverse the Class tree for.
      */
-    Object getObject();
+    Class getAnnotatedClass();
 
     /**
      * @return the annotation class that this handler supports
@@ -94,7 +94,7 @@ public interface IAnnotationHandler
      * requires it the other way around, for some reason.
      *
      * @param annotatedClass the class, in the object tree of {@link
-     *                       #getObject}, that the annotation was NOT found on.
+     *                       #getAnnotatedClass}, that the annotation was NOT found on.
      */
     void noAnnotation(Class annotatedClass);
 
