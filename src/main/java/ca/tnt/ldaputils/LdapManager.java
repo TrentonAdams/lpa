@@ -22,6 +22,7 @@ package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.annotations.LdapEntity;
 import ca.tnt.ldaputils.annotations.processing.AnnotationProcessor;
+import ca.tnt.ldaputils.annotations.processing.LdapEntityBinder;
 import ca.tnt.ldaputils.annotations.processing.LdapEntityLoader;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.ObjectClassNotSupportedException;
@@ -827,9 +828,19 @@ public class LdapManager
         LdapContext ldapContext = null;
         try
         {
+            final AnnotationProcessor annotationProcessor =
+                new AnnotationProcessor();
+            final LdapEntityBinder entityBinder = new LdapEntityBinder(
+                ldapEntry);
+            entityBinder.setManager(this);
+            annotationProcessor.addHandler(entityBinder);
+            if (!annotationProcessor.processAnnotations())
+            {
+                System.out.println("annotation processing failed");
+            }
             ldapContext = (LdapContext) getConnection();
-            ldapContext.bind(ldapEntry.getDn(), null,
-                ldapEntry.getBindAttributes());
+/*            ldapContext.bind(ldapEntry.getDn(), null,
+                entityBinder.getAttributes());*/
         }
         catch (NamingException e)
         {

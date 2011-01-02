@@ -178,4 +178,10 @@ public interface ILdapEntry
     public List getAttributeValues(String attribute);
     public String getStringValue(String attribute);
     */
+
+    void setDn(LdapName dn);
+
+    String getCn();
+
+    void setCn(String cn);
 }

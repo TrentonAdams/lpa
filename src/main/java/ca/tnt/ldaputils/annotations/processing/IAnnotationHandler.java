@@ -1,24 +1,26 @@
 /**
  * This file is part of the Ldap Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils.annotations.processing;
+
+import ca.tnt.ldaputils.LdapManager;
 
 import java.lang.annotation.Annotation;
 
@@ -62,11 +64,12 @@ public interface IAnnotationHandler
      * @param annotation     the annotation
      * @param annotatedClass the field to process
      *
+     * @return true if annotation processing was successful
+     *
      * @throws RuntimeException The implementor may throw a RuntimeException
      *                          from this method.  It is recommended that this
      *                          does not occur, unless it is severe.  First see
      *                          {@link #validateProcessing()}
-     * @return true if annotation processing was successful
      */
     boolean processAnnotation(final Annotation annotation,
         final Class annotatedClass);
@@ -81,6 +84,9 @@ public interface IAnnotationHandler
     Class getAnnotatedClass();
 
     /**
+     * This is the primary Class annotation that this handler expects to be on
+     * the Class, indicating it supports the Class being processed.
+     *
      * @return the annotation class that this handler supports
      */
     Class<? extends Annotation> getAnnotationClass();
@@ -94,9 +100,10 @@ public interface IAnnotationHandler
      * requires it the other way around, for some reason.
      *
      * @param annotatedClass the class, in the object tree of {@link
-     *                       #getAnnotatedClass}, that the annotation was NOT found on.
+     *                       #getAnnotatedClass}, that the annotation was NOT
+     *                       found on.
      */
-    void noAnnotation(Class annotatedClass);
+    void noAnnotation(final Class annotatedClass);
 
     /**
      * Method for validating the processing of the annotations.  This is called
@@ -112,4 +119,12 @@ public interface IAnnotationHandler
      *                          class hierarchy traversal is complete
      */
     void validateProcessing();
+
+    /**
+     * Sets the established ldap manager object, which should be
+     * pre-authenticated.
+     *
+     * @param managerInstance the already authenticated manager
+     */
+    void setManager(final LdapManager managerInstance);
 }

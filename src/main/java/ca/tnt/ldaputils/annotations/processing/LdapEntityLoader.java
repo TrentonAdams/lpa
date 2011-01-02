@@ -1,21 +1,21 @@
 /**
  * This file is part of the Ldap Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils.annotations.processing;
@@ -52,7 +52,7 @@ public class LdapEntityLoader implements IAnnotationHandler
 {
     private static final Logger logger = Logger.getLogger(
         LdapEntityLoader.class);
-    private Object object;
+    protected Object entity;
     private boolean isDnSet;
     private Attributes attributes;
     private LdapName dn;
@@ -75,20 +75,15 @@ public class LdapEntityLoader implements IAnnotationHandler
     public LdapEntityLoader(final Object newObject,
         final Attributes attributes, final LdapName dn)
     {
-        object = newObject;
+        entity = newObject;
         this.attributes = attributes;
         this.dn = dn;
     }
 
-    /**
-     * Sets the established ldap manager object, which should be
-     * pre-authenticated.
-     *
-     * @param manager the already authenticated manager
-     */
-    public void setManager(final LdapManager manager)
+    @Override
+    public void setManager(final LdapManager managerInstance)
     {
-        this.manager = manager;
+        manager = managerInstance;
     }
 
 
@@ -99,18 +94,10 @@ public class LdapEntityLoader implements IAnnotationHandler
     {
         try
         {
-            final Attribute objectClass = attributes.get("objectClass");
-            final String className = object.getClass().getName();
-            boolean hasSupportedClass = true;
-            final String[] supportedClasses =
-                ((LdapEntity) annotation).requiredObjectClasses();
-            for (final String supportedClass : supportedClasses)
-            {
-                hasSupportedClass = hasSupportedClass && objectClass.contains(
-                    supportedClass);
-            }
+            final String className = entity.getClass().getName();
 
-            if (!hasSupportedClass)
+            if (!validateObjectClasses((LdapEntity) annotation
+            ))
             {
                 return false; // we're not loading anything, cause nothing is supported
             }
@@ -166,11 +153,36 @@ public class LdapEntityLoader implements IAnnotationHandler
         return true;
     }
 
-    private void processManager(final Class annotatedClass, final Field field)
+    /**
+     * Validates object classes for the entity.
+     * <p/>
+     * Override for a subclassed annotation processor.  In some cases, just
+     * return true for the subclass, if you have nothing to do.
+     *
+     * @param annotation the {@link LdapEntity} annotation instance for the
+     *                   class
+     *
+     * @return whether the object classes are valid or not
+     */
+    protected boolean validateObjectClasses(LdapEntity annotation)
+    {
+        final Attribute objectClass = attributes.get("objectClass");
+        final String[] supportedClasses =
+            ((LdapEntity) annotation).requiredObjectClasses();
+        boolean hasSupportedClass = true;
+        for (final String supportedClass : supportedClasses)
+        {
+            hasSupportedClass = hasSupportedClass && objectClass.contains(
+                supportedClass);
+        }
+        return hasSupportedClass;
+    }
+
+    protected void processManager(final Class annotatedClass, final Field field)
         throws IllegalAccessException
     {
         field.setAccessible(true);
-        field.set(object, manager);
+        field.set(entity, manager);
         field.setAccessible(false);
     }
 
@@ -181,11 +193,11 @@ public class LdapEntityLoader implements IAnnotationHandler
      *
      * @throws IllegalAccessException obvious
      */
-    private void processLdapAttributes(final Field field)
+    protected void processLdapAttributes(final Field field)
         throws IllegalAccessException
     {
         field.setAccessible(true);
-        field.set(object, attributes);
+        field.set(entity, attributes);
         field.setAccessible(false);
     }
 
@@ -199,7 +211,7 @@ public class LdapEntityLoader implements IAnnotationHandler
      * @throws NoSuchMethodException  if the getter for the field does not exist
      *                                in the annotated object
      */
-    private void processDN(final Class annotatedClass, final Field field)
+    protected void processDN(final Class annotatedClass, final Field field)
         throws IllegalAccessException, NoSuchMethodException
     {
         final DN dnAnnotation = field.getAnnotation(DN.class);
@@ -209,7 +221,7 @@ public class LdapEntityLoader implements IAnnotationHandler
         final String endOfString;
         final Method dnGetMethod;
         field.setAccessible(true);
-        field.set(object, dn.clone());
+        field.set(entity, dn.clone());
         field.setAccessible(false);
 
         fieldName = field.getName();
@@ -230,7 +242,7 @@ public class LdapEntityLoader implements IAnnotationHandler
     /**
      * Processing for {@link LdapAttribute } annotation.  If the LdapEntity
      * annotated Class is an instanceof {@link TypeHandler}, the {@link
-     * TypeHandler#handleType(Class, List, Class)} will be called for all
+     * TypeHandler#processValues(Class, List, Class)} will be called for all
      * aggregate fields, instead of the normal type processing that goes on,
      * described by {@link LdapAttribute}
      * <p/>
@@ -254,7 +266,7 @@ public class LdapEntityLoader implements IAnnotationHandler
      *                                   for example.
      */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
-    private void processLdapAttribute(final Class annotatedClass,
+    protected void processLdapAttribute(final Class annotatedClass,
         final Field field) throws IllegalAccessException, NamingException,
         InvocationTargetException, NoSuchMethodException, InstantiationException
     {   // BEGIN processLdapAttribute()
@@ -326,7 +338,7 @@ public class LdapEntityLoader implements IAnnotationHandler
                     final Method dnReferenceMethod = annotatedClass.getMethod(
                         referenceDNMethod);
                     final String dnReference =
-                        (String) dnReferenceMethod.invoke(object);
+                        (String) dnReferenceMethod.invoke(entity);
                     if (!dnReference.contains("?"))
                     {
                         throw new LpaAnnotationException(dnReference +
@@ -367,9 +379,9 @@ public class LdapEntityLoader implements IAnnotationHandler
                         {   // sorted, Comparable on objects required
                             fieldValue = new TreeSet(ldapEntities);
                         }
-                        else if (object instanceof TypeHandler)
+                        else if (entity instanceof TypeHandler)
                         {
-                            fieldValue = ((TypeHandler) object).handleType(
+                            fieldValue = ((TypeHandler) entity).processValues(
                                 field.getType(),
                                 ldapEntities, refType);
                         }
@@ -385,7 +397,7 @@ public class LdapEntityLoader implements IAnnotationHandler
             if (fieldValue != null)
             {   // never set to null, as the contructor may have initialized
                 // a default empty collection or something.
-                field.set(object, fieldValue);
+                field.set(entity, fieldValue);
             }
         }
         finally
@@ -452,7 +464,7 @@ public class LdapEntityLoader implements IAnnotationHandler
     @Override
     public Class getAnnotatedClass()
     {
-        return object.getClass();
+        return entity.getClass();
     }
 
     @Override
@@ -464,7 +476,7 @@ public class LdapEntityLoader implements IAnnotationHandler
     @Override
     public void noAnnotation(final Class annotatedClass)
     {
-        if (annotatedClass == object.getClass())
+        if (annotatedClass == entity.getClass())
         {   // top level class required to be annotated.
             throw new IllegalArgumentException(
                 annotatedClass.getName() +
@@ -480,7 +492,7 @@ public class LdapEntityLoader implements IAnnotationHandler
         if (!isDnSet())
         {   // an object in the tree must store the DN
             throw new IllegalArgumentException(
-                object.getClass().getName() +
+                entity.getClass().getName() +
                     " is not a valid LdapEntity POJO; @DN annotation " +
                     "REQUIRED");
         }

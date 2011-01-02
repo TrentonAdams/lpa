@@ -55,7 +55,7 @@ public class LdapOrganization extends LdapEntry
         referencedDNMethod = "getCategoryDN"
         /*"cn=?,ou=bus-categories,dc=example,dc=com"*/
     )
-    private SortedMap<String, LdapGroup> businessCategories;
+    private SortedMap<String, ILdapGroup> businessCategories;
 
     @LdapAttribute(name = "telephoneNumber")
     private String telephoneNumber;
@@ -79,7 +79,7 @@ public class LdapOrganization extends LdapEntry
      */
     public LdapOrganization()
     {
-        businessCategories = new TreeMap<String, LdapGroup>();
+        businessCategories = new TreeMap<String, ILdapGroup>();
     }
 
     public SortedMap<String, ? extends ILdapGroup> getBusinessCategories()
@@ -142,53 +142,45 @@ public class LdapOrganization extends LdapEntry
     public void setTelephoneNumber(final String telephoneNumber,
         final int operation)
     {
-        modifyBatchAttribute(operation, "telephoneNumber", telephoneNumber);
         this.telephoneNumber = telephoneNumber;
     }
 
     public void setFacsimileTelephoneNumber(final String fax,
         final int operation)
     {
-        modifyBatchAttribute(operation, "facsimileTelephoneNumber", fax);
         facsimileTelephoneNumber = fax;
     }
 
     public void setStreet(final String street, final int operation)
     {
-        modifyBatchAttribute(operation, "street", street);
         this.street = street;
     }
 
     public void setPostOfficeBox(final String postOfficeBox,
         final int operation)
     {
-        modifyBatchAttribute(operation, "postOfficeBox", postOfficeBox);
         this.postOfficeBox = postOfficeBox;
     }
 
     public void setPostalCode(final String postalCode, final int operation)
     {
-        modifyBatchAttribute(operation, "postalCode", postalCode);
         this.postalCode = postalCode;
     }
 
     public void setPostalAddress(final String postalAddress,
         final int operation)
     {
-        modifyBatchAttribute(operation, "postalAddress", postalAddress);
         this.postalAddress = postalAddress;
     }
 
     public void setLocality(final String city, final int operation)
     {
-        modifyBatchAttribute(operation, "l", city);
         locality = city;
     }
 
     public void setOrganization(final String organizationName,
         final int operation)
     {
-        modifyBatchAttribute(operation, "o", organizationName);
         organization = organizationName;
     }
 
@@ -284,7 +276,7 @@ public class LdapOrganization extends LdapEntry
 
     @SuppressWarnings({"unchecked"})
     @Override
-    public Object handleType(final Class classType, final List list,
+    public Object processValues(final Class classType, final List list,
         final Class refType)
     {
         Object fieldValue = null;
@@ -300,5 +292,24 @@ public class LdapOrganization extends LdapEntry
         }
 
         return fieldValue;
+    }
+
+    @SuppressWarnings({"unchecked"})
+    @Override
+    public List getValues(final Class classType, final Class refType,
+        final Object instance)
+    {
+        final List<String> values = new ArrayList<String>(10);
+        if (instance instanceof SortedMap)
+        {   // we know what to do
+            final SortedMap<String, LdapGroup> groups =
+                (SortedMap<String, LdapGroup>) instance;
+            for (final ILdapGroup group : groups.values())
+            {
+                values.add(group.getCN());
+            }
+        }
+
+        return values;
     }
 }

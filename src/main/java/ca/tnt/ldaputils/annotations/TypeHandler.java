@@ -1,21 +1,21 @@
 /**
  * This file is part of the Ldap Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils.annotations;
@@ -58,5 +58,24 @@ public interface TypeHandler
      *
      * @return the new collection defined by classType
      */
-    Object handleType(Class classType, List list, Class refType);
+    Object processValues(Class classType, List list, Class refType);
+
+
+    /**
+     * Processes LdapEntity objects for the given classType, and return them in
+     * a list, for binding or updating.  For example, if you have a
+     * processValues() that stores attribute values in a Map, you need to be
+     * able to convert it back to a list, for binding, or updating.
+     * <p/>
+     * If you are using the aggregate functionality, you MUST convert the
+     * attribute data back to it's original type, such as String.
+     *
+     * @param classType the Class of the field that we're trying to handle.
+     * @param refType   the type of the field
+     * @param instance  the instance of the field, might be a collection, or
+     *                  some other type
+     *
+     * @return the List of attribute values.
+     */
+    List getValues(Class classType, Class refType, Object instance);
 }

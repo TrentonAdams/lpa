@@ -470,6 +470,22 @@ public class LDAPEntryImpl implements ILdapEntry, Serializable
         return attributes;
     }
 
+    @Override
+    public void setDn(LdapName dn)
+    {
+    }
+
+    @Override
+    public String getCn()
+    {
+        return null;
+    }
+
+    @Override
+    public void setCn(String cn)
+    {
+    }
+
     public String toString()
     {
         return attributes.toString();

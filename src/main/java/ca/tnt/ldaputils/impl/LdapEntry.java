@@ -21,6 +21,7 @@
 package ca.tnt.ldaputils.impl;
 
 import ca.tnt.ldaputils.ILdapEntry;
+import ca.tnt.ldaputils.LdapManager;
 import ca.tnt.ldaputils.annotations.*;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import org.apache.commons.lang.builder.CompareToBuilder;
@@ -55,7 +56,7 @@ public class LdapEntry implements ILdapEntry, Comparable
     protected LinkedHashMap modificationItems;
 
     @Manager
-    private ca.tnt.ldaputils.LdapManager manager;
+    private LdapManager manager;
 
     /**
      * This contains all of the attributes for the object
@@ -63,14 +64,11 @@ public class LdapEntry implements ILdapEntry, Comparable
     @LdapAttribute(name = "*")
     protected Attributes attributes;
 
-    /**
-     * LDAP Distinguished Name
-     */
     @DN
-    protected LdapName dn;
+    private LdapName dn;
 
     @LdapAttribute(name = "cn")
-    protected String cn;
+    private String cn;
 
     /**
      * All objectClass attributes, we know they are Strings
@@ -87,6 +85,8 @@ public class LdapEntry implements ILdapEntry, Comparable
     }
 
     /**
+     * LDAP Distinguished Name
+     */ /**
      * @return the distinquished name of the object. ie, fully qualified path in
      *         LDAP tree.
      */
@@ -304,7 +304,7 @@ public Object convertInstance(Class classType) throws NamingException
             }
 
             ldapContext = manager.getConnection();
-            ldapContext.modifyAttributes(dn, modItems);
+            ldapContext.modifyAttributes(getDn(), modItems);
 
             /**
              * Update the attributes in memory
@@ -382,7 +382,7 @@ public Object convertInstance(Class classType) throws NamingException
 
         returningAttributes = new String[1];
         returningAttributes[0] = attrName;
-        returnedAttributes = manager.getAttributes(dn, returningAttributes);
+        returnedAttributes = manager.getAttributes(getDn(), returningAttributes);
 
         if (returnedAttributes.size() == 1)
         {   // only attempt to load the attributes if the search found them.
@@ -404,7 +404,7 @@ public Object convertInstance(Class classType) throws NamingException
     @Override
     public String getCN()
     {
-        return cn;
+        return getCn();
     }
 
     public void setObjectClasses(final List<String> objectClasses)
@@ -421,8 +421,8 @@ public Object convertInstance(Class classType) throws NamingException
     public String toString()
     {
         return "LdapEntry{" +
-            "dn=" + dn +
-            ", cn='" + cn + '\'' +
+            "dn=" + getDn() +
+            ", cn='" + getCn() + '\'' +
             '}';
     }
 
@@ -434,8 +434,8 @@ public Object convertInstance(Class classType) throws NamingException
 
         return new EqualsBuilder()
             .appendSuper(super.equals(o))
-            .append(dn, rhs.dn)
-            .append(cn, rhs.cn)
+            .append(getDn(), rhs.getDn())
+            .append(getCn(), rhs.getCn())
             .append(objectClasses, rhs.objectClasses)
             .isEquals();
     }
@@ -446,8 +446,8 @@ public Object convertInstance(Class classType) throws NamingException
     public int hashCode()
     {
         return new HashCodeBuilder(17, 37).
-            append(dn).
-            append(cn).
+            append(getDn()).
+            append(getCn()).
             append(objectClasses).
             toHashCode();
     }
@@ -458,9 +458,27 @@ public Object convertInstance(Class classType) throws NamingException
     {
         final LdapEntry myClass = (LdapEntry) o;
         return new CompareToBuilder()
-            .append(dn, myClass.dn)
-            .append(cn, myClass.cn)
+            .append(getDn(), myClass.getDn())
+            .append(getCn(), myClass.getCn())
             .append(objectClasses, myClass.objectClasses)
             .toComparison();
+    }
+
+    @Override
+    public void setDn(LdapName dn)
+    {
+        this.dn = dn;
+    }
+
+    @Override
+    public String getCn()
+    {
+        return cn;
+    }
+
+    @Override
+    public void setCn(String cn)
+    {
+        this.cn = cn;
     }
 }
