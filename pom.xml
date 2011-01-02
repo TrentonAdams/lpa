@@ -148,9 +148,11 @@ See the COPYING file for more information.
   </dependencies>
 
   <scm>
-    <connection>scm:git:file:///home/trenta/java/ldaputil/ldaputil.github</connection>
+    <connection>
+    scm:git:ssh://git@github.com:TrentonAdams/lpa.git
+    </connection>
     <developerConnection>
-      scm:git:file:///home/trenta/java/ldaputil/ldaputil.github
+    scm:git:ssh://git@github.com:TrentonAdams/lpa.git
     </developerConnection>
   </scm>
 
