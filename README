@@ -56,4 +56,10 @@ Popular google searches to catch:
  - java ldap api
  - java ldap api example
 
+
+ISSUES
+When submitted issues, please include an example ldap entry, or multiple entries,
+depending on what is needed to provide the functionality requested, or to fix
+the bug suggested.
+
 Thanks.
