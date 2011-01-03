@@ -271,7 +271,7 @@ public class LdapOrganization extends LdapEntry
 
     @SuppressWarnings({"unchecked"})
     @Override
-    public Object processValues(final Class classType, final List list,
+    public Object processValues(final List list,
         final Class refType)
     {
         Object fieldValue = null;

@@ -47,14 +47,14 @@ public interface TypeHandler
      * the object.  The data will then either be whatever your default
      * constructor sets it to, or null. YOUR PROBLEM, not ours. ;)
      *
-     * @param classType the Class of the field that we're trying to handle.
+     *
      * @param list      the data that we need to put into a Collection of some
      *                  sort.
      * @param refType   the type of the field
      *
      * @return the new collection defined by classType
      */
-    Object processValues(Class classType, List list, Class refType);
+    Object processValues(List list, Class refType);
 
 
     /**

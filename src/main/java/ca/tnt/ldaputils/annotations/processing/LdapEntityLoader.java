@@ -42,6 +42,10 @@ import java.util.*;
  * the purpose of loading the {@link LdapEntity} annotated instance from the
  * ldap query results.
  * <p/>
+ * This class was engineered in such a way; wait, back the truck up just a bit
+ * (hehe). Let's face it, this class was HACKED together in such a way that
+ * allows subclassing; DOC more about that later.
+ * <p/>
  * Created :  22-Aug-2010 12:44:56 AM MST
  *
  * @author Trenton D. Adams
@@ -259,7 +263,7 @@ public class LdapEntityLoader implements IAnnotationHandler
     /**
      * Processing for {@link LdapAttribute } annotation.  If the LdapEntity
      * annotated Class is an instanceof {@link TypeHandler}, the {@link
-     * TypeHandler#processValues(Class, List, Class)} will be called for all
+     * TypeHandler#processValues(java.util.List, Class)} will be called for all
      * aggregate fields, instead of the normal type processing that goes on,
      * described by {@link LdapAttribute}
      * <p/>
@@ -297,12 +301,8 @@ public class LdapEntityLoader implements IAnnotationHandler
             processLdapAttributes(field);
             return;
         }
-        final String attrName = attrAnnotation.name();
         final String referenceDNMethod = attrAnnotation.referencedDNMethod();
         final Class<?> aggClass = attrAnnotation.aggregateClass();
-        final Attribute attr = attributes.get(attrName);
-        final NamingEnumeration attrValues =
-            attr != null ? attr.getAll() : null;
         final Class refType = field.getType();
 
         try
@@ -311,12 +311,12 @@ public class LdapEntityLoader implements IAnnotationHandler
             if (!isAggregate)
             {   // regular string or byte array attributes in a collection, or
                 // by themselves.
-                fieldValue = processAttribute(attr, attrValues, refType);
+                fieldValue = processAttribute(refType, attrAnnotation);
             }
             else
             {   // BEGIN aggregate processing
-                fieldValue = processAggregate(annotatedClass, field,
-                    referenceDNMethod, aggClass, attr, attrValues, refType);
+                fieldValue = processAggregate(annotatedClass,
+                    referenceDNMethod, aggClass, refType, attrAnnotation);
             }   // END aggregate processing
 
             if (fieldValue != null)
@@ -334,17 +334,16 @@ public class LdapEntityLoader implements IAnnotationHandler
     /**
      * Refactor simple attribute processing into method.
      *
-     * @param attr       the attribute
-     * @param attrValues the values of the attribute - CRITICAL remove this or
-     *                   attr
-     * @param refType    the type of the field
+     * @param fieldType      the type of the field
+     * @param attrAnnotation
      *
      * @return the value for the field
      *
      * @throws NamingException if a jndi error occurs
      */
-    private Object processAttribute(final Attribute attr,
-        final NamingEnumeration attrValues, final Class refType)
+    @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
+    private Object processAttribute(final Class fieldType,
+        final LdapAttribute attrAnnotation)
         throws NamingException
     {
         // CRITICAL verify what happens if say an image were the
@@ -357,41 +356,64 @@ public class LdapEntityLoader implements IAnnotationHandler
         // http://download.oracle.com/javase/jndi/tutorial/ldap/misc/attrs.html
         //
         // CRITICAL we need to do TypeHandler calls for unknown types
+        final String attrName = attrAnnotation.name();
+        final Attribute attr = attributes.get(attrName);
+        final NamingEnumeration attrValues =
+            attr != null ? attr.getAll() : null;
         Object fieldValue = null;
-        if (!String.class.equals(refType) &&
-            attr != null)
-        {   // assumed to accept list of ALL attribute values
-            if (List.class.equals(refType))
-            {
-                fieldValue = Collections.list(attrValues);
+        if (attr != null)
+        {
+            if (isMultiValued(fieldType))
+            {   // assumed to accept list of ALL attribute values
+                if (List.class.equals(fieldType))
+                {
+                    fieldValue = Collections.list(attrValues);
+                }
+                else if (SortedSet.class.equals(fieldType))
+                {
+                    // This is inefficient, but we don't care,
+                    // because the chance of an LDAP entry having
+                    // hundreds of values in a single attribute is
+                    // SLIM to NONE.
+                    fieldValue = new TreeSet(Collections.list(attrValues));
+                }
             }
-            else if (SortedSet.class.equals(refType))
-            {
-                // This is inefficient, but we don't care,
-                // because the chance of an LDAP entry having
-                // hundreds of values in a single attribute is
-                // SLIM to NONE.
-                fieldValue = new TreeSet(Collections.list(attrValues));
+            else
+            {   // accepts single valued String attributes attribute
+                fieldValue = attr.get();
             }
-        }
-        else if (attr != null)
-        {   // accepts single valued String attributes attribute
-            fieldValue = attr.get();
         }
         return fieldValue;
+    }
+
+    /**
+     * Simply determines if this is a multi valued field.  We assume it is if it
+     * is not either a String or a byte array.  These are the only supported
+     * return types for attribute values from Sun's LDAP provider.  We'll have
+     * to figure something else out if we want to work with other LDAP JNDI
+     * service providers in the future.
+     * <p/>
+     * http://download.oracle.com/javase/jndi/tutorial/ldap/misc/attrs.html
+     *
+     * @param fieldType the field's type
+     *
+     * @return true if it is a multi valued field, false otherwise
+     */
+    private static boolean isMultiValued(final Class fieldType)
+    {
+        return !String.class.equals(fieldType) &&
+            !(byte.class.equals(fieldType) && fieldType.isArray());
     }
 
     /**
      * Refactor aggregate processing into processAggregate method for clarity
      *
      * @param annotatedClass    the class that was annotated
-     * @param field             the field
      * @param referenceDNMethod the dn method of the instance class that can
      *                          obtain the dn with bind parameter ('?')
      * @param aggClass          the class of the aggregate
-     * @param attr              the attribute
-     * @param attrValues        the values of the attribute
-     * @param refType           the field type
+     * @param fieldType         the field type
+     * @param attrAnnotation
      *
      * @return the new aggregate, or collection of aggregates
      *
@@ -401,14 +423,17 @@ public class LdapEntityLoader implements IAnnotationHandler
      * @throws InvocationTargetException
      * @throws NamingException
      */
+    @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
     private Object processAggregate(final Class annotatedClass,
-        final Field field,
         final String referenceDNMethod, final Class<?> aggClass,
-        final Attribute attr,
-        final NamingEnumeration attrValues, final Class refType)
+        final Class fieldType, final LdapAttribute attrAnnotation)
         throws InstantiationException, IllegalAccessException,
         NoSuchMethodException, InvocationTargetException, NamingException
     {
+        final String attrName = attrAnnotation.name();
+        final Attribute attr = attributes.get(attrName);
+        final NamingEnumeration attrValues =
+            attr != null ? attr.getAll() : null;
         Object fieldValue;
         fieldValue = aggClass.newInstance();
         // request to inject an LdapEntity from another ldap entry
@@ -446,7 +471,7 @@ public class LdapEntityLoader implements IAnnotationHandler
                 // FEATURE perhaps we want the option of required vs not required, and in combination with the silent feature?
                 return null;
             }
-            if (refType.equals(aggClass))
+            if (fieldType.equals(aggClass))
             {   // field not a collection of any kind, but is a
                 // single object type of the aggClass.
                 fieldValue = getReferencedEntity(aggClass, dnReference,
@@ -458,32 +483,31 @@ public class LdapEntityLoader implements IAnnotationHandler
                 final List ldapEntities = loadAggregates(aggClass,
                     attrValues, dnReference);
 
-                if (refType.isArray())
+                if (fieldType.isArray())
                 {   // convert to the array type used in the field
                     final Object refArray = Array.newInstance(
-                        refType.getComponentType(),
+                        fieldType.getComponentType(),
                         ldapEntities.size());
                     fieldValue = ldapEntities.toArray(
                         (Object[]) refArray);
                 }
-                else if (List.class.equals(refType))
+                else if (List.class.equals(fieldType))
                 {   // simply unordered List
                     fieldValue = ldapEntities;
                 }
-                else if (SortedSet.class.equals(refType))
+                else if (SortedSet.class.equals(fieldType))
                 {   // sorted, Comparable on objects required
                     fieldValue = new TreeSet(ldapEntities);
                 }
                 else if (entity instanceof TypeHandler)
                 {
                     fieldValue = ((TypeHandler) entity).processValues(
-                        field.getType(),
-                        ldapEntities, refType);
+                        ldapEntities, fieldType);
                 }
                 else
                 {
                     throw new LpaAnnotationException(
-                        "unhandled field type: " + refType);
+                        "unhandled field type: " + fieldType);
                 }
             }   // END handling collection of aggregates.
         }   // END foreign ldap entry processing for aggregate
