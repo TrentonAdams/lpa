@@ -20,6 +20,7 @@
  */
 package ca.tnt.ldaputils.annotations.processing;
 
+import ca.tnt.ldaputils.LdapManager;
 import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.annotations.LdapEntity;
 
@@ -27,6 +28,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.ldap.LdapName;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
@@ -39,8 +41,7 @@ import java.lang.reflect.InvocationTargetException;
  * @author Trenton D. Adams
  */
 @SuppressWarnings({"ClassWithoutNoArgConstructor"})
-public class LdapEntityBinder extends LdapEntityLoader
-    implements IAnnotationHandler
+public class LdapEntityBinder extends LdapEntityHandler
 {
     private LdapName dn;
 
@@ -56,13 +57,6 @@ public class LdapEntityBinder extends LdapEntityLoader
         attributes = new BasicAttributes();
     }
 
-    @SuppressWarnings({"RefusedBequest"})
-    @Override
-    protected boolean validateObjectClasses(final LdapEntity annotation)
-    {
-        return true;
-    }
-
     private Attributes attributes;
 
     /**
@@ -76,23 +70,34 @@ public class LdapEntityBinder extends LdapEntityLoader
     {
     }
 
-    @SuppressWarnings({"RefusedBequest"})
     @Override
-    protected void processLdapAttribute(final Class annotatedClass,
-        final Field field) throws IllegalAccessException, NamingException,
-        InvocationTargetException, NoSuchMethodException, InstantiationException
+    protected void processLdapAttributes(final Field field)
+        throws IllegalAccessException
     {
-        final LdapAttribute attrAnnotation = field.getAnnotation(
-            LdapAttribute.class);
-        final String attrName = attrAnnotation.name();
-        final String referenceDNMethod = attrAnnotation.referencedDNMethod();
-        final Class<?> aggClass = attrAnnotation.aggregateClass();
-        final Class refType = field.getType();
+    }
 
-        field.setAccessible(true);
+    @Override
+    protected Object processAttribute(final Field field, final Class fieldType,
+        final LdapAttribute attrAnnotation)
+        throws NamingException, IllegalAccessException
+    {
+        final String attrName = attrAnnotation.name();
         System.out.println("attribute field: " + field.getName() + ": " +
             field.get(entity));
-        field.setAccessible(false);
+        return null;
+    }
+
+    @Override
+    protected Object processAggregate(Field field, final Class annotatedClass,
+        final String referenceDNMethod, final Class<?> aggClass,
+        final Class fieldType,
+        final LdapAttribute attrAnnotation)
+        throws InstantiationException, IllegalAccessException,
+        NoSuchMethodException, InvocationTargetException, NamingException
+    {
+        System.out.println("attribute aggregate field: " + field.getName() +
+            ": " + field.get(entity));
+        return null;
     }
 
     /**
@@ -111,6 +116,11 @@ public class LdapEntityBinder extends LdapEntityLoader
 
     @Override
     public void validateProcessing()
+    {
+    }
+
+    @Override
+    public void setManager(final LdapManager managerInstance)
     {
     }
 
