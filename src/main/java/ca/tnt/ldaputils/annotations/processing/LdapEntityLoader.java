@@ -108,7 +108,7 @@ public class LdapEntityLoader extends LdapEntityHandler
 
     @Override
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
-    protected Object processAttribute(final Field field, final Class fieldType,
+    protected Object processAttribute(final Field field,
         final LdapAttribute attrAnnotation)
         throws NamingException
     {
@@ -122,6 +122,7 @@ public class LdapEntityLoader extends LdapEntityHandler
         // http://download.oracle.com/javase/jndi/tutorial/ldap/misc/attrs.html
         //
         // CRITICAL we need to do TypeHandler calls for unknown types
+        final Class fieldType = field.getType();
         final String attrName = attrAnnotation.name();
         final Attribute attr = attributes.get(attrName);
         final NamingEnumeration attrValues =
@@ -156,7 +157,7 @@ public class LdapEntityLoader extends LdapEntityHandler
     @SuppressWarnings(
         {"unchecked", "MethodWithMultipleReturnPoints", "ReturnOfNull"})
     protected Object processForeignAggregate(final Field field,
-        final Class<?> aggClass, final Class fieldType,
+        final Class<?> aggClass,
         final String dnReference, final LdapAttribute attrAnnotation)
         throws NamingException
     {
@@ -170,6 +171,7 @@ public class LdapEntityLoader extends LdapEntityHandler
             return null;
         }
 
+        final Class fieldType = field.getType();
         final Object fieldValue;
         if (fieldType.equals(aggClass))
         {   // field not a collection of any kind, but is a

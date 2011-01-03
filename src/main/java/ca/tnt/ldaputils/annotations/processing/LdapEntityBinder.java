@@ -75,7 +75,7 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     @Override
-    protected Object processAttribute(final Field field, final Class fieldType,
+    protected Object processAttribute(final Field field,
         final LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException
     {
@@ -87,7 +87,7 @@ public class LdapEntityBinder extends LdapEntityHandler
 
     @Override
     protected Object processForeignAggregate(final Field field,
-        final Class<?> aggClass, final Class fieldType,
+        final Class<?> aggClass,
         final String dnReference, final LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException
     {

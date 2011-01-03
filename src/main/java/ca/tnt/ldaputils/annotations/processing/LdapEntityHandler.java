@@ -31,7 +31,6 @@ import ca.tnt.ldaputils.exception.LpaAnnotationException;
 import org.apache.log4j.Logger;
 
 import javax.naming.InvalidNameException;
-import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
@@ -324,9 +323,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * recommended that you override this method.  We do checks to determine
      * what is classified as a regular attribute field vs an aggregatized one
      * (I'm making a new word, leave me alone), and call either {@link
-     * #processAttribute(Field, Class, LdapAttribute)} or {@link
-     * #processAggregate(Field, Class, String, Class, Class, LdapAttribute)}. We
-     * also handle the field injection.
+     * #processAttribute(Field, LdapAttribute)} or {@link
+     * #processAggregate(Field, Class, Class, LdapAttribute)}. We also handle the field
+     * injection.
      * <p/>
      * Processing for {@link LdapAttribute } annotation.
      * <p/>
@@ -370,9 +369,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
             processLdapAttributes(field);
             return;
         }
-        final String referenceDNMethod = attrAnnotation.referencedDNMethod();
         final Class<?> aggClass = attrAnnotation.aggregateClass();
-        final Class refType = field.getType();
 
         try
         {
@@ -380,12 +377,12 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
             if (!isAggregate)
             {   // regular string or byte array attributes in a collection, or
                 // by themselves.
-                fieldValue = processAttribute(field, refType, attrAnnotation);
+                fieldValue = processAttribute(field, attrAnnotation);
             }
             else
             {   // an aggregate, attribut must be a string
                 fieldValue = processAggregate(field, annotatedClass,
-                    referenceDNMethod, aggClass, refType, attrAnnotation);
+                    aggClass, attrAnnotation);
             }
 
             injectField(field, fieldValue); // may do nothing
@@ -406,7 +403,6 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * it.
      *
      * @param field          the field being processed
-     * @param fieldType      the type of the field
      * @param attrAnnotation the LdapAttribute annotation instance
      *
      * @return the value for the field
@@ -414,7 +410,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @throws NamingException if a jndi error occurs
      */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
-    protected abstract Object processAttribute(Field field, Class fieldType,
+    protected abstract Object processAttribute(Field field,
         LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException;
 
@@ -425,17 +421,15 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * the foreign aggregates.
      * <p/>
      * Process aggregates, and call the {@link #processForeignAggregate(Field,
-     * Class, Class, String, LdapAttribute)} or the {@link
-     * #processLocalAggregate(Field, Class)} as appropriate.
+     * Class, String, LdapAttribute)} or the {@link #processLocalAggregate(Field,
+     * Class)} as appropriate.
      *
-     * @param field             the field being processed
-     * @param annotatedClass    the annotated {@link LdapEntity} class
-     * @param referenceDNMethod the reference DN
-     * @param aggClass          the aggregate class as defined by {@link
-     *                          LdapAttribute#aggregateClass()}
-     * @param fieldType         the Class type of the field
-     * @param attrAnnotation    the LdapAttribute annotation instance being
-     *                          processed
+     * @param field          the field being processed
+     * @param annotatedClass the annotated {@link LdapEntity} class
+     * @param aggClass       the aggregate class as defined by {@link
+     *                       LdapAttribute#aggregateClass()}
+     * @param attrAnnotation the LdapAttribute annotation instance being
+     *                       processed
      *
      * @return the aggregate instance
      *
@@ -448,8 +442,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
     protected Object processAggregate(final Field field,
         final Class annotatedClass,
-        final String referenceDNMethod, final Class<?> aggClass,
-        final Class fieldType, final LdapAttribute attrAnnotation)
+        final Class<?> aggClass,
+        final LdapAttribute attrAnnotation)
         throws InstantiationException, IllegalAccessException,
         NoSuchMethodException, InvocationTargetException, NamingException
     {
@@ -463,6 +457,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         // in LdapeEntityHandler
 
         // local aggregates are loaded from the current ldap entry
+        final String referenceDNMethod = attrAnnotation.referencedDNMethod();
         final boolean isLocalAggregate = "".equals(referenceDNMethod);
         if (isLocalAggregate)
         {   // use current ldap entry for population of aggregate
@@ -470,10 +465,10 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         }
         else
         {   // BEGIN foreign ldap entry processing for aggregate
-            final Method dnReferenceMethod = annotatedClass.getMethod(
+            final Method getDnReference = annotatedClass.getMethod(
                 referenceDNMethod);
             final String dnReference =
-                (String) dnReferenceMethod.invoke(entity);
+                (String) getDnReference.invoke(entity);
             if (!dnReference.contains("?"))
             {
                 throw new LpaAnnotationException(dnReference +
@@ -482,7 +477,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
                     "with '?'");
             }
 
-            fieldValue = processForeignAggregate(field, aggClass, fieldType,
+            fieldValue = processForeignAggregate(field, aggClass,
                 dnReference, attrAnnotation);
         }   // END foreign ldap entry processing for aggregate
         return fieldValue;
@@ -543,7 +538,6 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param field          the field being processed
      * @param aggClass       the aggregate class as defined by {@link
      *                       LdapAttribute#aggregateClass()}
-     * @param fieldType      the Class type of the field
      * @param dnReference    the "properly" formatted dn, with bind parameter,
      *                       as returned by the {@link LdapAttribute#referencedDNMethod()}
      *                       method
@@ -558,7 +552,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      */
     @SuppressWarnings({"unchecked"})
     protected abstract Object processForeignAggregate(Field field,
-        Class<?> aggClass, Class fieldType, String dnReference,
+        Class<?> aggClass, String dnReference,
         LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException;
 
