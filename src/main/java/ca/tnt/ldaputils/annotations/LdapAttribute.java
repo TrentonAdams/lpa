@@ -106,6 +106,7 @@ import java.lang.annotation.Target;
  * another annotation for a method that can handle the storage, and return the
  * exact Object desired.
  * <p/>
+ * CRITICAL annotation documentation restructuring https://github.com/TrentonAdams/lpa/issues/6
  * Created :  16-Aug-2010 10:43:42 PM MST
  *
  * @author Trenton D. Adams

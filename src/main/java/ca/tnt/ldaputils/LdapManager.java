@@ -819,7 +819,7 @@ public class LdapManager
      *
      * @param ldapEntry
      */
-    public void bind(final ILdapEntry ldapEntry)
+    public void bind(final Object ldapEntry)
     {
         LdapContext ldapContext = null;
         try
@@ -835,6 +835,8 @@ public class LdapManager
                 System.out.println("annotation processing failed");
             }
             ldapContext = (LdapContext) getConnection();
+            // accessing dn method should be fine, but must be done through reflect
+            System.out.println("dn: " + entityBinder.getDn());
 /*            ldapContext.bind(ldapEntry.getDn(), null,
                 entityBinder.getAttributes());*/
         }

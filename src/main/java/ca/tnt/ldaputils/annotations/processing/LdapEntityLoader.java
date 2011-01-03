@@ -38,16 +38,22 @@ import java.lang.reflect.*;
 import java.util.*;
 
 /**
- * IAnnotationHandler
+ * {@link IAnnotationHandler} implementation that processes LPA annotations for
+ * the purpose of loading the {@link LdapEntity} annotated instance from the
+ * ldap query results.
  * <p/>
  * Created :  22-Aug-2010 12:44:56 AM MST
  *
  * @author Trenton D. Adams
  */
+@SuppressWarnings({"ProtectedField"})
 public class LdapEntityLoader implements IAnnotationHandler
 {
     private static final Logger logger = Logger.getLogger(
         LdapEntityLoader.class);
+    /**
+     * The {@link LdapEntity} annotated object instance.
+     */
     protected Object entity;
     private boolean isDnSet;
     private Attributes attributes;
@@ -210,20 +216,34 @@ public class LdapEntityLoader implements IAnnotationHandler
     protected void processDN(final Class annotatedClass, final Field field)
         throws IllegalAccessException, NoSuchMethodException
     {
-        final DN dnAnnotation = field.getAnnotation(DN.class);
-        final String methodName;
-        final String fieldName;
-        final String firstChar;
-        final String endOfString;
-        final Method dnGetMethod;
         field.setAccessible(true);
         field.set(entity, dn.clone());
         field.setAccessible(false);
+        validateDN(annotatedClass, field);
+    }
+
+    /**
+     * Validates that the class is annotated with {@link DN}
+     *
+     * @param annotatedClass the {@link LdapEntity} annotated class
+     * @param field          the field annotated with DN
+     *
+     * @throws NoSuchMethodException if the getter for the field does not exist
+     *                               in the annotated object
+     */
+    protected void validateDN(final Class annotatedClass, final Field field)
+        throws NoSuchMethodException
+    {
+        final String methodName;    // final name of method
+        final String fieldName;
+        final String firstChar;     // first char of field name
+        final String endOfField;    // field name minus first character
+        final Method dnGetMethod;
 
         fieldName = field.getName();
         firstChar = fieldName.substring(0, 1);
-        endOfString = fieldName.length() > 1 ? fieldName.substring(1) : "";
-        methodName = "get" + firstChar.toUpperCase() + endOfString;
+        endOfField = fieldName.length() > 1 ? fieldName.substring(1) : "";
+        methodName = "get" + firstChar.toUpperCase() + endOfField;
         dnGetMethod = annotatedClass.getMethod(methodName);
         if (!Modifier.isPublic(dnGetMethod.getModifiers()) ||
             !LdapName.class.equals(dnGetMethod.getReturnType()))
@@ -232,6 +252,7 @@ public class LdapEntityLoader implements IAnnotationHandler
                 " is not defined correctly.  It must be a public " +
                 "no args method, returning an LdapName");
         }
+
         isDnSet = true;
     }
 
