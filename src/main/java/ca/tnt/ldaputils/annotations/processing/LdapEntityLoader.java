@@ -112,7 +112,7 @@ public class LdapEntityLoader implements IAnnotationHandler
             {   // BEGIN field iteration
                 if (field.isAnnotationPresent(Manager.class))
                 {
-                    processManager(annotatedClass, field);
+                    processManager(field);
                 }
 
                 if (field.isAnnotationPresent(DN.class))
@@ -184,7 +184,15 @@ public class LdapEntityLoader implements IAnnotationHandler
         return hasSupportedClass;
     }
 
-    protected void processManager(final Class annotatedClass, final Field field)
+    /**
+     * Handles injecting the manager.
+     *
+     * @param field the field to inject the manager to
+     *
+     * @throws IllegalAccessException if we are not allowed access due to java
+     *                                policies
+     */
+    protected void processManager(final Field field)
         throws IllegalAccessException
     {
         field.setAccessible(true);
@@ -261,11 +269,50 @@ public class LdapEntityLoader implements IAnnotationHandler
     }
 
     /**
+     * Only to be used if the field needs to be injected.  If you're doing
+     * read-only processing for your subclass of LdapEntityLoader, then override
+     * this, and have it do nothing.
+     *
+     * @param field      the field
+     * @param fieldValue the value of the field to inject
+     *
+     * @throws IllegalAccessException if java policies prevent access
+     */
+    private void injectField(final Field field, final Object fieldValue)
+        throws IllegalAccessException
+    {
+        if (fieldValue != null)
+        {   // never set to null, as the contructor may have initialized
+            // a default empty collection or something.
+            field.set(entity, fieldValue);
+        }
+    }
+
+    /**
+     * Simply determines if this is a multi valued field.  We assume it is if it
+     * is not either a String or a byte array.  These are the only supported
+     * return types for attribute values from Sun's LDAP provider.
+     * <p/>
+     * REQUIRED_FEATURE support other LDAP providers https://github.com/TrentonAdams/lpa/issues/7
+     * We'll have to figure something else out if we want to work with other
+     * LDAP JNDI service providers in the future.
+     *
+     * @param fieldType the field's type
+     *
+     * @return true if it is a multi valued field, false otherwise
+     */
+    private static boolean isMultiValued(final Class fieldType)
+    {
+        return !String.class.equals(fieldType) &&
+            !(byte.class.equals(fieldType) && fieldType.isArray());
+    }
+
+    /**
      * Processing for {@link LdapAttribute } annotation.  If the LdapEntity
      * annotated Class is an instanceof {@link TypeHandler}, the {@link
-     * TypeHandler#processValues(java.util.List, Class)} will be called for all
-     * aggregate fields, instead of the normal type processing that goes on,
-     * described by {@link LdapAttribute}
+     * TypeHandler#processValues(List, Class)} will be called for all aggregate
+     * fields, instead of the normal type processing that goes on, described by
+     * {@link LdapAttribute}
      * <p/>
      * IMPORTANT FEATURE we need to support ALL types of attribute types,
      * including images and what not.  We do this via the TypeHandler, by
@@ -314,16 +361,12 @@ public class LdapEntityLoader implements IAnnotationHandler
                 fieldValue = processAttribute(refType, attrAnnotation);
             }
             else
-            {   // BEGIN aggregate processing
+            {   // an aggregate, attribut must be a string
                 fieldValue = processAggregate(annotatedClass,
                     referenceDNMethod, aggClass, refType, attrAnnotation);
-            }   // END aggregate processing
-
-            if (fieldValue != null)
-            {   // never set to null, as the contructor may have initialized
-                // a default empty collection or something.
-                field.set(entity, fieldValue);
             }
+
+            injectField(field, fieldValue); // may do nothing
         }
         finally
         {   // reset java language checks
@@ -332,10 +375,11 @@ public class LdapEntityLoader implements IAnnotationHandler
     }   // END processLdapAttribute()
 
     /**
-     * Refactor simple attribute processing into method.
+     * Simple attribute processing.  Called when we're doing with attributes
+     * only, and not aggregates.
      *
      * @param fieldType      the type of the field
-     * @param attrAnnotation
+     * @param attrAnnotation the LdapAttribute annotation instance
      *
      * @return the value for the field
      *
@@ -387,33 +431,18 @@ public class LdapEntityLoader implements IAnnotationHandler
     }
 
     /**
-     * Simply determines if this is a multi valued field.  We assume it is if it
-     * is not either a String or a byte array.  These are the only supported
-     * return types for attribute values from Sun's LDAP provider.  We'll have
-     * to figure something else out if we want to work with other LDAP JNDI
-     * service providers in the future.
+     * Processes aggregates fields, which need to create completely different
+     * objects, based on either another ldap entry entirely (foreign), or the
+     * current ldap entry (local).
      * <p/>
-     * http://download.oracle.com/javase/jndi/tutorial/ldap/misc/attrs.html
-     *
-     * @param fieldType the field's type
-     *
-     * @return true if it is a multi valued field, false otherwise
-     */
-    private static boolean isMultiValued(final Class fieldType)
-    {
-        return !String.class.equals(fieldType) &&
-            !(byte.class.equals(fieldType) && fieldType.isArray());
-    }
-
-    /**
-     * Refactor aggregate processing into processAggregate method for clarity
+     * Override this for another IAnnotationHandler.
      *
      * @param annotatedClass    the class that was annotated
      * @param referenceDNMethod the dn method of the instance class that can
      *                          obtain the dn with bind parameter ('?')
      * @param aggClass          the class of the aggregate
      * @param fieldType         the field type
-     * @param attrAnnotation
+     * @param attrAnnotation    the LdapAttribute annotation instance.
      *
      * @return the new aggregate, or collection of aggregates
      *
@@ -424,7 +453,7 @@ public class LdapEntityLoader implements IAnnotationHandler
      * @throws NamingException
      */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
-    private Object processAggregate(final Class annotatedClass,
+    protected Object processAggregate(final Class annotatedClass,
         final String referenceDNMethod, final Class<?> aggClass,
         final Class fieldType, final LdapAttribute attrAnnotation)
         throws InstantiationException, IllegalAccessException,
@@ -434,23 +463,15 @@ public class LdapEntityLoader implements IAnnotationHandler
         final Attribute attr = attributes.get(attrName);
         final NamingEnumeration attrValues =
             attr != null ? attr.getAll() : null;
-        Object fieldValue;
-        fieldValue = aggClass.newInstance();
-        // request to inject an LdapEntity from another ldap entry
+        final Object fieldValue;
+        // request to inject an LdapEntity from another LDAP entry
         // or use the existing ldap entry to grab Auxiliary attributes
 
         // local aggregates are loaded from the current ldap entry
         final boolean isLocalAggregate = "".equals(referenceDNMethod);
         if (isLocalAggregate)
         {   // use current ldap entry for population of aggregate
-            final AnnotationProcessor annotationProcessor =
-                new AnnotationProcessor();
-            final LdapEntityLoader entityLoader;
-            entityLoader = new LdapEntityLoader(fieldValue, attributes,
-                dn);
-            entityLoader.setManager(manager);
-            annotationProcessor.addHandler(entityLoader);
-            annotationProcessor.processAnnotations();
+            fieldValue = processLocalAggregate(aggClass);
         }
         else
         {   // BEGIN foreign ldap entry processing for aggregate
@@ -515,6 +536,39 @@ public class LdapEntityLoader implements IAnnotationHandler
     }
 
     /**
+     * Do what you need to for the local aggregate.
+     * <p/>
+     * A local aggregate is an aggregate object which will be injected into the
+     * object field, which has requested it via {@link LdapAttribute#aggregateClass()},
+     * and is also using the existing LDAP entry's attributes as a basis for the
+     * object.  See the documentation on {@link LdapAttribute#aggregateClass()}
+     * for more information.
+     *
+     * @param aggClass the aggregate class, if needed.
+     *
+     * @return the new fieldValue if one is needed
+     *
+     * @throws IllegalAccessException
+     * @throws InstantiationException
+     */
+    protected Object processLocalAggregate(final Class<?> aggClass)
+        throws IllegalAccessException, InstantiationException
+    {
+        final Object fieldValue;
+        fieldValue = aggClass.newInstance();
+        final AnnotationProcessor annotationProcessor =
+            new AnnotationProcessor();
+        final LdapEntityLoader entityLoader;
+        entityLoader = new LdapEntityLoader(fieldValue, attributes,
+            dn);
+        entityLoader.setManager(manager);
+        annotationProcessor.addHandler(entityLoader);
+        annotationProcessor.processAnnotations();
+
+        return fieldValue;
+    }
+
+    /**
      * Loads all of the aggregates for the specific attribute values.  This is
      * done by injecting an Rdn escaped value from attrValues into the
      * dnReference.
@@ -559,7 +613,7 @@ public class LdapEntityLoader implements IAnnotationHandler
      *
      * @throws InvalidNameException if an error occurs creating the LdapName.
      */
-    private Object getReferencedEntity(final Class entityClass,
+    protected Object getReferencedEntity(final Class entityClass,
         final String dnReference, final Object attributeValue)
         throws InvalidNameException
     {

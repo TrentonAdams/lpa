@@ -23,9 +23,7 @@ package ca.tnt.ldaputils.annotations.processing;
 import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.annotations.LdapEntity;
 
-import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.ldap.LdapName;
@@ -73,7 +71,7 @@ public class LdapEntityBinder extends LdapEntityLoader
      */
     @SuppressWarnings({"RefusedBequest"})
     @Override
-    protected void processManager(final Class annotatedClass, final Field field)
+    protected void processManager(final Field field)
         throws IllegalAccessException
     {
     }
