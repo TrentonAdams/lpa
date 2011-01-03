@@ -28,9 +28,7 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.ldap.LdapName;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * {@link IAnnotationHandler} implementation that processes LPA annotations for
@@ -88,15 +86,25 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     @Override
-    protected Object processAggregate(final Field field,
-        final Class annotatedClass, final String referenceDNMethod,
+    protected Object processForeignAggregate(final Field field,
         final Class<?> aggClass, final Class fieldType,
-        final LdapAttribute attrAnnotation)
-        throws InstantiationException, IllegalAccessException,
-        NoSuchMethodException, InvocationTargetException, NamingException
+        final String dnReference, final LdapAttribute attrAnnotation)
+        throws NamingException, IllegalAccessException
     {
-        System.out.println("attribute aggregate field: " + field.getName() +
-            ": " + field.get(entity));
+        System.out.println(
+            "attribute foreign aggregate field: " + field.getName() + ": " +
+                field.get(entity));
+        return null;
+    }
+
+    @Override
+    protected Object processLocalAggregate(final Field field,
+        final Class<?> aggClass)
+        throws IllegalAccessException, InstantiationException
+    {
+        System.out.println(
+            "attribute local aggregate field: " + field.getName() + ": " +
+                field.get(entity));
         return null;
     }
 

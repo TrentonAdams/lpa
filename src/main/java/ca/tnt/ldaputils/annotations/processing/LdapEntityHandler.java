@@ -27,9 +27,11 @@ import ca.tnt.ldaputils.annotations.LdapEntity;
 import ca.tnt.ldaputils.annotations.Manager;
 import ca.tnt.ldaputils.annotations.TypeHandler;
 import ca.tnt.ldaputils.exception.LdapNamingException;
+import ca.tnt.ldaputils.exception.LpaAnnotationException;
 import org.apache.log4j.Logger;
 
 import javax.naming.InvalidNameException;
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
@@ -417,26 +419,25 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         throws NamingException, IllegalAccessException;
 
     /**
-     * Processes aggregates fields, which need to create completely different
-     * objects, based on either another ldap entry entirely (foreign), or the
-     * current ldap entry (local).
+     * <span style="color:red;">WARNING! WARNING! WARNING!</span> It is not
+     * recommended that you override this method.  We do checks to determine if
+     * we need to process a local or foreign aggregate, and validate the dn for
+     * the foreign aggregates.
      * <p/>
-     * Override this for another IAnnotationHandler.
-     * <p/>
-     * Note, the object returned should be null if you are not attempting to
-     * inject anything into this field.  That may be the case if you are
-     * implementing a handler to "read" from the instance, rather than write to
-     * it.
+     * Process aggregates, and call the {@link #processForeignAggregate(Field,
+     * Class, Class, String, LdapAttribute)} or the {@link
+     * #processLocalAggregate(Field, Class)} as appropriate.
      *
      * @param field             the field being processed
-     * @param annotatedClass    the class that was annotated
-     * @param referenceDNMethod the dn method of the instance class that can
-     *                          obtain the dn with bind parameter ('?')
-     * @param aggClass          the class of the aggregate
-     * @param fieldType         the field type
-     * @param attrAnnotation    the LdapAttribute annotation instance.
+     * @param annotatedClass    the annotated {@link LdapEntity} class
+     * @param referenceDNMethod the reference DN
+     * @param aggClass          the aggregate class as defined by {@link
+     *                          LdapAttribute#aggregateClass()}
+     * @param fieldType         the Class type of the field
+     * @param attrAnnotation    the LdapAttribute annotation instance being
+     *                          processed
      *
-     * @return the new aggregate, or collection of aggregates
+     * @return the aggregate instance
      *
      * @throws InstantiationException
      * @throws IllegalAccessException
@@ -445,11 +446,47 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @throws NamingException
      */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
-    protected abstract Object processAggregate(Field field,
-        Class annotatedClass, String referenceDNMethod, Class<?> aggClass,
-        Class fieldType, LdapAttribute attrAnnotation)
+    protected Object processAggregate(final Field field,
+        final Class annotatedClass,
+        final String referenceDNMethod, final Class<?> aggClass,
+        final Class fieldType, final LdapAttribute attrAnnotation)
         throws InstantiationException, IllegalAccessException,
-        NoSuchMethodException, InvocationTargetException, NamingException;
+        NoSuchMethodException, InvocationTargetException, NamingException
+    {
+        final Object fieldValue;
+        // request to inject an LdapEntity from another LDAP entry
+        // or use the existing ldap entry to grab Auxiliary attributes
+
+        // CRITICAL finish refactoring this if needed.  We might want to process
+        // local aggregates and foreign aggregates in subclasses.  So, this
+        // processAggregate() might be best served as a concrete implementation
+        // in LdapeEntityHandler
+
+        // local aggregates are loaded from the current ldap entry
+        final boolean isLocalAggregate = "".equals(referenceDNMethod);
+        if (isLocalAggregate)
+        {   // use current ldap entry for population of aggregate
+            fieldValue = processLocalAggregate(field, aggClass);
+        }
+        else
+        {   // BEGIN foreign ldap entry processing for aggregate
+            final Method dnReferenceMethod = annotatedClass.getMethod(
+                referenceDNMethod);
+            final String dnReference =
+                (String) dnReferenceMethod.invoke(entity);
+            if (!dnReference.contains("?"))
+            {
+                throw new LpaAnnotationException(dnReference +
+                    " is an invalid dynamic reference to an LDAP entry, " +
+                    "it does not contain a replaceable parameter marked " +
+                    "with '?'");
+            }
+
+            fieldValue = processForeignAggregate(field, aggClass, fieldType,
+                dnReference, attrAnnotation);
+        }   // END foreign ldap entry processing for aggregate
+        return fieldValue;
+    }
 
     /**
      * Retrieves the referenced dn, given the dnReference (see {@link
@@ -498,4 +535,54 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
                     " annotation REQUIRED");
         }
     }
+
+    /**
+     * Called to process a foreign aggregate.  It's up to the base class to do
+     * what it likes.
+     *
+     * @param field          the field being processed
+     * @param aggClass       the aggregate class as defined by {@link
+     *                       LdapAttribute#aggregateClass()}
+     * @param fieldType      the Class type of the field
+     * @param dnReference    the "properly" formatted dn, with bind parameter,
+     *                       as returned by the {@link LdapAttribute#referencedDNMethod()}
+     *                       method
+     * @param attrAnnotation the LdapAttribute annotation instance being
+     *                       processed
+     *
+     * @return the new aggregate instance, or collection of aggregate instances
+     *
+     * @throws NamingException        if a JNDI error of some sort occurs
+     * @throws IllegalAccessException if java policies prevent access to fields
+     *                                via reflection
+     */
+    @SuppressWarnings({"unchecked"})
+    protected abstract Object processForeignAggregate(Field field,
+        Class<?> aggClass, Class fieldType, String dnReference,
+        LdapAttribute attrAnnotation)
+        throws NamingException, IllegalAccessException;
+
+    /**
+     * Do what you need to for the local aggregate.
+     * <p/>
+     * A local aggregate is an aggregate object which will be injected into the
+     * object field, which has requested it via {@link LdapAttribute#aggregateClass()},
+     * and is also using the existing LDAP entry's attributes as a basis for the
+     * object.  See the documentation on {@link LdapAttribute#aggregateClass()}
+     * for more information.
+     * <p/>
+     *
+     * @param field    the field being processed
+     * @param aggClass the aggregate class, if needed.
+     *
+     * @return the new fieldValue if one is needed
+     *
+     * @throws IllegalAccessException if java policies prevent access to fields
+     *                                via reflection
+     * @throws InstantiationException if an error occurs creating an aggregate
+     *                                instance
+     */
+    protected abstract Object processLocalAggregate(Field field,
+        Class<?> aggClass)
+        throws IllegalAccessException, InstantiationException;
 }

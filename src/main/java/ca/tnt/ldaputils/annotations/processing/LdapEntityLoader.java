@@ -153,91 +153,63 @@ public class LdapEntityLoader extends LdapEntityHandler
     }
 
     @Override
-    @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
-    protected Object processAggregate(Field field, final Class annotatedClass,
-        final String referenceDNMethod, final Class<?> aggClass,
-        final Class fieldType, final LdapAttribute attrAnnotation)
-        throws InstantiationException, IllegalAccessException,
-        NoSuchMethodException, InvocationTargetException, NamingException
+    @SuppressWarnings(
+        {"unchecked", "MethodWithMultipleReturnPoints", "ReturnOfNull"})
+    protected Object processForeignAggregate(final Field field,
+        final Class<?> aggClass, final Class fieldType,
+        final String dnReference, final LdapAttribute attrAnnotation)
+        throws NamingException
     {
         final String attrName = attrAnnotation.name();
         final Attribute attr = attributes.get(attrName);
         final NamingEnumeration attrValues =
             attr != null ? attr.getAll() : null;
+        if (attr == null)
+        {   // FEATURE perhaps we want the option of exception or silent failure?
+            // FEATURE perhaps we want the option of required vs not required, and in combination with the silent feature?
+            return null;
+        }
+
         final Object fieldValue;
-        // request to inject an LdapEntity from another LDAP entry
-        // or use the existing ldap entry to grab Auxiliary attributes
-
-        // CRITICAL finish refactoring this if needed.  We might want to process
-        // local aggregates and foreign aggregates in subclasses.  So, this
-        // processAggregate() might be best served as a concrete implementation
-        // in LdapeEntityHandler
-
-        // local aggregates are loaded from the current ldap entry
-        final boolean isLocalAggregate = "".equals(referenceDNMethod);
-        if (isLocalAggregate)
-        {   // use current ldap entry for population of aggregate
-            fieldValue = processLocalAggregate(aggClass);
+        if (fieldType.equals(aggClass))
+        {   // field not a collection of any kind, but is a
+            // single object type of the aggClass.
+            fieldValue = getReferencedEntity(aggClass, dnReference,
+                attr.get());
         }
         else
-        {   // BEGIN foreign ldap entry processing for aggregate
-            final Method dnReferenceMethod = annotatedClass.getMethod(
-                referenceDNMethod);
-            final String dnReference =
-                (String) dnReferenceMethod.invoke(entity);
-            if (!dnReference.contains("?"))
-            {
-                throw new LpaAnnotationException(dnReference +
-                    " is an invalid dynamic reference to an LDAP entry, " +
-                    "it does not contain a replaceable parameter marked " +
-                    "with '?'");
-            }
+        {   // BEGIN handling collection of aggregates.
 
-            if (attr == null)
-            {   // FEATURE perhaps we want the option of exception or silent failure?
-                // FEATURE perhaps we want the option of required vs not required, and in combination with the silent feature?
-                return null;
+            final List ldapEntities = loadAggregates(aggClass,
+                attrValues, dnReference);
+
+            if (fieldType.isArray())
+            {   // convert to the array type used in the field
+                final Object refArray = Array.newInstance(
+                    fieldType.getComponentType(),
+                    ldapEntities.size());
+                fieldValue = ldapEntities.toArray(
+                    (Object[]) refArray);
             }
-            if (fieldType.equals(aggClass))
-            {   // field not a collection of any kind, but is a
-                // single object type of the aggClass.
-                fieldValue = getReferencedEntity(aggClass, dnReference,
-                    attr.get());
+            else if (List.class.equals(fieldType))
+            {   // simply unordered List
+                fieldValue = ldapEntities;
+            }
+            else if (SortedSet.class.equals(fieldType))
+            {   // sorted, Comparable on objects required
+                fieldValue = new TreeSet(ldapEntities);
+            }
+            else if (entity instanceof TypeHandler)
+            {
+                fieldValue = ((TypeHandler) entity).processValues(
+                    ldapEntities, fieldType);
             }
             else
-            {   // BEGIN handling collection of aggregates.
-
-                final List ldapEntities = loadAggregates(aggClass,
-                    attrValues, dnReference);
-
-                if (fieldType.isArray())
-                {   // convert to the array type used in the field
-                    final Object refArray = Array.newInstance(
-                        fieldType.getComponentType(),
-                        ldapEntities.size());
-                    fieldValue = ldapEntities.toArray(
-                        (Object[]) refArray);
-                }
-                else if (List.class.equals(fieldType))
-                {   // simply unordered List
-                    fieldValue = ldapEntities;
-                }
-                else if (SortedSet.class.equals(fieldType))
-                {   // sorted, Comparable on objects required
-                    fieldValue = new TreeSet(ldapEntities);
-                }
-                else if (entity instanceof TypeHandler)
-                {
-                    fieldValue = ((TypeHandler) entity).processValues(
-                        ldapEntities, fieldType);
-                }
-                else
-                {
-                    throw new LpaAnnotationException(
-                        "unhandled field type: " + fieldType);
-                }
-            }   // END handling collection of aggregates.
-        }   // END foreign ldap entry processing for aggregate
+            {
+                throw new LpaAnnotationException(
+                    "unhandled field type: " + fieldType);
+            }
+        }   // END handling collection of aggregates.
         return fieldValue;
     }
 
@@ -296,24 +268,9 @@ public class LdapEntityLoader extends LdapEntityHandler
         return isDnSet;
     }
 
-    /**
-     * Do what you need to for the local aggregate.
-     * <p/>
-     * A local aggregate is an aggregate object which will be injected into the
-     * object field, which has requested it via {@link LdapAttribute#aggregateClass()},
-     * and is also using the existing LDAP entry's attributes as a basis for the
-     * object.  See the documentation on {@link LdapAttribute#aggregateClass()}
-     * for more information.
-     * <p/>
-     *
-     * @param aggClass the aggregate class, if needed.
-     *
-     * @return the new fieldValue if one is needed
-     *
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     */
-    protected Object processLocalAggregate(final Class<?> aggClass)
+    @Override
+    protected Object processLocalAggregate(final Field field,
+        final Class<?> aggClass)
         throws IllegalAccessException, InstantiationException
     {
         final Object fieldValue;
