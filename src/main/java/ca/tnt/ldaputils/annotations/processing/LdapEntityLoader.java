@@ -164,7 +164,7 @@ public class LdapEntityLoader implements IAnnotationHandler
      *
      * @return whether the object classes are valid or not
      */
-    protected boolean validateObjectClasses(LdapEntity annotation)
+    protected boolean validateObjectClasses(final LdapEntity annotation)
     {
         final Attribute objectClass = attributes.get("objectClass");
         final String[] supportedClasses =
@@ -292,106 +292,14 @@ public class LdapEntityLoader implements IAnnotationHandler
         {
             final boolean isAggregate = !Object.class.equals(aggClass);
             if (!isAggregate)
-            {   // regular string attributes in a collection, or by themselves.
-                if (!String.class.equals(refType) &&
-                    attr != null)
-                {   // accepts list of ALL attribute values
-                    if (List.class.equals(refType))
-                    {
-                        fieldValue = Collections.list(attrValues);
-                    }
-                    else if (SortedSet.class.equals(refType))
-                    {
-                        // This is inefficient, but we don't care,
-                        // because the chance of an LDAP entry having
-                        // hundreds of values in a single attribute is
-                        // SLIM to NONE.
-                        fieldValue = new TreeSet(Collections.list(attrValues));
-                    }
-                }
-                else if (attr != null)
-                {   // accepts single valued String attributes attribute
-                    fieldValue = attr.get();
-                }
+            {   // regular string or byte array attributes in a collection, or
+                // by themselves.
+                fieldValue = processAttribute(attr, attrValues, refType);
             }
             else
             {   // BEGIN aggregate processing
-                fieldValue = aggClass.newInstance();
-                // request to inject an LdapEntity from another ldap entry
-                // or use the existing ldap entry to grab Auxiliary attributes
-
-                // local aggregates are loaded from the current ldap entry
-                final boolean isLocalAggregate = "".equals(referenceDNMethod);
-                if (isLocalAggregate)
-                {   // use current ldap entry for population of aggregate
-                    final AnnotationProcessor annotationProcessor =
-                        new AnnotationProcessor();
-                    final LdapEntityLoader entityLoader;
-                    entityLoader = new LdapEntityLoader(fieldValue, attributes,
-                        dn);
-                    entityLoader.setManager(manager);
-                    annotationProcessor.addHandler(entityLoader);
-                    annotationProcessor.processAnnotations();
-                }
-                else
-                {   // BEGIN foreign ldap entry processing for aggregate
-                    final Method dnReferenceMethod = annotatedClass.getMethod(
-                        referenceDNMethod);
-                    final String dnReference =
-                        (String) dnReferenceMethod.invoke(entity);
-                    if (!dnReference.contains("?"))
-                    {
-                        throw new LpaAnnotationException(dnReference +
-                            " is an invalid dynamic reference to an LDAP entry, " +
-                            "it does not contain a replaceable parameter marked " +
-                            "with '?'");
-                    }
-                    if (attr == null)
-                    {   // FEATURE perhaps we want the option of exception or silent failure?
-                        // FEATURE perhaps we want the option of required vs not required, and in combination with the silent feature?
-                        return;
-                    }
-                    if (refType.equals(aggClass))
-                    {   // field not a collection of any kind, but is a
-                        // single object type of the aggClass.
-                        fieldValue = getReferencedEntity(aggClass, dnReference,
-                            attr.get());
-                    }
-                    else
-                    {   // BEGIN handling collection of aggregates.
-
-                        final List ldapEntities = loadAggregates(aggClass,
-                            attrValues, dnReference);
-
-                        if (refType.isArray())
-                        {   // convert to the array type used in the field
-                            final Object refArray = Array.newInstance(
-                                refType.getComponentType(),
-                                ldapEntities.size());
-                            fieldValue = ldapEntities.toArray(
-                                (Object[]) refArray);
-                        }
-                        else if (List.class.equals(refType))
-                        {   // simply unordered List
-                            fieldValue = ldapEntities;
-                        }
-                        else if (SortedSet.class.equals(refType))
-                        {   // sorted, Comparable on objects required
-                            fieldValue = new TreeSet(ldapEntities);
-                        }
-                        else if (entity instanceof TypeHandler)
-                        {
-                            fieldValue = ((TypeHandler) entity).processValues(
-                                field.getType(),
-                                ldapEntities, refType);
-                        }
-                        else
-                        {
-                            throw new LpaAnnotationException(
-                                "unhandled field type: " + refType);
-                        }
-                    }   // END handling collection of aggregates.
-                }   // END foreign ldap entry processing for aggregate
+                fieldValue = processAggregate(annotatedClass, field,
+                    referenceDNMethod, aggClass, attr, attrValues, refType);
             }   // END aggregate processing
 
             if (fieldValue != null)
@@ -405,6 +313,164 @@ public class LdapEntityLoader implements IAnnotationHandler
             field.setAccessible(false);
         }
     }   // END processLdapAttribute()
+
+    /**
+     * Refactor simple attribute processing into method.
+     *
+     * @param attr       the attribute
+     * @param attrValues the values of the attribute - CRITICAL remove this or
+     *                   attr
+     * @param refType    the type of the field
+     *
+     * @return the value for the field
+     *
+     * @throws NamingException if a jndi error occurs
+     */
+    private Object processAttribute(final Attribute attr,
+        final NamingEnumeration attrValues, final Class refType)
+        throws NamingException
+    {
+        // CRITICAL verify what happens if say an image were the
+        // attribute value.  It seems like this probably wouldn't work.
+        // Apparently sun's implementation only has String or byte array
+        // attribute values.  However, other service providers potentially
+        // provide other types.  For now, we need to check for "byte[]" as a
+        // special case.  Later we can think about what we want to do with other
+        // cases
+        // http://download.oracle.com/javase/jndi/tutorial/ldap/misc/attrs.html
+        //
+        // CRITICAL we need to do TypeHandler calls for unknown types
+        Object fieldValue = null;
+        if (!String.class.equals(refType) &&
+            attr != null)
+        {   // assumed to accept list of ALL attribute values
+            if (List.class.equals(refType))
+            {
+                fieldValue = Collections.list(attrValues);
+            }
+            else if (SortedSet.class.equals(refType))
+            {
+                // This is inefficient, but we don't care,
+                // because the chance of an LDAP entry having
+                // hundreds of values in a single attribute is
+                // SLIM to NONE.
+                fieldValue = new TreeSet(Collections.list(attrValues));
+            }
+        }
+        else if (attr != null)
+        {   // accepts single valued String attributes attribute
+            fieldValue = attr.get();
+        }
+        return fieldValue;
+    }
+
+    /**
+     * Refactor aggregate processing into processAggregate method for clarity
+     *
+     * @param annotatedClass    the class that was annotated
+     * @param field             the field
+     * @param referenceDNMethod the dn method of the instance class that can
+     *                          obtain the dn with bind parameter ('?')
+     * @param aggClass          the class of the aggregate
+     * @param attr              the attribute
+     * @param attrValues        the values of the attribute
+     * @param refType           the field type
+     *
+     * @return the new aggregate, or collection of aggregates
+     *
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws NamingException
+     */
+    private Object processAggregate(final Class annotatedClass,
+        final Field field,
+        final String referenceDNMethod, final Class<?> aggClass,
+        final Attribute attr,
+        final NamingEnumeration attrValues, final Class refType)
+        throws InstantiationException, IllegalAccessException,
+        NoSuchMethodException, InvocationTargetException, NamingException
+    {
+        Object fieldValue;
+        fieldValue = aggClass.newInstance();
+        // request to inject an LdapEntity from another ldap entry
+        // or use the existing ldap entry to grab Auxiliary attributes
+
+        // local aggregates are loaded from the current ldap entry
+        final boolean isLocalAggregate = "".equals(referenceDNMethod);
+        if (isLocalAggregate)
+        {   // use current ldap entry for population of aggregate
+            final AnnotationProcessor annotationProcessor =
+                new AnnotationProcessor();
+            final LdapEntityLoader entityLoader;
+            entityLoader = new LdapEntityLoader(fieldValue, attributes,
+                dn);
+            entityLoader.setManager(manager);
+            annotationProcessor.addHandler(entityLoader);
+            annotationProcessor.processAnnotations();
+        }
+        else
+        {   // BEGIN foreign ldap entry processing for aggregate
+            final Method dnReferenceMethod = annotatedClass.getMethod(
+                referenceDNMethod);
+            final String dnReference =
+                (String) dnReferenceMethod.invoke(entity);
+            if (!dnReference.contains("?"))
+            {
+                throw new LpaAnnotationException(dnReference +
+                    " is an invalid dynamic reference to an LDAP entry, " +
+                    "it does not contain a replaceable parameter marked " +
+                    "with '?'");
+            }
+            if (attr == null)
+            {   // FEATURE perhaps we want the option of exception or silent failure?
+                // FEATURE perhaps we want the option of required vs not required, and in combination with the silent feature?
+                return null;
+            }
+            if (refType.equals(aggClass))
+            {   // field not a collection of any kind, but is a
+                // single object type of the aggClass.
+                fieldValue = getReferencedEntity(aggClass, dnReference,
+                    attr.get());
+            }
+            else
+            {   // BEGIN handling collection of aggregates.
+
+                final List ldapEntities = loadAggregates(aggClass,
+                    attrValues, dnReference);
+
+                if (refType.isArray())
+                {   // convert to the array type used in the field
+                    final Object refArray = Array.newInstance(
+                        refType.getComponentType(),
+                        ldapEntities.size());
+                    fieldValue = ldapEntities.toArray(
+                        (Object[]) refArray);
+                }
+                else if (List.class.equals(refType))
+                {   // simply unordered List
+                    fieldValue = ldapEntities;
+                }
+                else if (SortedSet.class.equals(refType))
+                {   // sorted, Comparable on objects required
+                    fieldValue = new TreeSet(ldapEntities);
+                }
+                else if (entity instanceof TypeHandler)
+                {
+                    fieldValue = ((TypeHandler) entity).processValues(
+                        field.getType(),
+                        ldapEntities, refType);
+                }
+                else
+                {
+                    throw new LpaAnnotationException(
+                        "unhandled field type: " + refType);
+                }
+            }   // END handling collection of aggregates.
+        }   // END foreign ldap entry processing for aggregate
+        return fieldValue;
+    }
 
     /**
      * Loads all of the aggregates for the specific attribute values.  This is
