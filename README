@@ -1,0 +1,65 @@
+This file is part of the Ldap Persistence API (LPA).
+
+Copyright Trenton D. Adams <trent ought trentonadams daught ca
+
+LPA is free software: you can redistribute it and/or modify it under
+the terms of the GNU Lesser General Public License as published by the
+Free Software Foundation, either version 3 of the License, or (at your
+option) any later version.
+
+LPA is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
+
+See the COPYING file for more information.
+
+There is no website for this project as of yet.  Github is THE place to find
+it.
+
+Currently, the best way to get started, on understanding how this project
+works, is to look at the unit tests, except the LDAPFactoryTest. They use most
+of the "current" functionality available.
+
+I use IDEA's TO-DO tracking.  TODOs are marked with the following...
+TODO             - probably obsolete, and should be discontinued
+FEATURE          - a good feature to have, but not necessarily core
+REQUIRED_FEATURE - a required feature to truly have a "functional" end product
+MINOR            - a minor issue to deal with, does not imply small
+TEST             - something that needs a test case
+DOC              - something that needs better documentation
+
+Currently, I'm not entirely sure how the build process works.  I do know
+that I did an "mvn install" on apacheds, by checking out
+http://svn.apache.org/repos/asf/directory/apacheds/tags/1.5.7.  The
+libraries don't tend to get up to any maven repos on the net, so you have to
+install it locally.  I do plan on eventually having the apacheds libraries
+pushed to the maven repos, by giving them to sonatype to deal with.
+
+I trust that any other libraries that are needed can be resolved by maven, or
+the skill of the person attempting to build this project would come into play.
+As an example, oracle has enjoyed removing many libraries from public maven
+repos, even their own.  So, you may have to do some manual resolution by
+installing them in your local repo.
+
+Then, to run one of the tests, you would go...
+mvn -Ptest -Dtest=LdapOrganizationTest install
+mvn -Ptest -Dtest=AnnotationsTest install
+mvn -Ptest -Dtest=PersonTest install
+
+Popular google searches to catch:
+ - ldap persistence
+ - ldap persistence api
+ - java ldap api
+ - java ldap api example
+
+
+ISSUES
+When submitted issues, please include an example ldap entry, or multiple entries,
+depending on what is needed to provide the functionality requested, or to fix
+the bug suggested.
+
+Thanks.
