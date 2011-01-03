@@ -1,21 +1,21 @@
 /**
  * This file is part of the Ldap Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils.annotations.processing;
@@ -88,6 +88,17 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
             !(byte.class.equals(fieldType) && fieldType.isArray());
     }
 
+    /**
+     * <span style="color:red;">WARNING! WARNING! WARNING!</span> It is not
+     * recommended that you override this method.  It makes the basic calls to
+     * all the {@link LdapEntity} related annotation methods, such as {@link
+     * #processManager}, {@link #processDN}, and {@link #processLdapAttribute},
+     *
+     * @param annotation     the annotation
+     * @param annotatedClass the field to process
+     *
+     * @return
+     */
     @SuppressWarnings({"ChainedMethodCall", "MethodWithMultipleReturnPoints"})
     @Override
     public boolean processAnnotation(final Annotation annotation,
@@ -202,6 +213,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
 
     /**
      * Handles injecting the manager.
+     * <p/>
+     * CRITICAL - okay, bad code, probably shouldn't be assuming manager is
+     * available, when no constructors are called with it.
      *
      * @param field the field to inject the manager to
      *
@@ -240,7 +254,14 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         throws IllegalAccessException, NoSuchMethodException;
 
     /**
-     * Validates that the class is annotated with {@link DN}
+     * <span style="color:red;">WARNING! WARNING! WARNING!</span> It is not
+     * recommended that you override this method.  In fact, we may make it so
+     * that you can't in the future.  You've been warned!
+     * <p/>
+     * Validates that the class is annotated with {@link DN}, and that the
+     * property getter is available.
+     * <p/>
+     * CRITICAL ensure a dn setter is also available.
      *
      * @param annotatedClass the {@link LdapEntity} annotated class
      * @param field          the field annotated with DN
@@ -297,11 +318,21 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
     }
 
     /**
-     * Processing for {@link LdapAttribute } annotation.  If the LdapEntity
-     * annotated Class is an instanceof {@link TypeHandler}, the {@link
-     * TypeHandler#processValues(List, Class)} will be called for all aggregate
-     * fields, instead of the normal type processing that goes on, described by
-     * {@link LdapAttribute}
+     * <span style="color:red;">WARNING! WARNING! WARNING!</span> It is not
+     * recommended that you override this method.  We do checks to determine
+     * what is classified as a regular attribute field vs an aggregatized one
+     * (I'm making a new word, leave me alone), and call either {@link
+     * #processAttribute(Field, Class, LdapAttribute)} or {@link
+     * #processAggregate(Field, Class, String, Class, Class, LdapAttribute)}. We
+     * also handle the field injection.
+     * <p/>
+     * Processing for {@link LdapAttribute } annotation.
+     * <p/>
+     * DOC move this to the appropriate subclass if needed, when we're done. If
+     * the LdapEntity annotated Class is an instanceof {@link TypeHandler}, the
+     * {@link TypeHandler#processValues(List, Class)} will be called for all
+     * aggregate fields, instead of the normal type processing that goes on,
+     * described by {@link LdapAttribute}
      * <p/>
      * IMPORTANT FEATURE we need to support ALL types of attribute types,
      * including images and what not.  We do this via the TypeHandler, by

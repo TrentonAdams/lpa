@@ -168,6 +168,11 @@ public class LdapEntityLoader extends LdapEntityHandler
         // request to inject an LdapEntity from another LDAP entry
         // or use the existing ldap entry to grab Auxiliary attributes
 
+        // CRITICAL finish refactoring this if needed.  We might want to process
+        // local aggregates and foreign aggregates in subclasses.  So, this
+        // processAggregate() might be best served as a concrete implementation
+        // in LdapeEntityHandler
+
         // local aggregates are loaded from the current ldap entry
         final boolean isLocalAggregate = "".equals(referenceDNMethod);
         if (isLocalAggregate)

@@ -88,9 +88,9 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     @Override
-    protected Object processAggregate(Field field, final Class annotatedClass,
-        final String referenceDNMethod, final Class<?> aggClass,
-        final Class fieldType,
+    protected Object processAggregate(final Field field,
+        final Class annotatedClass, final String referenceDNMethod,
+        final Class<?> aggClass, final Class fieldType,
         final LdapAttribute attrAnnotation)
         throws InstantiationException, IllegalAccessException,
         NoSuchMethodException, InvocationTargetException, NamingException
