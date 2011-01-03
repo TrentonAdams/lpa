@@ -36,11 +36,6 @@ import java.util.*;
  * Implements an LDAP organization object.
  * <p/>
  * Created :  16-Apr-2006 10:25:36 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
- * <p/>
  *
  * @author Trenton D. Adams <trent.nospam@telus.net>
  */

@@ -20,10 +20,6 @@ import javax.naming.ldap.LdapName;
  * Created by IntelliJ IDEA.
  * <p/>
  * Created :  02/01/11 3:58 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

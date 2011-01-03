@@ -38,11 +38,6 @@ import java.lang.annotation.*;
  * member field is "propertyX".
  * <p/>
  * Created :  16-Aug-2010 8:06:13 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
- * <p/>
  *
  * @author Trenton D. Adams
  */

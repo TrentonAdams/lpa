@@ -41,10 +41,6 @@ import java.util.*;
  * IAnnotationHandler
  * <p/>
  * Created :  22-Aug-2010 12:44:56 AM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */
@@ -423,6 +419,7 @@ public class LdapEntityLoader implements IAnnotationHandler
                     "it does not contain a replaceable parameter marked " +
                     "with '?'");
             }
+
             if (attr == null)
             {   // FEATURE perhaps we want the option of exception or silent failure?
                 // FEATURE perhaps we want the option of required vs not required, and in combination with the silent feature?

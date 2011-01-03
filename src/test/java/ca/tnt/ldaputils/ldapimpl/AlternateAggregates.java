@@ -35,10 +35,6 @@ import java.util.TreeSet;
  * primary ldap entry classes provided by this library.
  * <p/>
  * Created :  21/12/10 11:18 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

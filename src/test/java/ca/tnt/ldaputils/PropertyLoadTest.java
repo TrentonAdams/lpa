@@ -22,10 +22,6 @@ import java.util.SortedMap;
  * Hardcoded port for ldap server, so we can test the loading of properties.
  * <p/>
  * Created :  31/12/10 10:30 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

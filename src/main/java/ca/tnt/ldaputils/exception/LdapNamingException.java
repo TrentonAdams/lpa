@@ -26,10 +26,6 @@ import javax.naming.NamingException;
  * Created by IntelliJ IDEA.
  * <p/>
  * Created :  Mar 20, 2008 7:41:10 PM MST
- * <p/>
- * Modified : $Date$
- * <p/>
- * Revision : $Revision$
  *
  * @author trenta
  */

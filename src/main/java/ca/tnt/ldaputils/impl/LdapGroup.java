@@ -37,11 +37,6 @@ import java.util.*;
  * <p/>
  * Created :  14-Apr-2006 6:57:16 PM MST
  * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
- * <p/>
- * <p/>
  * MINOR : When removing members, check for existence, then fail silently if it
  * does not exist.  Otherwise, remove it.
  *

@@ -26,10 +26,6 @@ import javax.naming.NamingException;
  * Used when something is wrong with the use of annotations.
  * <p/>
  * Created :  5-Dec-2010 7:15:24 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

@@ -44,10 +44,6 @@ import java.util.Properties;
  * <p/>
  * Created :  Mar 23, 2008 6:37:56 PM MST
  * <p/>
- * Modified : $Date$
- * <p/>
- * Revision : $Revision$
- * <p/>
  * TODO: change modifyBatchAttribute to setAttribute and saveChanges?
  *
  * @author trenta

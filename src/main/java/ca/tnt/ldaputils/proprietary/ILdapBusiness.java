@@ -26,10 +26,6 @@ import ca.tnt.ldaputils.ILdapOrganization;
  * Implements the tntbusiness LDAP objectClass.
  * <p/>
  * Created :  14-Apr-2006 9:24:54 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams <trenta@athabascau.ca>
  */

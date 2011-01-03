@@ -28,10 +28,6 @@ import java.util.SortedSet;
  * processor for LPA does not support
  * <p/>
  * Created :  13-Dec-2010 12:26:00 AM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

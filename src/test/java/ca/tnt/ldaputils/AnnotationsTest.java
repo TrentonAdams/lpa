@@ -56,10 +56,6 @@ import java.util.Map;
  * object class
  * <p/>
  * Created :  16-Aug-2010 8:03:48 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

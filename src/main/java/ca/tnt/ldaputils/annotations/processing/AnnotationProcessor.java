@@ -30,10 +30,6 @@ import java.util.List;
  * for more information on the callbacks.
  * <p/>
  * Created :  21-Aug-2010 11:34:50 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

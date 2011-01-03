@@ -39,10 +39,6 @@ import java.util.*;
  * update capability, by way of using the factory.
  * <p/>
  * Created :  16-Aug-2010 8:05:16 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

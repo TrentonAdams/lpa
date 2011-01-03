@@ -57,10 +57,6 @@ import java.util.*;
  * configured for the LdapManager injection.
  * <p/>
  * Created :  Feb 28, 2006 7:43:12 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams <trent.nospam@telus.net>
  */

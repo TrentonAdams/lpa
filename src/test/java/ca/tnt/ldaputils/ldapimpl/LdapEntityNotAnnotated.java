@@ -31,9 +31,6 @@ import java.util.TreeSet;
  * <p/>
  * Created :  23-Aug-2010 1:35:37 AM MST
  * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

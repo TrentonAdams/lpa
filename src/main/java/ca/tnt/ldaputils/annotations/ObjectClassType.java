@@ -25,10 +25,6 @@ package ca.tnt.ldaputils.annotations;
  * {@link #STRUCTURAL}, and {@link #AUXILIARY}.
  * <p/>
  * Created :  10-Dec-2010 4:00:38 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

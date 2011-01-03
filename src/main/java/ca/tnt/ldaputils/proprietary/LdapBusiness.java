@@ -33,10 +33,6 @@ import java.util.List;
  * Created by IntelliJ IDEA.
  * <p/>
  * Created :  16-Apr-2006 10:47:22 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams <trent.nospam@telus.net>
  */

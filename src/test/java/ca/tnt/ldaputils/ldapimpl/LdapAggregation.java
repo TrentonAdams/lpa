@@ -35,10 +35,6 @@ import java.util.SortedMap;
  * in real life.
  * <p/>
  * Created :  24-Aug-2010 1:22:05 AM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

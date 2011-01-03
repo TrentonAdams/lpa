@@ -43,9 +43,7 @@ import java.util.*;
  * <p/>
  * Created :  14-Apr-2006 6:29:39 PM MST
  * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
+
  * <p/>
  * TODO : print out all attributes
  *

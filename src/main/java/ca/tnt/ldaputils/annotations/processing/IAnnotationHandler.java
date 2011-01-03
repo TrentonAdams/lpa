@@ -29,10 +29,6 @@ import java.lang.annotation.Annotation;
  * annotations recursively through the entire tree of subclasses.
  * <p/>
  * Created :  21-Aug-2010 11:51:11 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

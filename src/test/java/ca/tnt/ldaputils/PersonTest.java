@@ -47,10 +47,6 @@ import java.util.SortedMap;
  * Created by IntelliJ IDEA.
  * <p/>
  * Created :  19/12/10 12:16 AM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */

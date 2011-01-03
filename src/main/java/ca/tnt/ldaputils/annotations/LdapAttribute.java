@@ -107,10 +107,6 @@ import java.lang.annotation.Target;
  * exact Object desired.
  * <p/>
  * Created :  16-Aug-2010 10:43:42 PM MST
- * <p/>
- * Modified : $Date$ UTC
- * <p/>
- * Revision : $Revision$
  *
  * @author Trenton D. Adams
  */
@@ -136,10 +132,14 @@ public @interface LdapAttribute
      * The {@link LdapEntity} annotated class that should be used for the
      * aggregate. The default class of Object.class, implies that this ldap
      * attribute will not be stored in an aggregate {@link LdapEntity} object,
-     * but instead, the values will be stored in a String (only one value), or
-     * collection (multiple valued attributes) of Strings, depending on the
-     * field's type definition.  Note that only List, SortedSet, String, and a
-     * java native array are supported for the field type definition.
+     * but instead, the values will be stored in a String (only one value), a
+     * byte array (a binary object, only one), or a collection (multiple valued
+     * attributes of String or byte array), depending on the field's type
+     * definition. Note that for Sun's LDAP provider, String, and byte arrays
+     * are the only options supported for attribute values.
+     * <p/>
+     * Note that only List, SortedSet, String, and a java native array are
+     * supported for the field type definition.
      * <p/>
      * There is no need for any of these types to be pre-initialized, as they
      * will be replaced.
@@ -149,7 +149,6 @@ public @interface LdapAttribute
      * implement this interface, then the SortedSet will throw a
      * ClassCastException, because it does not implement the Comparable
      * interface.
-     * <p/>
      *
      * @return the aggregate {@link LdapEntity} annotated class, or Object.class
      *         as a default.
