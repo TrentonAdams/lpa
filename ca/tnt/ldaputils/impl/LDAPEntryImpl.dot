@@ -14,7 +14,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapEntry
-	c223 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ILdapEntry.html">
+	c225 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ILdapEntry.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapEntry </td></tr>
@@ -22,8 +22,8 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	//ca.tnt.ldaputils.impl.LDAPEntryImpl implements ca.tnt.ldaputils.ILdapEntry
-	c223:p -> c220:p [dir=back,arrowtail=empty,style=dashed];
+	c225:p -> c220:p [dir=back,arrowtail=empty,style=dashed];
 	// ca.tnt.ldaputils.impl.LDAPEntryImpl DEPEND ca.tnt.ldaputils.ILdapEntry
-	c220:p -> c223:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c220:p -> c225:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 }
 

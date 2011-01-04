@@ -26,7 +26,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapOrganization
-	c250 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ILdapOrganization.html">
+	c248 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ILdapOrganization.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapOrganization </td></tr>
@@ -42,7 +42,7 @@ digraph G {
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.proprietary.LdapBusiness
-	c268 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../proprietary/LdapBusiness.html">
+	c267 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../proprietary/LdapBusiness.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> LdapBusiness </td></tr>
 			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.proprietary </font></td></tr>
@@ -51,13 +51,13 @@ digraph G {
 	//ca.tnt.ldaputils.impl.LdapOrganization extends ca.tnt.ldaputils.impl.LdapEntry
 	c244:p -> c246:p [dir=back,arrowtail=empty];
 	//ca.tnt.ldaputils.impl.LdapOrganization implements ca.tnt.ldaputils.ILdapOrganization
-	c250:p -> c246:p [dir=back,arrowtail=empty,style=dashed];
+	c248:p -> c246:p [dir=back,arrowtail=empty,style=dashed];
 	//ca.tnt.ldaputils.impl.LdapOrganization implements ca.tnt.ldaputils.annotations.TypeHandler
 	c259:p -> c246:p [dir=back,arrowtail=empty,style=dashed];
 	//ca.tnt.ldaputils.impl.LdapGroup extends ca.tnt.ldaputils.impl.LdapEntry
 	c244:p -> c247:p [dir=back,arrowtail=empty];
 	//ca.tnt.ldaputils.proprietary.LdapBusiness extends ca.tnt.ldaputils.impl.LdapOrganization
-	c246:p -> c268:p [dir=back,arrowtail=empty];
+	c246:p -> c267:p [dir=back,arrowtail=empty];
 	// ca.tnt.ldaputils.impl.LdapOrganization NAVASSOC ca.tnt.ldaputils.impl.LdapGroup
 	c246:p -> c247:p [taillabel="", label="", headlabel="*", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 }

@@ -25,37 +25,37 @@ digraph G {
 			<tr><td> LdapGroup </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.ILdapEntry
-	c273 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ILdapEntry.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> &laquo;interface&raquo; </td></tr>
-			<tr><td> ILdapEntry </td></tr>
-			<tr><td><font point-size="7.0"> ca.tnt.ldaputils </font></td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapGroup
-	c279 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ILdapGroup.html">
+	c274 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ILdapGroup.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapGroup </td></tr>
 			<tr><td><font point-size="7.0"> ca.tnt.ldaputils </font></td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.ILdapEntry
+	c275 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../ILdapEntry.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> &laquo;interface&raquo; </td></tr>
+			<tr><td> ILdapEntry </td></tr>
+			<tr><td><font point-size="7.0"> ca.tnt.ldaputils </font></td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	//ca.tnt.ldaputils.impl.LdapEntry implements ca.tnt.ldaputils.ILdapEntry
-	c273:p -> c269:p [dir=back,arrowtail=empty,style=dashed];
+	c275:p -> c269:p [dir=back,arrowtail=empty,style=dashed];
 	//ca.tnt.ldaputils.impl.LdapOrganization extends ca.tnt.ldaputils.impl.LdapEntry
 	c269:p -> c271:p [dir=back,arrowtail=empty];
 	//ca.tnt.ldaputils.impl.LdapGroup extends ca.tnt.ldaputils.impl.LdapEntry
 	c269:p -> c272:p [dir=back,arrowtail=empty];
 	//ca.tnt.ldaputils.impl.LdapGroup implements ca.tnt.ldaputils.ILdapGroup
-	c279:p -> c272:p [dir=back,arrowtail=empty,style=dashed];
+	c274:p -> c272:p [dir=back,arrowtail=empty,style=dashed];
 	//ca.tnt.ldaputils.ILdapGroup implements ca.tnt.ldaputils.ILdapEntry
-	c273:p -> c279:p [dir=back,arrowtail=empty,style=dashed];
+	c275:p -> c274:p [dir=back,arrowtail=empty,style=dashed];
 	// ca.tnt.ldaputils.impl.LdapOrganization NAVASSOC ca.tnt.ldaputils.impl.LdapGroup
 	c271:p -> c272:p [taillabel="", label="", headlabel="*", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
 	// ca.tnt.ldaputils.impl.LdapEntry DEPEND ca.tnt.ldaputils.ILdapEntry
-	c269:p -> c273:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c269:p -> c275:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// ca.tnt.ldaputils.impl.LdapGroup DEPEND ca.tnt.ldaputils.ILdapEntry
-	c272:p -> c273:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c272:p -> c275:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 }
 

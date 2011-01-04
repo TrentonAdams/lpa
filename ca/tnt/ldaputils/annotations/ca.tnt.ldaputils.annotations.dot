@@ -7,10 +7,10 @@
 digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
-	// ca.tnt.ldaputils.annotations.Manager
-	c89 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Manager.html">
+	// ca.tnt.ldaputils.annotations.LdapAttribute
+	c89 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapAttribute.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td><font face="Helvetica-Oblique"> Manager </font></td></tr>
+			<tr><td><font face="Helvetica-Oblique"> LdapAttribute </font></td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.annotations.TypeHandler
@@ -20,10 +20,10 @@ digraph G {
 			<tr><td> TypeHandler </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.annotations.LdapAttribute
-	c91 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapAttribute.html">
+	// ca.tnt.ldaputils.annotations.Manager
+	c91 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Manager.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td><font face="Helvetica-Oblique"> LdapAttribute </font></td></tr>
+			<tr><td><font face="Helvetica-Oblique"> Manager </font></td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.annotations.ObjectClassType

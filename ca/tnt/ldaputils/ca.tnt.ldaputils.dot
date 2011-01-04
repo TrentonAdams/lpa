@@ -7,37 +7,38 @@
 digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
-	// ca.tnt.ldaputils.ILdapEntry
-	c29 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapEntry.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> &laquo;interface&raquo; </td></tr>
-			<tr><td> ILdapEntry </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.LdapManager
-	c30 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapManager.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> LdapManager </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapOrganization
-	c31 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapOrganization.html">
+	c29 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapOrganization.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapOrganization </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.Property
-	c32 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Property.html">
+	// ca.tnt.ldaputils.ILdapGroup
+	c30 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapGroup.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> Property </td></tr>
+			<tr><td> &laquo;interface&raquo; </td></tr>
+			<tr><td> ILdapGroup </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.ILdapEntry
+	c31 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapEntry.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> &laquo;interface&raquo; </td></tr>
+			<tr><td> ILdapEntry </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapPerson
-	c33 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapPerson.html">
+	c32 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapPerson.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapPerson </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.LdapManager
+	c33 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> LdapManager </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapInetOrgPerson
@@ -47,20 +48,19 @@ digraph G {
 			<tr><td> ILdapInetOrgPerson </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.ILdapGroup
-	c35 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapGroup.html">
+	// ca.tnt.ldaputils.Property
+	c35 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./Property.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> &laquo;interface&raquo; </td></tr>
-			<tr><td> ILdapGroup </td></tr>
+			<tr><td> Property </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	//ca.tnt.ldaputils.ILdapOrganization implements ca.tnt.ldaputils.ILdapEntry
-	c29:p -> c31:p [dir=back,arrowtail=empty,style=dashed];
-	//ca.tnt.ldaputils.ILdapPerson implements ca.tnt.ldaputils.ILdapEntry
-	c29:p -> c33:p [dir=back,arrowtail=empty,style=dashed];
-	//ca.tnt.ldaputils.ILdapInetOrgPerson implements ca.tnt.ldaputils.ILdapEntry
-	c29:p -> c34:p [dir=back,arrowtail=empty,style=dashed];
+	c31:p -> c29:p [dir=back,arrowtail=empty,style=dashed];
 	//ca.tnt.ldaputils.ILdapGroup implements ca.tnt.ldaputils.ILdapEntry
-	c29:p -> c35:p [dir=back,arrowtail=empty,style=dashed];
+	c31:p -> c30:p [dir=back,arrowtail=empty,style=dashed];
+	//ca.tnt.ldaputils.ILdapPerson implements ca.tnt.ldaputils.ILdapEntry
+	c31:p -> c32:p [dir=back,arrowtail=empty,style=dashed];
+	//ca.tnt.ldaputils.ILdapInetOrgPerson implements ca.tnt.ldaputils.ILdapEntry
+	c31:p -> c34:p [dir=back,arrowtail=empty,style=dashed];
 }
 
