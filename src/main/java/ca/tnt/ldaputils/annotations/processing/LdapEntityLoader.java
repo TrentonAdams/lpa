@@ -228,7 +228,8 @@ public class LdapEntityLoader extends LdapEntityHandler
      *
      * @return a List of all the aggregates retrieved from other LDAP entries.
      *
-     * @throws NamingException if an error occurs iterating the attrValues
+     * @throws NamingException           general JNDI exception wrapper for any
+     *                                   errors that occur in the directory
      */
     @SuppressWarnings({"unchecked"})
     private List loadAggregates(final Class<?> aggClass,
@@ -272,7 +273,7 @@ public class LdapEntityLoader extends LdapEntityHandler
 
     @Override
     protected Object processLocalAggregate(final Field field,
-        final Class<?> aggClass)
+        final Class<?> aggClass, final LdapAttribute attrAnnotation)
         throws IllegalAccessException, InstantiationException
     {
         final Object fieldValue;

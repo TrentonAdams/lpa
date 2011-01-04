@@ -98,7 +98,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param annotation     the annotation
      * @param annotatedClass the field to process
      *
-     * @return
+     * @return true if annotation processing was successful
      */
     @SuppressWarnings({"ChainedMethodCall", "MethodWithMultipleReturnPoints"})
     @Override
@@ -220,8 +220,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *
      * @param field the field to inject the manager to
      *
-     * @throws IllegalAccessException if we are not allowed access due to java
-     *                                policies
+     * @throws IllegalAccessException if java policies prevent access to fields
+     *                                via reflection
      */
     protected void processManager(final Field field)
         throws IllegalAccessException
@@ -236,7 +236,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *
      * @param field the field the annotation is on
      *
-     * @throws IllegalAccessException obvious
+     * @throws IllegalAccessException if java policies prevent access to fields
+     *                                via reflection
      */
     protected abstract void processLdapAttributes(Field field)
         throws IllegalAccessException;
@@ -247,9 +248,11 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param annotatedClass class of the annotated object
      * @param field          the field the annotation is on
      *
-     * @throws IllegalAccessException obvious
-     * @throws NoSuchMethodException  if the getter for the field does not exist
-     *                                in the annotated object
+     * @throws IllegalAccessException if java policies prevent access to fields
+     *                                via reflection
+     * @throws NoSuchMethodException  if the {@link LdapAttribute#referencedDNMethod()}
+     *                                is the name of a method that does not
+     *                                exist
      */
     protected abstract void processDN(Class annotatedClass, Field field)
         throws IllegalAccessException, NoSuchMethodException;
@@ -269,8 +272,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *
      * @return true if the DN validation was successful
      *
-     * @throws NoSuchMethodException if the getter for the field does not exist
-     *                               in the annotated object
+     * @throws NoSuchMethodException if the {@link LdapAttribute#referencedDNMethod()}
+     *                               is the name of a method that does not
+     *                               exist
      */
     @SuppressWarnings({"MethodMayBeStatic"})
     protected boolean validateDN(final Class annotatedClass, final Field field)
@@ -306,7 +310,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param field      the field
      * @param fieldValue the value of the field to inject
      *
-     * @throws IllegalAccessException if java policies prevent access
+     * @throws IllegalAccessException if java policies prevent access to fields
+     *                                via reflection
      */
     private void injectField(final Field field, final Object fieldValue)
         throws IllegalAccessException
@@ -324,8 +329,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * what is classified as a regular attribute field vs an aggregatized one
      * (I'm making a new word, leave me alone), and call either {@link
      * #processAttribute(Field, LdapAttribute)} or {@link
-     * #processAggregate(Field, Class, Class, LdapAttribute)}. We also handle the field
-     * injection.
+     * #processAggregate(Field, Class, Class, LdapAttribute)}. We also handle
+     * the field injection.
      * <p/>
      * Processing for {@link LdapAttribute } annotation.
      * <p/>
@@ -343,12 +348,18 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param annotatedClass the class of the annotated object
      * @param field          the field the annotation is on
      *
-     * @throws IllegalAccessException    obvious
-     * @throws InvocationTargetException obvious
-     * @throws NoSuchMethodException     if the referenceDNMethod is the name of
-     *                                   a method that does not exist
-     * @throws NamingException           obvious
-     * @throws InstantiationException    obvious
+     * @throws IllegalAccessException    if java policies prevent access to
+     *                                   fields via reflection
+     * @throws InvocationTargetException an exception occured during the call to
+     *                                   the method defined by {@link
+     *                                   LdapAttribute#referencedDNMethod()}
+     * @throws NoSuchMethodException     if the {@link LdapAttribute#referencedDNMethod()}
+     *                                   is the name of a method that does not
+     *                                   exist
+     * @throws NamingException           general JNDI exception wrapper for any
+     *                                   errors that occur in the directory
+     * @throws InstantiationException    if an error occurs creating an
+     *                                   aggregate instance
      * @throws ClassCastException        if you use a supported collection that
      *                                   is not parameterized, such as
      *                                   SortedSet, instead of SortedSet&lt;String&gt;,
@@ -407,7 +418,10 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *
      * @return the value for the field
      *
-     * @throws NamingException if a jndi error occurs
+     * @throws NamingException        general JNDI exception wrapper for any
+     *                                errors that occur in the directory
+     * @throws IllegalAccessException if java policies prevent access to fields
+     *                                via reflection
      */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
     protected abstract Object processAttribute(Field field,
@@ -422,7 +436,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * <p/>
      * Process aggregates, and call the {@link #processForeignAggregate(Field,
      * Class, String, LdapAttribute)} or the {@link #processLocalAggregate(Field,
-     * Class)} as appropriate.
+     * Class, LdapAttribute)} as appropriate.
      *
      * @param field          the field being processed
      * @param annotatedClass the annotated {@link LdapEntity} class
@@ -433,11 +447,18 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *
      * @return the aggregate instance
      *
-     * @throws InstantiationException
-     * @throws IllegalAccessException
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws NamingException
+     * @throws IllegalAccessException    if java policies prevent access to
+     *                                   fields via reflection
+     * @throws InstantiationException    if an error occurs creating an
+     *                                   aggregate instance
+     * @throws NoSuchMethodException     if the {@link LdapAttribute#referencedDNMethod()}
+     *                                   is the name of a method that does not
+     *                                   exist
+     * @throws InvocationTargetException an exception occured during the call to
+     *                                   the method defined by {@link
+     *                                   LdapAttribute#referencedDNMethod()}
+     * @throws NamingException           general JNDI exception wrapper for any
+     *                                   errors that occur in the directory
      */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
     protected Object processAggregate(final Field field,
@@ -461,7 +482,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         final boolean isLocalAggregate = "".equals(referenceDNMethod);
         if (isLocalAggregate)
         {   // use current ldap entry for population of aggregate
-            fieldValue = processLocalAggregate(field, aggClass);
+            fieldValue = processLocalAggregate(field, aggClass, attrAnnotation);
         }
         else
         {   // BEGIN foreign ldap entry processing for aggregate
@@ -546,7 +567,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *
      * @return the new aggregate instance, or collection of aggregate instances
      *
-     * @throws NamingException        if a JNDI error of some sort occurs
+     * @throws NamingException        general JNDI exception wrapper for any
+     *                                errors that occur in the directory
      * @throws IllegalAccessException if java policies prevent access to fields
      *                                via reflection
      */
@@ -566,8 +588,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * for more information.
      * <p/>
      *
-     * @param field    the field being processed
-     * @param aggClass the aggregate class, if needed.
+     * @param field          the field being processed
+     * @param aggClass       the aggregate class, if needed.
+     * @param attrAnnotation
      *
      * @return the new fieldValue if one is needed
      *
@@ -577,6 +600,6 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *                                instance
      */
     protected abstract Object processLocalAggregate(Field field,
-        Class<?> aggClass)
+        Class<?> aggClass, LdapAttribute attrAnnotation)
         throws IllegalAccessException, InstantiationException;
 }

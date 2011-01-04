@@ -99,7 +99,7 @@ public class LdapEntityBinder extends LdapEntityHandler
 
     @Override
     protected Object processLocalAggregate(final Field field,
-        final Class<?> aggClass)
+        final Class<?> aggClass, LdapAttribute attrAnnotation)
         throws IllegalAccessException, InstantiationException
     {
         System.out.println(
