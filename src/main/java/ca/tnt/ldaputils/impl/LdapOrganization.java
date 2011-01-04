@@ -39,7 +39,7 @@ import java.util.*;
  *
  * @author Trenton D. Adams <trent.nospam@telus.net>
  */
-@LdapEntity(requiredObjectClasses = {"organization"})
+@LdapEntity(requiredObjectClasses = {"organization", "top"})
 public class LdapOrganization extends LdapEntry
     implements ILdapOrganization, Comparable, TypeHandler
 {

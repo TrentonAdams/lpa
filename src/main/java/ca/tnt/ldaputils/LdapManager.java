@@ -836,9 +836,8 @@ public class LdapManager
             }
             ldapContext = (LdapContext) getConnection();
             // accessing dn method should be fine, but must be done through reflect
-            System.out.println("dn: " + entityBinder.getDn());
-/*            ldapContext.bind(ldapEntry.getDn(), null,
-                entityBinder.getAttributes());*/
+            ldapContext.bind(entityBinder.getDn(), null,
+                entityBinder.getAttributes());
         }
         catch (NamingException e)
         {

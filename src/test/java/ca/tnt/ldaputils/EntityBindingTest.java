@@ -1,26 +1,27 @@
 /**
  * This file is part of the Ldap Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.impl.LdapOrganization;
+import junit.framework.Assert;
 import org.apache.directory.server.annotations.CreateLdapServer;
 import org.apache.directory.server.annotations.CreateTransport;
 import org.apache.directory.server.core.annotations.ApplyLdifFiles;
@@ -94,5 +95,19 @@ public class EntityBindingTest extends AbstractLdapTestUnit
         organization.setStreet("123 Ldap Way", 0);
         organization.setPostalCode("A1A 2B2", 0);
         manager.bind(organization);
+
+        final ILdapOrganization organization2 =
+            (ILdapOrganization) manager.find(LdapOrganization.class, ldapName);
+        Assert.assertEquals("dn", organization.getDn(), organization2.getDn());
+        Assert.assertEquals("organization", organization.getOrganization(),
+            organization2.getOrganization());
+        Assert.assertEquals("locality", organization.getLocality(),
+            organization2.getLocality());
+        Assert.assertEquals("telephone", organization.getTelephoneNumber(),
+            organization2.getTelephoneNumber());
+        Assert.assertEquals("street", organization.getStreet(),
+            organization2.getStreet());
+        Assert.assertEquals("postal", organization.getPostalCode(),
+            organization2.getPostalCode());
     }
 }

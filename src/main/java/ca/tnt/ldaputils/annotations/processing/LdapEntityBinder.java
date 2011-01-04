@@ -23,12 +23,18 @@ package ca.tnt.ldaputils.annotations.processing;
 import ca.tnt.ldaputils.LdapManager;
 import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.annotations.LdapEntity;
+import ca.tnt.ldaputils.exception.LpaAnnotationException;
 
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
+import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
+import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.ldap.LdapName;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * {@link IAnnotationHandler} implementation that processes LPA annotations for
@@ -79,10 +85,50 @@ public class LdapEntityBinder extends LdapEntityHandler
         final LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException
     {
-        final String attrName = attrAnnotation.name();
-        System.out.println("attribute field: " + field.getName() + ": " +
-            field.get(entity));
-        return null;
+        final Object returnValue = null;    // always null, we're reading
+        try
+        {
+            final Class fieldType = field.getType();
+            final String attrName = attrAnnotation.name();
+            final Object fieldValue = field.get(entity);
+            field.setAccessible(true);
+            final Attribute attribute = new BasicAttribute(attrName);
+
+            if (fieldValue != null)
+            {
+                if (isMultiValued(fieldType))
+                {   // assumed to accept list of ALL attribute values
+                    if (fieldValue instanceof Collection)
+                    {
+                        final Collection values = (Collection) fieldValue;
+                        for (final Object value : values)
+                        {
+                            attribute.add(value);
+                        }
+                    }
+                    else
+                    {
+                        throw new LpaAnnotationException(
+                            "unsupported Class type; we plan on supporting " +
+                                "TypeHandler for non aggregates in the future");
+                    }
+                }
+                else
+                {   // accepts single valued String attributes attribute
+                    attribute.add(fieldValue);
+                }
+            }
+
+            if (attribute.size() > 0)
+            {
+                attributes.put(attribute);
+            }
+        }
+        finally
+        {
+            field.setAccessible(false);
+        }
+        return returnValue;
     }
 
     @Override
@@ -91,21 +137,23 @@ public class LdapEntityBinder extends LdapEntityHandler
         final String dnReference, final LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException
     {
+        final Object returnValue = null;    // always null, we're reading
         System.out.println(
             "attribute foreign aggregate field: " + field.getName() + ": " +
                 field.get(entity));
-        return null;
+        return returnValue;
     }
 
     @Override
     protected Object processLocalAggregate(final Field field,
-        final Class<?> aggClass, LdapAttribute attrAnnotation)
+        final Class<?> aggClass, final LdapAttribute attrAnnotation)
         throws IllegalAccessException, InstantiationException
     {
+        final Object returnValue = null;    // always null, we're reading
         System.out.println(
             "attribute local aggregate field: " + field.getName() + ": " +
                 field.get(entity));
-        return null;
+        return returnValue;
     }
 
     /**
@@ -120,6 +168,25 @@ public class LdapEntityBinder extends LdapEntityHandler
         field.setAccessible(true);
         dn = (LdapName) field.get(entity);
         field.setAccessible(false);
+    }
+
+    @SuppressWarnings({"RefusedBequest"})
+    @Override
+    protected boolean preProcessAnnotation(final LdapEntity annotation,
+        final Class annotatedClass)
+    {
+        final Attribute attribute = new BasicAttribute("objectClass");
+        for (final String objectClass : annotation.requiredObjectClasses())
+        {
+            attribute.add(objectClass);
+        }
+
+        if (attribute.size() > 0)
+        {
+            attributes.put(attribute);
+        }
+
+        return true;
     }
 
     @Override

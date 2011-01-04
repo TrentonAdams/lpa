@@ -111,7 +111,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         {
             final String className = entity.getClass().getName();
 
-            if (!preProcessAnnotation(annotation, annotatedClass))
+            if (!preProcessAnnotation((LdapEntity) annotation, annotatedClass))
             {
                 return false;
             }
@@ -172,12 +172,13 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * something special before anything is processed.  We implement the default
      * here, which is to return true.
      *
+     *
      * @param annotation     the annotation being processed
      * @param annotatedClass the annotated class with the annotation
      *
      * @return true if nothing went wrong during processing
      */
-    protected boolean preProcessAnnotation(final Annotation annotation,
+    protected boolean preProcessAnnotation(final LdapEntity annotation,
         final Class annotatedClass)
     {
         return true;

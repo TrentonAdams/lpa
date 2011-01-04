@@ -81,7 +81,7 @@ public class LdapEntityLoader extends LdapEntityHandler
     }
 
     @Override
-    protected boolean preProcessAnnotation(final Annotation annotation,
+    protected boolean preProcessAnnotation(final LdapEntity annotation,
         final Class annotatedClass)
     {
         return validateObjectClasses((LdapEntity) annotation, attributes);
