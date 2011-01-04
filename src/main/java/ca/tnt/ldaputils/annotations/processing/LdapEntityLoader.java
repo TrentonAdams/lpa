@@ -106,11 +106,16 @@ public class LdapEntityLoader extends LdapEntityHandler
         isDnSet = validateDN(annotatedClass, field);
     }
 
-    @Override
+    /**
+     * @throws ClassCastException if we attempt to store an attribute value in
+     *                            an unsupported field Class type.  Your
+     *                            problem, not ours, until we support {@link
+     *                            TypeHandler} for non aggregates
+     */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
     protected Object processAttribute(final Field field,
         final LdapAttribute attrAnnotation)
-        throws NamingException
+        throws NamingException, IllegalAccessException
     {
         // CRITICAL verify what happens if say an image were the
         // attribute value.  It seems like this probably wouldn't work.
@@ -143,6 +148,12 @@ public class LdapEntityLoader extends LdapEntityHandler
                     // hundreds of values in a single attribute is
                     // SLIM to NONE.
                     fieldValue = new TreeSet(Collections.list(attrValues));
+                }
+                else
+                {
+                    throw new LpaAnnotationException(
+                        "unsupported Class type; we plan on supporting " +
+                            "TypeHandler for non aggregates in the future");
                 }
             }
             else
@@ -228,8 +239,8 @@ public class LdapEntityLoader extends LdapEntityHandler
      *
      * @return a List of all the aggregates retrieved from other LDAP entries.
      *
-     * @throws NamingException           general JNDI exception wrapper for any
-     *                                   errors that occur in the directory
+     * @throws NamingException general JNDI exception wrapper for any errors
+     *                         that occur in the directory
      */
     @SuppressWarnings({"unchecked"})
     private List loadAggregates(final Class<?> aggClass,

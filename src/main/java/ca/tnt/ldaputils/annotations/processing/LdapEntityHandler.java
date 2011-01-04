@@ -73,7 +73,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
     /**
      * Simply determines if this is a multi valued field.  We assume it is if it
      * is not either a String or a byte array.  These are the only supported
-     * return types for attribute values from Sun's LDAP provider.
+     * return types for attribute values from Sun's LDAP provider; therefore if
+     * someone has declared something else, it must be a collection of some
+     * sort, or their own type
      * <p/>
      * REQUIRED_FEATURE support other LDAP providers https://github.com/TrentonAdams/lpa/issues/7
      * We'll have to figure something else out if we want to work with other
@@ -414,7 +416,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * it.
      *
      * @param field          the field being processed
-     * @param attrAnnotation the LdapAttribute annotation instance
+     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
+     *                       processed
      *
      * @return the value for the field
      *
@@ -442,7 +445,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param annotatedClass the annotated {@link LdapEntity} class
      * @param aggClass       the aggregate class as defined by {@link
      *                       LdapAttribute#aggregateClass()}
-     * @param attrAnnotation the LdapAttribute annotation instance being
+     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
      *                       processed
      *
      * @return the aggregate instance
@@ -553,8 +556,18 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
     }
 
     /**
-     * Called to process a foreign aggregate.  It's up to the base class to do
+     * Called to process a foreign aggregate.  It's up to the subclass to do
      * what it likes.
+     * <p/>
+     * Tip on implementing: aggregates are stored in one of two ways. <ol> <li>
+     * directly into an aggregate object, if you know that it's a single valued
+     * attribute, or your business practise makes it always single valued.</li>
+     * <li>in a collection of aggregate objects, of some sort.  e.g.
+     * <code>SortedSet&lt;MyAggregateClass&gt; myAggregates</code></li> </ol>
+     * Therefore, the easiest way to determine if it's a single aggregate, is to
+     * check the field type, against the {@link LdapAttribute#aggregateClass()}
+     * by asking if they are equal.  See the {@link LdapEntityLoader} source for
+     * an example.
      *
      * @param field          the field being processed
      * @param aggClass       the aggregate class as defined by {@link
@@ -562,7 +575,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param dnReference    the "properly" formatted dn, with bind parameter,
      *                       as returned by the {@link LdapAttribute#referencedDNMethod()}
      *                       method
-     * @param attrAnnotation the LdapAttribute annotation instance being
+     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
      *                       processed
      *
      * @return the new aggregate instance, or collection of aggregate instances
@@ -574,8 +587,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      */
     @SuppressWarnings({"unchecked"})
     protected abstract Object processForeignAggregate(Field field,
-        Class<?> aggClass, String dnReference,
-        LdapAttribute attrAnnotation)
+        Class<?> aggClass, String dnReference, LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException;
 
     /**
@@ -590,7 +602,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *
      * @param field          the field being processed
      * @param aggClass       the aggregate class, if needed.
-     * @param attrAnnotation
+     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
+     *                       processed
      *
      * @return the new fieldValue if one is needed
      *
