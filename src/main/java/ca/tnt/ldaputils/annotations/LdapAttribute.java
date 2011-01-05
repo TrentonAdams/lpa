@@ -193,7 +193,7 @@ public @interface LdapAttribute
      * forgotten.  They use annotations to make it simpler I think, so that no
      * complex logic is required.  What they do is have a "mappedBy" member in
      * the annotation, which is the name of a field containing the reference
-     * back the existing entry.
+     * back to the existing entry.
      *
      * @return the method that returns the DN entry to load, with the bind
      *         variable ('?')

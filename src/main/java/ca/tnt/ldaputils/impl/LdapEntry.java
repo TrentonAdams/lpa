@@ -103,23 +103,6 @@ public class LdapEntry implements ILdapEntry, Comparable
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    /**
-     * Converts this object to the given instance.
-     *
-     * @param classType the object type to convert to.  MUST have been annotated
-     *                  with {@link LdapEntry}
-     *
-     * @return the new object.
-     *
-     * @throws NamingException if conversion fails due to the proper objectClass
-     *                         not being setup.
-     */
-/*
-    CRITICAL must implement a convertInstance
-public Object convertInstance(Class classType) throws NamingException
-    {
-        return LDAPFactory.createInstance(attributes, clas, dn);
-    }*/
     public String getStringAttribute(final Attributes attributes,
         final String attribute) throws NamingException
     {

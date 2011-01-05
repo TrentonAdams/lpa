@@ -50,12 +50,6 @@ import java.util.*;
  * The main reason for starting this project is that I have found Sun JNDI
  * interfaces too cumbersome to use for my simple purposes.
  * <p/>
- * CRITICAL Make JUnit test runner so we can annotate the test with an
- * LdapManager with passwords, ports, etc, just like apacheds annotations.  This
- * would not only make testing much more flexible, but it would also allow
- * apacheds to be run on a different port per test, and have that same port
- * configured for the LdapManager injection.
- * <p/>
  * Created :  Feb 28, 2006 7:43:12 PM MST
  *
  * @author Trenton D. Adams <trent.nospam@telus.net>
@@ -208,6 +202,8 @@ public class LdapManager
      * @see LdapManager#SEARCH_ORDER
      * @see LdapManager#SORTED_ORDER
      */
+    @SuppressWarnings(
+        {"unchecked", "ObjectAllocationInLoop", "ChainedMethodCall"})
     public Map find(final LdapName baseDN, final String searchFilter,
         final String keyAttribute, final String[] attributes,
         final Class ldapEntryClass, final int sorted, final int searchScope)
@@ -252,7 +248,6 @@ public class LdapManager
                 final String keyValue;
                 keyValue = (String) entryAttributes.get(keyAttribute).get();
 
-                // CRITICAL idea has an infinite loop when I try to generify
                 sortedLDAPObjects.put(keyValue, find(ldapEntryClass,
                     new LdapName(entry.getNameInNamespace()), entryAttributes));
             }
