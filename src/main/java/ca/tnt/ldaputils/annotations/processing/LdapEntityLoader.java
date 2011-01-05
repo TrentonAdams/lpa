@@ -80,6 +80,7 @@ public class LdapEntityLoader extends LdapEntityHandler
         manager = managerInstance;
     }
 
+    @SuppressWarnings({"RefusedBequest"})
     @Override
     protected boolean preProcessAnnotation(final LdapEntity annotation,
         final Class annotatedClass)

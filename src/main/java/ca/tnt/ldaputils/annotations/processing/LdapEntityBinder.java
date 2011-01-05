@@ -25,14 +25,12 @@ import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.annotations.LdapEntity;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
 
-import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.ldap.LdapName;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -80,6 +78,17 @@ public class LdapEntityBinder extends LdapEntityHandler
     {
     }
 
+    /**
+     * Processes the field for binding, generates a JNDI Attribute for it, and
+     * puts it in the list of JNDI Attributes.
+     *
+     * @param field          the field being processed
+     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
+     *                       processed
+     *
+     * @return always null, as we are not attempting to write to the instance,
+     *         we're binding to LDAP using the instance values.
+     */
     @Override
     protected Object processAttribute(final Field field,
         final LdapAttribute attrAnnotation)
@@ -88,10 +97,11 @@ public class LdapEntityBinder extends LdapEntityHandler
         final Object returnValue = null;    // always null, we're reading
         try
         {
+            field.setAccessible(true);
+
             final Class fieldType = field.getType();
             final String attrName = attrAnnotation.name();
             final Object fieldValue = field.get(entity);
-            field.setAccessible(true);
             final Attribute attribute = new BasicAttribute(attrName);
 
             if (fieldValue != null)
@@ -131,6 +141,22 @@ public class LdapEntityBinder extends LdapEntityHandler
         return returnValue;
     }
 
+    /**
+     * Process the field as a foreign aggregate for binding, generates a JNDI
+     * Attribute for it, and stores it in the list of JNDI Attributes
+     *
+     * @param field          the field being processed
+     * @param aggClass       the aggregate class as defined by {@link
+     *                       LdapAttribute#aggregateClass()}
+     * @param dnReference    the "properly" formatted dn, with bind parameter,
+     *                       as returned by the {@link LdapAttribute#referencedDNMethod()}
+     *                       method
+     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
+     *                       processed
+     *
+     * @return always null, as we are not attempting to write to the instance,
+     *         we're binding to LDAP using the instance values.
+     */
     @Override
     protected Object processForeignAggregate(final Field field,
         final Class<?> aggClass,
@@ -144,6 +170,19 @@ public class LdapEntityBinder extends LdapEntityHandler
         return returnValue;
     }
 
+    /**
+     * Process the field as a local aggregate for binding, generates a JNDI
+     * Attribute for it, and stores it in the list of JNDI Attributes
+     *
+     * @param field          the field being processed
+     * @param aggClass       the aggregate class as defined by {@link
+     *                       LdapAttribute#aggregateClass()}
+     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
+     *                       processed
+     *
+     * @return always null, as we are not attempting to write to the instance,
+     *         we're binding to LDAP using the instance values.
+     */
     @Override
     protected Object processLocalAggregate(final Field field,
         final Class<?> aggClass, final LdapAttribute attrAnnotation)
@@ -157,7 +196,8 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     /**
-     * Only calls {@link LdapEntityLoader#validateDN(Class, Field)}
+     * Only calls {@link LdapEntityLoader#validateDN(Class, Field)}, and then
+     * retrieves the dn for return thruogh the {@link #getDn()} method.
      */
     @SuppressWarnings({"RefusedBequest"})
     @Override
@@ -170,6 +210,9 @@ public class LdapEntityBinder extends LdapEntityHandler
         field.setAccessible(false);
     }
 
+    /**
+     * grabs the object classes from the {@link LdapEntity#requiredObjectClasses()}
+     */
     @SuppressWarnings({"RefusedBequest"})
     @Override
     protected boolean preProcessAnnotation(final LdapEntity annotation,

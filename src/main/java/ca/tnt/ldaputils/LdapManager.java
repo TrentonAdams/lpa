@@ -94,6 +94,7 @@ public class LdapManager
      * Initializes internal data store parameters.  Namely loads the
      * ldap.properties file from the classpath.
      */
+    @SuppressWarnings({"CatchGenericClass"})
     public LdapManager()
     {
         try
