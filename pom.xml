@@ -216,7 +216,7 @@ See the COPYING file, in the <a href="https://github.com/TrentonAdams/lpa">git r
     <repository>
       <id>sonatype-nexus-staging</id>
       <name>sonatype nexus staging</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
     <snapshotRepository>
       <id>sonatype-nexus-snapshots</id>
