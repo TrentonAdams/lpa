@@ -260,6 +260,9 @@ See the COPYING file, in the <a href="https://github.com/TrentonAdams/lpa">git r
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
             <version>1.1</version>
+            <configuration>
+              <keyname>96EDB6DB</keyname>
+            </configuration>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
