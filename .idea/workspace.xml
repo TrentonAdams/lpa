@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="be6f29de-fdbb-4b6d-9e4f-c767f47181e2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-    </list>
+    <list default="true" id="be6f29de-fdbb-4b6d-9e4f-c767f47181e2" name="Default" comment="" />
     <ignored path="ldaputil.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -80,7 +78,7 @@
               <file leaf-file-name="pom.xml" pinned="false" current="true" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/pom.xml">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="200" column="19" selection-start="6043" selection-end="6043" vertical-scroll-proportion="0.40789473">
+                    <state line="230" column="58" selection-start="6865" selection-end="6865" vertical-scroll-proportion="4.513158">
                       <folding />
                     </state>
                   </provider>
@@ -920,7 +918,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="200" column="19" selection-start="6043" selection-end="6043" vertical-scroll-proportion="0.40789473">
+        <state line="230" column="58" selection-start="6865" selection-end="6865" vertical-scroll-proportion="4.513158">
           <folding />
         </state>
       </provider>
