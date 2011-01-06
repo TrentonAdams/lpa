@@ -50,8 +50,7 @@ See the COPYING file for more information.
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.6.1</version>
         <configuration>
-          <source>1.5</source>
-          <aggregate>true</aggregate>
+          <source>1.6</source>
           <doclet>gr.spinellis.umlgraph.doclet.UmlGraphDoc</doclet>
           <docletArtifact>
             <groupId>gr.spinellis</groupId>

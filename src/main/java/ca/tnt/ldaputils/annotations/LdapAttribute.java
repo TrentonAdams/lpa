@@ -20,6 +20,7 @@
  */
 package ca.tnt.ldaputils.annotations;
 
+import ca.tnt.ldaputils.ILabeledURI;
 import ca.tnt.ldaputils.ILdapOrganization;
 
 import javax.naming.directory.Attributes;
