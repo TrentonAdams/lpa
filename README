@@ -32,30 +32,19 @@ MINOR            - a minor issue to deal with, does not imply small
 TEST             - something that needs a test case
 DOC              - something that needs better documentation
 
-Currently, I'm not entirely sure how the build process works.  I do know
-that I did an "mvn install" on apacheds, by checking out
-http://svn.apache.org/repos/asf/directory/apacheds/tags/1.5.7.  The
-libraries don't tend to get up to any maven repos on the net, so you have to
-install it locally.  I do plan on eventually having the apacheds libraries
-pushed to the maven repos, by giving them to sonatype to deal with.
+I trust that all libraries that are needed can be resolved by maven.
 
-I trust that any other libraries that are needed can be resolved by maven, or
-the skill of the person attempting to build this project would come into play.
-As an example, oracle has enjoyed removing many libraries from public maven
-repos, even their own.  So, you may have to do some manual resolution by
-installing them in your local repo.
+So, let's try it out; copy and paste the following commands.
 
-Then, to run one of the tests, you would go...
-mvn -Ptest -Dtest=LdapOrganizationTest install
-mvn -Ptest -Dtest=AnnotationsTest install
-mvn -Ptest -Dtest=PersonTest install
+git clone git://github.com/TrentonAdams/lpa.git
+cd lpa
+mvn -Ptest install 
 
 Popular google searches to catch:
  - ldap persistence
  - ldap persistence api
  - java ldap api
  - java ldap api example
-
 
 ISSUES
 When submitted issues, please include an example ldap entry, or multiple entries,
