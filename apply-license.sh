@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#  This file is part of the Ldap Persistence API (LPA).
+#  This file is part of the LDAP Persistence API (LPA).
 #  
 #  Copyright Trenton D. Adams <lpa at trentonadams daught ca>
 #  
