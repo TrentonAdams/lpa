@@ -541,6 +541,10 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
     @Override
     public void noAnnotation(final Class annotatedClass)
     {
+        // is this type of comparison technically correct?  I'm not sure
+        // how the class loader works, and whether it is always the case that
+        // a single Class instance is loaded or not.  If only one instance is
+        // loaded, this is certainly the fastest way of comparing them.
         if (annotatedClass == entity.getClass())
         {   // top level class required to be annotated.
             throw new IllegalArgumentException(

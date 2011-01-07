@@ -23,6 +23,7 @@ package ca.tnt.ldaputils.annotations.processing;
 import ca.tnt.ldaputils.LdapManager;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
 
 /**
  * Annotation callback handler.  Implement this when you want to process
@@ -80,8 +81,12 @@ public interface IAnnotationHandler
     Class getAnnotatedClass();
 
     /**
-     * This is the primary Class annotation that this handler expects to be on
-     * the Class, indicating it supports the Class being processed.
+     * This is the primary Annotation (with target {@link ElementType#TYPE})
+     * that this handler expects the annotated Class to be annotated with. If
+     * the annotated class is annotated with this annotation, this indicates
+     * that this handler supports the Class being processed.  If this handler
+     * does not support the Class being processed, the handler will never be
+     * called.
      *
      * @return the annotation class that this handler supports
      */
