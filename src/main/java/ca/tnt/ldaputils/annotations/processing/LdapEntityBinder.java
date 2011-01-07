@@ -23,8 +23,10 @@ package ca.tnt.ldaputils.annotations.processing;
 import ca.tnt.ldaputils.LdapManager;
 import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.annotations.LdapEntity;
+import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
 
+import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
@@ -145,15 +147,6 @@ public class LdapEntityBinder extends LdapEntityHandler
      * Process the field as a foreign aggregate for binding, generates a JNDI
      * Attribute for it, and stores it in the list of JNDI Attributes
      *
-     * @param field          the field being processed
-     * @param aggClass       the aggregate class as defined by {@link
-     *                       LdapAttribute#aggregateClass()}
-     * @param dnReference    the "properly" formatted dn, with bind parameter,
-     *                       as returned by the {@link LdapAttribute#referencedDNMethod()}
-     *                       method
-     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
-     *                       processed
-     *
      * @return always null, as we are not attempting to write to the instance,
      *         we're binding to LDAP using the instance values.
      */
@@ -174,30 +167,36 @@ public class LdapEntityBinder extends LdapEntityHandler
      * Process the field as a local aggregate for binding, generates a JNDI
      * Attribute for it, and stores it in the list of JNDI Attributes
      *
-     * @param field          the field being processed
-     * @param aggClass       the aggregate class as defined by {@link
-     *                       LdapAttribute#aggregateClass()}
-     * @param attrAnnotation the {@link LdapAttribute} annotation instance being
-     *                       processed
-     *
      * @return always null, as we are not attempting to write to the instance,
      *         we're binding to LDAP using the instance values.
      */
     @Override
     protected Object processLocalAggregate(final Field field,
         final Class<?> aggClass, final LdapAttribute attrAnnotation)
-        throws IllegalAccessException, InstantiationException
+        throws IllegalAccessException, InstantiationException, NamingException
     {
-        final Object returnValue = null;    // always null, we're reading
-        System.out.println(
-            "attribute local aggregate field: " + field.getName() + ": " +
-                field.get(entity));
-        return returnValue;
+        final Object fieldValue = null;
+
+        final AnnotationProcessor annotationProcessor =
+            new AnnotationProcessor();
+        final LdapEntityBinder entityBinder;
+        entityBinder = new LdapEntityBinder(field.get(entity));
+        entityBinder.setManager(manager);
+        annotationProcessor.addHandler(entityBinder);
+        annotationProcessor.processAnnotations();
+
+        final Attributes aggAttributes = entityBinder.getAttributes();
+        final NamingEnumeration attrEnum = aggAttributes.getAll();
+        while (attrEnum.hasMore())
+        {
+            attributes.put((Attribute) attrEnum.next());
+        }
+        return fieldValue;
     }
 
     /**
      * Only calls {@link LdapEntityLoader#validateDN(Class, Field)}, and then
-     * retrieves the dn for return thruogh the {@link #getDn()} method.
+     * stores the dn for return through the {@link #getDn()} method.
      */
     @SuppressWarnings({"RefusedBequest"})
     @Override
@@ -212,6 +211,8 @@ public class LdapEntityBinder extends LdapEntityHandler
 
     /**
      * grabs the object classes from the {@link LdapEntity#requiredObjectClasses()}
+     * annotation field, and puts them in an {@link Attribute}, and stores them
+     * for return from {@link #getAttributes()}
      */
     @SuppressWarnings({"RefusedBequest"})
     @Override

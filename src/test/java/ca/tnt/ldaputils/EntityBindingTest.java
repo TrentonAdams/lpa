@@ -21,6 +21,7 @@
 package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.impl.LdapOrganization;
+import ca.tnt.ldaputils.ldapimpl.LdapAggregation;
 import junit.framework.Assert;
 import org.apache.directory.server.annotations.CreateLdapServer;
 import org.apache.directory.server.annotations.CreateTransport;
@@ -82,7 +83,7 @@ public class EntityBindingTest extends AbstractLdapTestUnit
     }
 
     @Test
-    public void testBind() throws InvalidNameException
+    public void testOrganizationBind() throws InvalidNameException
     {
         final LdapName ldapName = new LdapName(
             "o=New Organization,ou=businesses,dc=example,dc=com");
@@ -110,4 +111,37 @@ public class EntityBindingTest extends AbstractLdapTestUnit
         Assert.assertEquals("postal", organization.getPostalCode(),
             organization2.getPostalCode());
     }
+
+    @Test
+    public void testAggregateOrganizationBind() throws InvalidNameException
+    {
+        final LdapName ldapName = new LdapName(
+            "o=New Organization2,ou=businesses,dc=example,dc=com");
+
+        final ILdapOrganization organization = new LdapAggregation();
+        organization.setDn(ldapName);
+        organization.setOrganization("New Organization2", 0);
+        organization.setLocality("Some Town", 0);
+        organization.setTelephoneNumber("(123) 555-5555", 0);
+        organization.setStreet("123 Ldap Way", 0);
+        organization.setPostalCode("A1A 2B2", 0);
+        manager.bind(organization);
+
+        // just for kicks, we'll load it back as LdapOrganization rather than
+        // LdapAggregation(), and it should be the same result.
+        final ILdapOrganization organization2 =
+            (ILdapOrganization) manager.find(LdapOrganization.class, ldapName);
+        Assert.assertEquals("dn", organization.getDn(), organization2.getDn());
+        Assert.assertEquals("organization", organization.getOrganization(),
+            organization2.getOrganization());
+        Assert.assertEquals("locality", organization.getLocality(),
+            organization2.getLocality());
+        Assert.assertEquals("telephone", organization.getTelephoneNumber(),
+            organization2.getTelephoneNumber());
+        Assert.assertEquals("street", organization.getStreet(),
+            organization2.getStreet());
+        Assert.assertEquals("postal", organization.getPostalCode(),
+            organization2.getPostalCode());
+    }
+
 }

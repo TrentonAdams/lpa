@@ -286,7 +286,7 @@ public class LdapEntityLoader extends LdapEntityHandler
     @Override
     protected Object processLocalAggregate(final Field field,
         final Class<?> aggClass, final LdapAttribute attrAnnotation)
-        throws IllegalAccessException, InstantiationException
+        throws IllegalAccessException, InstantiationException, NamingException
     {
         final Object fieldValue;
         fieldValue = aggClass.newInstance();

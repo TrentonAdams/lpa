@@ -172,7 +172,6 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * something special before anything is processed.  We implement the default
      * here, which is to return true.
      *
-     *
      * @param annotation     the annotation being processed
      * @param annotatedClass the annotated class with the annotation
      *
@@ -476,11 +475,6 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         // request to inject an LdapEntity from another LDAP entry
         // or use the existing ldap entry to grab Auxiliary attributes
 
-        // CRITICAL finish refactoring this if needed.  We might want to process
-        // local aggregates and foreign aggregates in subclasses.  So, this
-        // processAggregate() might be best served as a concrete implementation
-        // in LdapeEntityHandler
-
         // local aggregates are loaded from the current ldap entry
         final String referenceDNMethod = attrAnnotation.referencedDNMethod();
         final boolean isLocalAggregate = "".equals(referenceDNMethod);
@@ -558,7 +552,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
 
     /**
      * Called to process a foreign aggregate.  It's up to the subclass to do
-     * what it likes.
+     * what it likes.  Returning null indicates the subclass does not want
+     * anything stored in the {@link LdapEntity} annotated instance, but is
+     * instead reading from the instance.
      * <p/>
      * Tip on implementing: aggregates are stored in one of two ways. <ol> <li>
      * directly into an aggregate object, if you know that it's a single valued
@@ -579,7 +575,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param attrAnnotation the {@link LdapAttribute} annotation instance being
      *                       processed
      *
-     * @return the new aggregate instance, or collection of aggregate instances
+     * @return the new aggregate instance, or collection of aggregate instances;
+     *         subclasses may also return null
      *
      * @throws NamingException        general JNDI exception wrapper for any
      *                                errors that occur in the directory
@@ -592,7 +589,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         throws NamingException, IllegalAccessException;
 
     /**
-     * Do what you need to for the local aggregate.
+     * Do what you need to for the local aggregate. Returning null indicates the
+     * subclass does not want anything stored in the {@link LdapEntity}
+     * annotated instance, but is instead reading from the instance.
      * <p/>
      * A local aggregate is an aggregate object which will be injected into the
      * object field, which has requested it via {@link LdapAttribute#aggregateClass()},
@@ -606,14 +605,17 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param attrAnnotation the {@link LdapAttribute} annotation instance being
      *                       processed
      *
-     * @return the new fieldValue if one is needed
+     * @return the new fieldValue if one is needed; subclasses may also return
+     *         null
      *
      * @throws IllegalAccessException if java policies prevent access to fields
      *                                via reflection
      * @throws InstantiationException if an error occurs creating an aggregate
      *                                instance
+     * @throws NamingException        general JNDI exception wrapper for any
+     *                                errors that occur in the directory
      */
     protected abstract Object processLocalAggregate(Field field,
         Class<?> aggClass, LdapAttribute attrAnnotation)
-        throws IllegalAccessException, InstantiationException;
+        throws IllegalAccessException, InstantiationException, NamingException;
 }
