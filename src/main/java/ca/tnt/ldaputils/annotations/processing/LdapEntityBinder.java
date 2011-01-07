@@ -146,6 +146,9 @@ public class LdapEntityBinder extends LdapEntityHandler
     /**
      * Process the field as a foreign aggregate for binding, generates a JNDI
      * Attribute for it, and stores it in the list of JNDI Attributes
+     * <p/>
+     * CRITICAL binding annotation processing of aggregates
+     * https://github.com/TrentonAdams/lpa/issues/issue/10
      *
      * @return always null, as we are not attempting to write to the instance,
      *         we're binding to LDAP using the instance values.
@@ -161,11 +164,7 @@ public class LdapEntityBinder extends LdapEntityHandler
             "attribute foreign aggregate field: " + field.getName() + ": " +
                 field.get(entity));
 
-        // CRITICAL the only way I can see of allowing binding of foreign
-        // aggregates, during the binding of the main ldap entry, is to tightly
-        // couple LdapManager with this class, in such a way that we call an
-        // LdapManager.bind(Attributes attributes) method, and then continue
-        // processing the aggregate.
+
         return returnValue;
     }
 
