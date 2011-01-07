@@ -160,6 +160,12 @@ public class LdapEntityBinder extends LdapEntityHandler
         System.out.println(
             "attribute foreign aggregate field: " + field.getName() + ": " +
                 field.get(entity));
+
+        // CRITICAL the only way I can see of allowing binding of foreign
+        // aggregates, during the binding of the main ldap entry, is to tightly
+        // couple LdapManager with this class, in such a way that we call an
+        // LdapManager.bind(Attributes attributes) method, and then continue
+        // processing the aggregate.
         return returnValue;
     }
 

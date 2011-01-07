@@ -582,56 +582,6 @@ public class LdapManager
     }
 
     /**
-     * Creates an instance of the given ldap object type, using the passed in
-     * attributes.
-     *
-     * @param attributes the attributes for the LDAP object
-     * @param type       the type of the object, defined in the LDAPObject
-     *                   interface
-     *
-     * @return the new object, or null if the type passed is invalid
-     *
-     * @throws NamingException if any errors occuring during object
-     *                                      construction, related to jndi
-     * @throws ObjectClassNotSupportedException
-     *                                      if the objectClass attribute does
-     *                                      not exist or does not contain the
-     *                                      appropriate values for the given
-     *                                      object type
-     */
-/*    public static LDAPObject createInstance(Map attributes, int type)
-        throws NamingException
-    {
-        LDAPObject newObject;
-
-        logger.debug("attributes:" + attributes);
-        switch (type)
-        {
-            case LDAP_GROUP:
-                logger.debug("creating LDAP_GROUP");
-                newObject = new LDAPGroupImpl(attributes);
-                break;
-            case LDAP_ORGANIZATION:
-                logger.debug("creating LDAP_ORGANIZATION");
-                newObject = new LDAPOrganizationImpl(attributes);
-                break;
-            case LDAP_TNT_BUSINESS:
-                logger.debug("creating LDAP_TNT_BUSINESS");
-                newObject = new LDAPTNTBusinessImpl(attributes);
-                break;
-            case LDAP_OBJECT:
-                logger.debug("creating LDAP_OBJECT");
-                newObject = new LDAPObjectImpl(attributes);
-                break;
-            default:
-                throw new ObjectClassNotSupportedException("invalid object " +
-                    "type: " + type);
-        }
-
-        return newObject;
-    }*/
-
-    /**
      * Hopefully provides an example of how to use all the basic features of the
      * LDAP objects framework.
      *
@@ -807,13 +757,14 @@ public class LdapManager
 
 
     /**
-     * CRITICAL object class handling https://github.com/TrentonAdams/lpa/issues/issue/3
+     * Binds the {@link LdapEntity} annotated object to ldap, with all of it's
+     * attributes.
      * <p/>
      * CRITICAL binding annotation processor https://github.com/TrentonAdams/lpa/issues/4
      * <p/>
      * CRITICAL updating annotation processor https://github.com/TrentonAdams/lpa/issues/5
      *
-     * @param ldapEntry
+     * @param ldapEntry {@link LdapEntity} annotated object
      */
     public void bind(final Object ldapEntry)
     {
