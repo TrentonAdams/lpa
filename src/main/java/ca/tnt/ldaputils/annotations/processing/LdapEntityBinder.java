@@ -49,6 +49,11 @@ public class LdapEntityBinder extends LdapEntityHandler
 {
     private LdapName dn;
 
+    private Attributes attributes;
+
+    private List<Attributes> attributesList;
+    private List<LdapName> dnList;
+
     /**
      * Initializes the entity binder with the instance to be bound to ldap.
      *
@@ -59,9 +64,9 @@ public class LdapEntityBinder extends LdapEntityHandler
     {
         entity = entityInstance;
         attributes = new BasicAttributes();
+        attributesList = new ArrayList<Attributes>(10);
+        dnList = new ArrayList<LdapName>(10);
     }
-
-    private Attributes attributes;
 
     /**
      * Does nothing, and does not call the super, as the entity binder does not
@@ -169,8 +174,12 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     /**
-     * Process the field as a local aggregate for binding, generates a JNDI
-     * Attribute for it, and stores it in the list of JNDI Attributes
+     * Process the field as a local aggregate for binding, generates a series of
+     * JNDI Attribute for it, and stores them in the list of JNDI Attributes.
+     * <p/>
+     * Developer Note: Attributes of a local aggregate are to be part of the
+     * main entry.  So, we simply copy them into the Attributes.  Local
+     * aggregates are not allowed to have foreign aggregates inside of them.
      *
      * @return always null, as we are not attempting to write to the instance,
      *         we're binding to LDAP using the instance values.
@@ -190,12 +199,19 @@ public class LdapEntityBinder extends LdapEntityHandler
         annotationProcessor.addHandler(entityBinder);
         annotationProcessor.processAnnotations();
 
-        final Attributes aggAttributes = entityBinder.getAttributes();
-        final NamingEnumeration attrEnum = aggAttributes.getAll();
+        final List<Attributes> attrList = entityBinder.getAttributesList();
+        if (attrList.size() != 1)
+        {
+            throw new LdapNamingException(
+                "local aggregate attribute list invalid: " + attrList.size());
+        }
+        final Attributes localAttributes = attrList.get(0);
+        final NamingEnumeration attrEnum = localAttributes.getAll();
         while (attrEnum.hasMore())
         {
             attributes.put((Attribute) attrEnum.next());
         }
+
         return fieldValue;
     }
 
@@ -217,7 +233,7 @@ public class LdapEntityBinder extends LdapEntityHandler
     /**
      * grabs the object classes from the {@link LdapEntity#requiredObjectClasses()}
      * annotation field, and puts them in an {@link Attribute}, and stores them
-     * for return from {@link #getAttributes()}
+     * for return from {@link #getAttributesList()}
      */
     @SuppressWarnings({"RefusedBequest"})
     @Override
@@ -249,14 +265,50 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     /**
-     * Retrieve the processed attributes for Ldap.
+     * Retrieve the processed attributes for LDAP.
+     * <p/>
+     * <span style="color:red;">WARNING! WARNING! WARNING!</span> you may only
+     * call this method a SINGLE time. Once it has been called, the list of
+     * Attributes objects is immutable, and this method will throw an {@link
+     * UnsupportedOperationException}.
      *
      * @return the directory Attributes to be bound
+     *
+     * @throws UnsupportedOperationException if you call this method more than
+     *                                       once
      */
-    @SuppressWarnings({"PublicMethodNotExposedInInterface"})
-    public Attributes getAttributes()
+    @SuppressWarnings(
+        {"PublicMethodNotExposedInInterface", "ReturnOfCollectionOrArrayField"})
+    public List<Attributes> getAttributesList()
+        throws UnsupportedOperationException
     {
-        return attributes;
+        attributesList.add(0, attributes);
+        // list no longer modifiable
+        attributesList = Collections.unmodifiableList(attributesList);
+        return attributesList;
+    }
+
+    /**
+     * Get the list of DNs that match the list of Attributes returned by {@link
+     * #getAttributesList()}
+     * <p/>
+     * <span style="color:red;">WARNING! WARNING! WARNING!</span> you may only
+     * call this method a SINGLE time. Once it has been called, the list of DNs
+     * is immutable, and this method will throw an {@link
+     * UnsupportedOperationException}.
+     *
+     * @return the dn list
+     *
+     * @throws UnsupportedOperationException if you call this method more than
+     *                                       once
+     */
+    @SuppressWarnings(
+        {"PublicMethodNotExposedInInterface", "ReturnOfCollectionOrArrayField"})
+    public List<LdapName> getDnList()
+    {
+        dnList.add(0, dn);
+        dnList = Collections.unmodifiableList(dnList);
+        return dnList;
     }
 
     /**

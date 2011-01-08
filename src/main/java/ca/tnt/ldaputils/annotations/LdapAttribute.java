@@ -144,7 +144,7 @@ public @interface LdapAttribute
      * supported for the field type definition.
      * <p/>
      * There is no need for any of these types to be pre-initialized, as they
-     * will be replaced.
+     * will be replaced if they exist in LDAP.
      * <p/>
      * It is implied that when using a SortedSet, the LdapEntity annotated class
      * MUST also implement the {@link Comparable} interface.  If it does not
@@ -170,18 +170,23 @@ public @interface LdapAttribute
     ObjectClassType ocType() default ObjectClassType.AUXILIARY;
 
     /**
-     * The method in the parent object of the field, which returns the reference
-     * DN of the entry to load.  It must have a bind variable ('?') in it to
-     * designate the location to replace with the value of the ldap attribute
-     * defined by {@link #name()}. An LdapName will be constructed from this DN,
-     * and used as the location for the ldap aggregate we're loading.  If a '?'
-     * is not present, an LdapNamingException will be thrown indicating as
-     * much.
+     * If {@link #aggregateClass()} is used, this refers to the method in the
+     * same object as the field, which returns the reference DN of the entry to
+     * load.  Run on sentence, READY?  The string returned must have a bind
+     * variable ('?') in it, to designate the location to replace with the value
+     * of the LDAP attribute defined by {@link #name()}. An LdapName will be
+     * constructed from the resulting DN, and used as the location for the LDAP
+     * aggregate we're loading.  If a '?' is not present, an LdapNamingException
+     * will be thrown indicating as much.
      * <p/>
      * For example, you may have a DN of "cn=?,ou=bus-categories,dc=example,dc=com",
      * where '?' is replaced by the value of the attribute.  Perhaps you have a
-     * "businessCategory" attribute with "Hair Salons".  The final DN lookup for
-     * the aggregation would be "cn=Hair Salons,ou=bus-categories,..."
+     * "businessCategory" attribute set to "Hair Salons".  The final DN lookup
+     * for the aggregation would be "cn=Hair Salons,ou=bus-categories,..."
+     * <p/>
+     * In addition, an aggregate that has this set to the default value, is
+     * implicitly a local aggregate.  See the {@link LdapAttribute LdapAttribute
+     * class} documentation for more information.
      * <p/>
      * CRITICAL somehow take into account infinite recursion.  e.g. we may have
      * support for loading groups, from a certain attribute in an entry, like

@@ -25,7 +25,6 @@ import ca.tnt.ldaputils.annotations.processing.AnnotationProcessor;
 import ca.tnt.ldaputils.annotations.processing.LdapEntityBinder;
 import ca.tnt.ldaputils.annotations.processing.LdapEntityLoader;
 import ca.tnt.ldaputils.exception.LdapNamingException;
-import ca.tnt.ldaputils.exception.ObjectClassNotSupportedException;
 import ca.tnt.ldaputils.impl.LdapEntry;
 import org.apache.log4j.Logger;
 
@@ -771,6 +770,7 @@ public class LdapManager
         LdapContext ldapContext = null;
         try
         {
+             // accessing dn method should be fine, but must be done through reflect
             final AnnotationProcessor annotationProcessor =
                 new AnnotationProcessor();
             final LdapEntityBinder entityBinder = new LdapEntityBinder(
@@ -782,9 +782,15 @@ public class LdapManager
                 System.out.println("annotation processing failed");
             }
             ldapContext = (LdapContext) getConnection();
-            // accessing dn method should be fine, but must be done through reflect
-            ldapContext.bind(entityBinder.getDn(), null,
-                entityBinder.getAttributes());
+            final List<Attributes> attributesList =
+                entityBinder.getAttributesList();
+            final List<LdapName> dnList = entityBinder.getDnList();
+            for (int index = 0; index < attributesList.size(); index++)
+            {
+                final LdapName dn = dnList.get(index);
+                final Attributes attributes = attributesList.get(index);
+                ldapContext.bind(dn, null, attributes);
+            }
         }
         catch (NamingException e)
         {
