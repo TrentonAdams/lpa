@@ -236,7 +236,8 @@ public class LdapEntityBinder extends LdapEntityHandler
      */
     private void processForeignAggregate(final Object aggregateInstance)
     {
-/*        if (aggregateInstance != null)
+/*
+        if (aggregateInstance != null)
         {
             final AnnotationProcessor annotationProcessor =
                 new AnnotationProcessor();
