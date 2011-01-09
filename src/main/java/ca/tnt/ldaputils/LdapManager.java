@@ -759,8 +759,6 @@ public class LdapManager
      * Binds the {@link LdapEntity} annotated object to ldap, with all of it's
      * attributes.
      * <p/>
-     * CRITICAL binding annotation processor https://github.com/TrentonAdams/lpa/issues/4
-     * <p/>
      * CRITICAL updating annotation processor https://github.com/TrentonAdams/lpa/issues/5
      *
      * @param ldapEntry {@link LdapEntity} annotated object
