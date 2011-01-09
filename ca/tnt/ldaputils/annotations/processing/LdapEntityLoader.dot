@@ -44,15 +44,15 @@ digraph G {
 	c854:p -> c853:p [dir=back,arrowtail=empty];
 	// ca.tnt.ldaputils.annotations.processing.LdapEntityHandler NAVASSOC ca.tnt.ldaputils.LdapManager
 	c854:p -> c837:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
-	// ca.tnt.ldaputils.annotations.processing.LdapEntityLoader DEPEND ca.tnt.ldaputils.annotations.LdapEntity
-	c853:p -> c850:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
-	// ca.tnt.ldaputils.annotations.processing.LdapEntityLoader DEPEND ca.tnt.ldaputils.LdapManager
-	c853:p -> c837:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// ca.tnt.ldaputils.annotations.processing.LdapEntityLoader DEPEND ca.tnt.ldaputils.annotations.LdapAttribute
 	c853:p -> c848:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
-	// ca.tnt.ldaputils.annotations.processing.LdapEntityHandler DEPEND ca.tnt.ldaputils.annotations.LdapEntity
-	c854:p -> c850:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityLoader DEPEND ca.tnt.ldaputils.LdapManager
+	c853:p -> c837:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityLoader DEPEND ca.tnt.ldaputils.annotations.LdapEntity
+	c853:p -> c850:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 	// ca.tnt.ldaputils.annotations.processing.LdapEntityHandler DEPEND ca.tnt.ldaputils.annotations.LdapAttribute
 	c854:p -> c848:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityHandler DEPEND ca.tnt.ldaputils.annotations.LdapEntity
+	c854:p -> c850:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 }
 
