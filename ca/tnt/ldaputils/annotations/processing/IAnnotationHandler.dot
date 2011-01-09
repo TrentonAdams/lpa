@@ -7,28 +7,39 @@
 digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
+	// ca.tnt.ldaputils.LdapManager
+	c921 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../../LdapManager.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> LdapManager </td></tr>
+			<tr><td><font point-size="7.0"> ca.tnt.ldaputils </font></td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.annotations.processing.AnnotationProcessor
+	c936 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnnotationProcessor.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> AnnotationProcessor </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityHandler
+	c938 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapEntityHandler.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td><font face="Helvetica-Oblique"> LdapEntityHandler </font></td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.annotations.processing.IAnnotationHandler
-	c714 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IAnnotationHandler.html">
+	c940 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./IAnnotationHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> IAnnotationHandler </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.annotations.processing.AnnotationProcessor
-	c715 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./AnnotationProcessor.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> AnnotationProcessor </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.annotations.processing.LdapEntityLoader
-	c716 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapEntityLoader.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> LdapEntityLoader </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	//ca.tnt.ldaputils.annotations.processing.LdapEntityLoader implements ca.tnt.ldaputils.annotations.processing.IAnnotationHandler
-	c714:p -> c716:p [dir=back,arrowtail=empty,style=dashed];
+	//ca.tnt.ldaputils.annotations.processing.LdapEntityHandler implements ca.tnt.ldaputils.annotations.processing.IAnnotationHandler
+	c940:p -> c938:p [dir=back,arrowtail=empty,style=dashed];
 	// ca.tnt.ldaputils.annotations.processing.AnnotationProcessor NAVASSOC ca.tnt.ldaputils.annotations.processing.IAnnotationHandler
-	c715:p -> c714:p [taillabel="", label="", headlabel="*", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	c936:p -> c940:p [taillabel="", label="", headlabel="*", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityHandler NAVASSOC ca.tnt.ldaputils.LdapManager
+	c938:p -> c921:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open];
+	// ca.tnt.ldaputils.annotations.processing.IAnnotationHandler DEPEND ca.tnt.ldaputils.LdapManager
+	c940:p -> c921:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 }
 

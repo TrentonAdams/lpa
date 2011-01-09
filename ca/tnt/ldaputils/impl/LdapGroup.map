@@ -1,7 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" href="./LdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="173,17,245,41"/>
-<area shape="rect" href="./LdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="16,113,131,137"/>
-<area shape="rect" href="./LdapGroup.html" title="&lt;TABLE&gt;" alt="" coords="101,209,181,233"/>
-<area shape="rect" href="../ILdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="199,299,276,349"/>
-<area shape="rect" href="../ILdapGroup.html" title="&lt;TABLE&gt;" alt="" coords="151,408,233,459"/>
+<area shape="rect" href="./LdapGroup.html" title="&lt;TABLE&gt;" alt="" coords="48,17,128,41"/>
+<area shape="rect" href="../ILdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="49,107,127,157"/>
+<area shape="rect" href="./LdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="16,229,88,253"/>
+<area shape="rect" href="../ILdapGroup.html" title="&lt;TABLE&gt;" alt="" coords="133,216,216,267"/>
 </map>

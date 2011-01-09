@@ -7,83 +7,83 @@
 digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
-	// ca.tnt.ldaputils.impl.LdapEntry
-	c344 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./impl/LdapEntry.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> LdapEntry </td></tr>
-			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.impl </font></td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.impl.LDAPEntryImpl
-	c345 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./impl/LDAPEntryImpl.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> LDAPEntryImpl </td></tr>
-			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.impl </font></td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.impl.LdapGroup
-	c347 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./impl/LdapGroup.html">
+	c327 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./impl/LdapGroup.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> LdapGroup </td></tr>
 			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.impl </font></td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.ILdapOrganization
-	c348 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapOrganization.html">
+	// ca.tnt.ldaputils.impl.LDAPEntryImpl
+	c328 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./impl/LDAPEntryImpl.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> &laquo;interface&raquo; </td></tr>
-			<tr><td> ILdapOrganization </td></tr>
+			<tr><td> LDAPEntryImpl </td></tr>
+			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.impl </font></td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	// ca.tnt.ldaputils.ILdapGroup
-	c349 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapGroup.html">
+	// ca.tnt.ldaputils.impl.LdapEntry
+	c330 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./impl/LdapEntry.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> &laquo;interface&raquo; </td></tr>
-			<tr><td> ILdapGroup </td></tr>
+			<tr><td> LdapEntry </td></tr>
+			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.impl </font></td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapEntry
-	c350 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ILdapEntry.html">
+	c331 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ILdapEntry.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapEntry </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.ILdapOrganization
+	c334 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapOrganization.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> &laquo;interface&raquo; </td></tr>
+			<tr><td> ILdapOrganization </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapPerson
-	c351 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapPerson.html">
+	c336 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapPerson.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapPerson </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapInetOrgPerson
-	c353 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapInetOrgPerson.html">
+	c337 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapInetOrgPerson.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapInetOrgPerson </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
-	//ca.tnt.ldaputils.impl.LdapEntry implements ca.tnt.ldaputils.ILdapEntry
-	c350:p -> c344:p [dir=back,arrowtail=empty,style=dashed];
-	//ca.tnt.ldaputils.impl.LDAPEntryImpl implements ca.tnt.ldaputils.ILdapEntry
-	c350:p -> c345:p [dir=back,arrowtail=empty,style=dashed];
+	// ca.tnt.ldaputils.ILdapGroup
+	c338 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapGroup.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> &laquo;interface&raquo; </td></tr>
+			<tr><td> ILdapGroup </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	//ca.tnt.ldaputils.impl.LdapGroup extends ca.tnt.ldaputils.impl.LdapEntry
-	c344:p -> c347:p [dir=back,arrowtail=empty];
+	c330:p -> c327:p [dir=back,arrowtail=empty];
 	//ca.tnt.ldaputils.impl.LdapGroup implements ca.tnt.ldaputils.ILdapGroup
-	c349:p -> c347:p [dir=back,arrowtail=empty,style=dashed];
+	c338:p -> c327:p [dir=back,arrowtail=empty,style=dashed];
+	//ca.tnt.ldaputils.impl.LDAPEntryImpl implements ca.tnt.ldaputils.ILdapEntry
+	c331:p -> c328:p [dir=back,arrowtail=empty,style=dashed];
+	//ca.tnt.ldaputils.impl.LdapEntry implements ca.tnt.ldaputils.ILdapEntry
+	c331:p -> c330:p [dir=back,arrowtail=empty,style=dashed];
 	//ca.tnt.ldaputils.ILdapOrganization implements ca.tnt.ldaputils.ILdapEntry
-	c350:p -> c348:p [dir=back,arrowtail=empty,style=dashed];
-	//ca.tnt.ldaputils.ILdapGroup implements ca.tnt.ldaputils.ILdapEntry
-	c350:p -> c349:p [dir=back,arrowtail=empty,style=dashed];
+	c331:p -> c334:p [dir=back,arrowtail=empty,style=dashed];
 	//ca.tnt.ldaputils.ILdapPerson implements ca.tnt.ldaputils.ILdapEntry
-	c350:p -> c351:p [dir=back,arrowtail=empty,style=dashed];
+	c331:p -> c336:p [dir=back,arrowtail=empty,style=dashed];
 	//ca.tnt.ldaputils.ILdapInetOrgPerson implements ca.tnt.ldaputils.ILdapEntry
-	c350:p -> c353:p [dir=back,arrowtail=empty,style=dashed];
-	// ca.tnt.ldaputils.impl.LdapEntry DEPEND ca.tnt.ldaputils.ILdapEntry
-	c344:p -> c350:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
-	// ca.tnt.ldaputils.impl.LDAPEntryImpl DEPEND ca.tnt.ldaputils.ILdapEntry
-	c345:p -> c350:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c331:p -> c337:p [dir=back,arrowtail=empty,style=dashed];
+	//ca.tnt.ldaputils.ILdapGroup implements ca.tnt.ldaputils.ILdapEntry
+	c331:p -> c338:p [dir=back,arrowtail=empty,style=dashed];
 	// ca.tnt.ldaputils.impl.LdapGroup DEPEND ca.tnt.ldaputils.ILdapEntry
-	c347:p -> c350:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	c327:p -> c331:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// ca.tnt.ldaputils.impl.LDAPEntryImpl DEPEND ca.tnt.ldaputils.ILdapEntry
+	c328:p -> c331:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// ca.tnt.ldaputils.impl.LdapEntry DEPEND ca.tnt.ldaputils.ILdapEntry
+	c330:p -> c331:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 }
 

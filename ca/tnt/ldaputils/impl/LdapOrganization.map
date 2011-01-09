@@ -1,8 +1,8 @@
 <map id="G" name="G">
-<area shape="rect" href="./LdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="355,24,427,48"/>
-<area shape="rect" href="./LdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="187,127,301,151"/>
-<area shape="rect" href="./LdapGroup.html" title="&lt;TABLE&gt;" alt="" coords="351,223,431,247"/>
-<area shape="rect" href="../proprietary/LdapBusiness.html" title="&lt;TABLE&gt;" alt="" coords="180,217,305,252"/>
-<area shape="rect" href="../ILdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="16,11,133,61"/>
-<area shape="rect" href="../annotations/TypeHandler.html" title="&lt;TABLE&gt;" alt="" coords="179,11,309,61"/>
+<area shape="rect" href="./LdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="135,127,249,151"/>
+<area shape="rect" href="../ILdapGroup.html" title="&lt;TABLE&gt;" alt="" coords="76,216,159,267"/>
+<area shape="rect" href="../proprietary/LdapBusiness.html" title="&lt;TABLE&gt;" alt="" coords="204,224,329,259"/>
+<area shape="rect" href="./LdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="16,24,88,48"/>
+<area shape="rect" href="../ILdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="133,11,251,61"/>
+<area shape="rect" href="../annotations/TypeHandler.html" title="&lt;TABLE&gt;" alt="" coords="296,11,427,61"/>
 </map>

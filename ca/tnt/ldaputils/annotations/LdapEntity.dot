@@ -8,10 +8,41 @@ digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	// ca.tnt.ldaputils.annotations.LdapEntity
-	c662 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LdapEntity.html">
+	c766 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./LdapEntity.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td><font face="Helvetica-Oblique"> LdapEntity </font></td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityLoader
+	c769 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./processing/LdapEntityLoader.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> LdapEntityLoader </td></tr>
+			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.annotations.processing </font></td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityHandler
+	c770 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./processing/LdapEntityHandler.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td><font face="Helvetica-Oblique"> LdapEntityHandler </font></td></tr>
+			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.annotations.processing </font></td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityBinder
+	c771 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./processing/LdapEntityBinder.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> LdapEntityBinder </td></tr>
+			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.annotations.processing </font></td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	//ca.tnt.ldaputils.annotations.processing.LdapEntityLoader extends ca.tnt.ldaputils.annotations.processing.LdapEntityHandler
+	c770:p -> c769:p [dir=back,arrowtail=empty];
+	//ca.tnt.ldaputils.annotations.processing.LdapEntityBinder extends ca.tnt.ldaputils.annotations.processing.LdapEntityHandler
+	c770:p -> c771:p [dir=back,arrowtail=empty];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityLoader DEPEND ca.tnt.ldaputils.annotations.LdapEntity
+	c769:p -> c766:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityHandler DEPEND ca.tnt.ldaputils.annotations.LdapEntity
+	c770:p -> c766:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
+	// ca.tnt.ldaputils.annotations.processing.LdapEntityBinder DEPEND ca.tnt.ldaputils.annotations.LdapEntity
+	c771:p -> c766:p [taillabel="", label="", headlabel="", fontname="Helvetica", fontcolor="black", fontsize=10.0, color="black", arrowhead=open, style=dashed];
 }
 

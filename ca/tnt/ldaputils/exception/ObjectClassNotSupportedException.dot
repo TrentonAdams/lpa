@@ -7,19 +7,19 @@
 digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
-	// ca.tnt.ldaputils.exception.LdapNamingException
-	c505 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapNamingException.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> LdapNamingException </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.exception.ObjectClassNotSupportedException
-	c506 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ObjectClassNotSupportedException.html">
+	c563 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ObjectClassNotSupportedException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> ObjectClassNotSupportedException </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.exception.LdapNamingException
+	c565 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapNamingException.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> LdapNamingException </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	//ca.tnt.ldaputils.exception.ObjectClassNotSupportedException extends ca.tnt.ldaputils.exception.LdapNamingException
-	c505:p -> c506:p [dir=back,arrowtail=empty];
+	c565:p -> c563:p [dir=back,arrowtail=empty];
 }
 

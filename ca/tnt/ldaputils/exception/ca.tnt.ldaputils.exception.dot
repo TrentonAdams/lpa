@@ -7,27 +7,27 @@
 digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
-	// ca.tnt.ldaputils.exception.LdapNamingException
-	c61 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapNamingException.html">
-		<tr><td><table border="0" cellspacing="0" cellpadding="1">
-			<tr><td> LdapNamingException </td></tr>
-		</table></td></tr>
-		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.exception.ObjectClassNotSupportedException
-	c62 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ObjectClassNotSupportedException.html">
+	c68 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ObjectClassNotSupportedException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> ObjectClassNotSupportedException </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.exception.LpaAnnotationException
-	c63 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LpaAnnotationException.html">
+	c69 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LpaAnnotationException.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> LpaAnnotationException </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
+	// ca.tnt.ldaputils.exception.LdapNamingException
+	c70 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./LdapNamingException.html">
+		<tr><td><table border="0" cellspacing="0" cellpadding="1">
+			<tr><td> LdapNamingException </td></tr>
+		</table></td></tr>
+		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	//ca.tnt.ldaputils.exception.ObjectClassNotSupportedException extends ca.tnt.ldaputils.exception.LdapNamingException
-	c61:p -> c62:p [dir=back,arrowtail=empty];
+	c70:p -> c68:p [dir=back,arrowtail=empty];
 	//ca.tnt.ldaputils.exception.LpaAnnotationException extends ca.tnt.ldaputils.exception.LdapNamingException
-	c61:p -> c63:p [dir=back,arrowtail=empty];
+	c70:p -> c69:p [dir=back,arrowtail=empty];
 }
 

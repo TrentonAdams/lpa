@@ -8,20 +8,20 @@ digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	// ca.tnt.ldaputils.ILdapEntry
-	c375 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapEntry.html">
+	c471 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="./ILdapEntry.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapEntry </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.ILdapPerson
-	c376 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ILdapPerson.html">
+	c476 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./ILdapPerson.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> ILdapPerson </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	//ca.tnt.ldaputils.ILdapPerson implements ca.tnt.ldaputils.ILdapEntry
-	c375:p -> c376:p [dir=back,arrowtail=empty,style=dashed];
+	c471:p -> c476:p [dir=back,arrowtail=empty,style=dashed];
 }
 

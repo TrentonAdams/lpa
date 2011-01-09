@@ -8,20 +8,20 @@ digraph G {
 	edge [fontname="Helvetica",fontsize=10,labelfontname="Helvetica",labelfontsize=10];
 	node [fontname="Helvetica",fontsize=10,shape=plaintext];
 	// ca.tnt.ldaputils.impl.LdapOrganization
-	c571 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../impl/LdapOrganization.html">
+	c665 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" href="../impl/LdapOrganization.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> LdapOrganization </td></tr>
 			<tr><td><font point-size="7.0"> ca.tnt.ldaputils.impl </font></td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	// ca.tnt.ldaputils.annotations.TypeHandler
-	c584 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TypeHandler.html">
+	c679 [label=<<table border="0" cellborder="1" cellspacing="0" cellpadding="2" port="p" bgcolor="lemonChiffon" href="./TypeHandler.html">
 		<tr><td><table border="0" cellspacing="0" cellpadding="1">
 			<tr><td> &laquo;interface&raquo; </td></tr>
 			<tr><td> TypeHandler </td></tr>
 		</table></td></tr>
 		</table>>, fontname="Helvetica", fontcolor="black", fontsize=9.0];
 	//ca.tnt.ldaputils.impl.LdapOrganization implements ca.tnt.ldaputils.annotations.TypeHandler
-	c584:p -> c571:p [dir=back,arrowtail=empty,style=dashed];
+	c679:p -> c665:p [dir=back,arrowtail=empty,style=dashed];
 }
 
