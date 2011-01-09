@@ -764,13 +764,19 @@ public class LdapManager
      * CRITICAL updating annotation processor https://github.com/TrentonAdams/lpa/issues/5
      *
      * @param ldapEntry {@link LdapEntity} annotated object
+     *
+     * @throws UnsupportedOperationException if there is some error in the code
+     *                                       that uses the recursive binding
+     *                                       functionality.  This shouldn't
+     *                                       happen, if it does, it's a bug, and
+     *                                       needs to be reported.
      */
     public void bind(final Object ldapEntry)
     {
         LdapContext ldapContext = null;
         try
         {
-             // accessing dn method should be fine, but must be done through reflect
+            // accessing dn method should be fine, but must be done through reflect
             final AnnotationProcessor annotationProcessor =
                 new AnnotationProcessor();
             final LdapEntityBinder entityBinder = new LdapEntityBinder(
@@ -779,12 +785,17 @@ public class LdapManager
             annotationProcessor.addHandler(entityBinder);
             if (!annotationProcessor.processAnnotations())
             {
-                System.out.println("annotation processing failed");
+                throw new LdapNamingException("annotation processing failed");
             }
             ldapContext = (LdapContext) getConnection();
             final List<Attributes> attributesList =
                 entityBinder.getAttributesList();
             final List<LdapName> dnList = entityBinder.getDnList();
+            if (attributesList.size() > 1)
+            {
+                throw new UnsupportedOperationException(
+                    "we do not yet support recursive binding");
+            }
             for (int index = 0; index < attributesList.size(); index++)
             {
                 final LdapName dn = dnList.get(index);
