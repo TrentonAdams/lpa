@@ -47,10 +47,9 @@ public interface TypeHandler
      * the object.  The data will then either be whatever your default
      * constructor sets it to, or null. YOUR PROBLEM, not ours. ;)
      *
-     *
-     * @param list      the data that we need to put into a Collection of some
-     *                  sort.
-     * @param refType   the type of the field
+     * @param list    the data that we need to put into a Collection of some
+     *                sort.
+     * @param refType the type of the field
      *
      * @return the new collection defined by classType
      */
@@ -65,6 +64,9 @@ public interface TypeHandler
      * <p/>
      * If you are using the aggregate functionality, you MUST convert the
      * attribute data back to it's original type, such as String.
+     * <p/>
+     * The implementation MUST return a non-null List, whether empty or not;
+     * otherwise the annotation processing will throw a NullPointerException
      *
      * @param classType the Class of the field that we're trying to handle.
      * @param refType   the type of the field
