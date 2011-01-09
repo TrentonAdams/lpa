@@ -117,7 +117,7 @@ public class LdapEntityLoader extends LdapEntityHandler
     protected Object processAttribute(final Field field,
         final LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException
-    {
+    {   // BEGIN processAttribute() - simple attribute processing
         // CRITICAL verify what happens if say an image were the
         // attribute value.  It seems like this probably wouldn't work.
         // Apparently sun's implementation only has String or byte array
@@ -163,15 +163,14 @@ public class LdapEntityLoader extends LdapEntityHandler
             }
         }
         return fieldValue;
-    }
+    }   // END processAttribute() - simple attribute processing
 
     @Override
     @SuppressWarnings(
         {"unchecked", "MethodWithMultipleReturnPoints", "ReturnOfNull"})
     protected Object processForeignAggregate(final Field field,
-        final Class<?> aggClass,
-        final String dnReference, final LdapAttribute attrAnnotation)
-        throws NamingException
+        final Class<?> aggClass, final String dnReference,
+        final LdapAttribute attrAnnotation) throws NamingException
     {
         final String attrName = attrAnnotation.name();
         final Attribute attr = attributes.get(attrName);

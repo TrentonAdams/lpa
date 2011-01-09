@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be6f29de-fdbb-4b6d-9e4f-c767f47181e2" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java" afterPath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java" afterPath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/TypeHandler.java" afterPath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/TypeHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityBinder.java" afterPath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityBinder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java" afterPath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/EntityBindingTest.java" afterPath="$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/EntityBindingTest.java" />
     </list>
     <ignored path="ldaputil.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,7 +61,24 @@
       </breakpoint>
     </breakpoint_any>
     <breakpoint_rules />
-    <ui_properties />
+    <ui_properties>
+      <property name="line_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_flattenPackages" value="true" />
+      <property name="method_breakpoints_flattenPackages" value="true" />
+      <property name="field_breakpoints_flattenPackages" value="true" />
+      <property name="exception_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_groupByClasses" value="true" />
+      <property name="method_breakpoints_viewId" value="TABLE" />
+      <property name="field_breakpoints_groupByMethods" value="false" />
+      <property name="line_breakpoints_flattenPackages" value="true" />
+      <property name="field_breakpoints_groupByClasses" value="true" />
+      <property name="method_breakpoints_groupByClasses" value="true" />
+      <property name="exception_breakpoints_viewId" value="TABLE" />
+      <property name="exception_breakpoints_groupByClasses" value="true" />
+      <property name="field_breakpoints_viewId" value="TABLE" />
+      <property name="method_breakpoints_groupByMethods" value="false" />
+    </ui_properties>
   </component>
   <component name="FavoritesManager">
     <favorites_list name="ldaputil" />
@@ -75,7 +92,7 @@
               <file leaf-file-name="LdapEntityLoader.java" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="267" column="66" selection-start="9922" selection-end="9922" vertical-scroll-proportion="0.013157895">
+                    <state line="201" column="44" selection-start="7564" selection-end="7564" vertical-scroll-proportion="0.17105263">
                       <folding />
                     </state>
                   </provider>
@@ -99,15 +116,6 @@
                   </provider>
                 </entry>
               </file>
-              <file leaf-file-name="LdapEntityHandler.java" pinned="false" current="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityHandler.java">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state line="595" column="35" selection-start="25259" selection-end="25259" vertical-scroll-proportion="0.0">
-                      <folding />
-                    </state>
-                  </provider>
-                </entry>
-              </file>
             </leaf>
           </split-first>
           <split-second>
@@ -115,7 +123,7 @@
               <file leaf-file-name="LdapOrganization.java" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="91" column="79" selection-start="3176" selection-end="3176" vertical-scroll-proportion="0.8015267">
+                    <state line="59" column="34" selection-start="2212" selection-end="2212" vertical-scroll-proportion="0.82951653">
                       <folding />
                     </state>
                   </provider>
@@ -129,37 +137,30 @@
         <splitter split-orientation="horizontal" split-proportion="0.5">
           <split-first>
             <leaf>
-              <file leaf-file-name="LdapEntityBinder.java" pinned="false" current="true" current-in-tab="true">
+              <file leaf-file-name="LdapEntityBinder.java" pinned="false" current="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityBinder.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="272" column="0" selection-start="9471" selection-end="9471" vertical-scroll-proportion="0.1958042">
-                      <folding />
+                    <state line="238" column="0" selection-start="8538" selection-end="8538" vertical-scroll-proportion="0.0">
+                      <folding>
+                        <element signature="imports" expanded="true" />
+                      </folding>
                     </state>
                   </provider>
                 </entry>
               </file>
-              <file leaf-file-name="IAnnotationHandler.java" pinned="false" current="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/IAnnotationHandler.java">
+              <file leaf-file-name="LdapOrganization.java" pinned="false" current="false" current-in-tab="false">
+                <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="106" column="17" selection-start="4162" selection-end="4162" vertical-scroll-proportion="0.0">
+                    <state line="296" column="21" selection-start="9198" selection-end="9198" vertical-scroll-proportion="0.0">
                       <folding />
                     </state>
                   </provider>
                 </entry>
               </file>
-              <file leaf-file-name="LdapEntityHandler.java" pinned="false" current="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityHandler.java">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state line="482" column="25" selection-start="20238" selection-end="20238" vertical-scroll-proportion="0.0">
-                      <folding />
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-              <file leaf-file-name="LdapManager.java" pinned="false" current="false" current-in-tab="false">
+              <file leaf-file-name="LdapManager.java" pinned="false" current="true" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="793" column="0" selection-start="29148" selection-end="29148" vertical-scroll-proportion="0.0">
+                    <state line="788" column="13" selection-start="29034" selection-end="29034" vertical-scroll-proportion="0.41958043">
                       <folding />
                     </state>
                   </provider>
@@ -169,19 +170,10 @@
           </split-first>
           <split-second>
             <leaf>
-              <file leaf-file-name="LdapOrganization.java" pinned="false" current="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state line="47" column="38" selection-start="1720" selection-end="1720" vertical-scroll-proportion="0.0">
-                      <folding />
-                    </state>
-                  </provider>
-                </entry>
-              </file>
               <file leaf-file-name="EntityBindingTest.java" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/EntityBindingTest.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="132" column="39" selection-start="5161" selection-end="5168" vertical-scroll-proportion="0.26573426">
+                    <state line="103" column="14" selection-start="3694" selection-end="3694" vertical-scroll-proportion="0.7202797">
                       <folding />
                     </state>
                   </provider>
@@ -223,7 +215,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/ldapimpl/LdapEntityNoDN.java" />
         <option value="$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/ldapimpl/LdapEntityBadDNMethod.java" />
         <option value="$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/ldapimpl/LdapAggregation.java" />
         <option value="$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/ldapimpl/AlternateAggregates.java" />
@@ -235,9 +226,10 @@
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapEntry.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/TypeHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java" />
       </list>
     </option>
@@ -289,7 +281,21 @@
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
-      <profile-state />
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id>Inspections</id>
+          </State>
+          <State>
+            <id>Probable bugs</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>ConstantConditions</id>
+          </State>
+        </selected-state>
+      </profile-state>
     </entry>
   </component>
   <component name="ProjectLevelVcsManager">
@@ -318,6 +324,8 @@
       <sortByType ProjectPane="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -336,10 +344,124 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputil.github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputil.github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputil.github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputil.github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ca" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tnt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputil.github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputil.github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="test" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ca" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tnt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldapimpl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputil.github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ldaputil.github" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="Favorites" />
     </panes>
   </component>
@@ -349,16 +471,16 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="recentsLimit" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="options.lastSelected" value="preferences.intentionPowerPack" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.searchVisible" value="true" />
-    <property name="dynamic.classpath" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -443,11 +565,14 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
+    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
+      <JSDebuggerConfigurationSettings>
+        <option name="engineId" value="embedded" />
+        <option name="fileUrl" />
+      </JSDebuggerConfigurationSettings>
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
-        <option name="FtpUpload" enabled="false" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -477,14 +602,11 @@
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
-    <configuration default="true" type="JavascriptDebugSession" factoryName="Local">
-      <JSDebuggerConfigurationSettings>
-        <option name="engineId" value="embedded" />
-        <option name="fileUrl" />
-      </JSDebuggerConfigurationSettings>
+    <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
+        <option name="FtpUpload" enabled="false" />
         <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
@@ -791,7 +913,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="24" width="1922" height="1037" extended-state="6" />
+    <frame x="0" y="24" width="1920" height="1032" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -804,7 +926,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17210048" sideWeight="0.6723164" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17210048" sideWeight="0.6" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -852,69 +974,28 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="30" selection-start="685" selection-end="685" vertical-scroll-proportion="0.57251906" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/exception/LdapNamingException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="11" selection-start="1190" selection-end="1190" vertical-scroll-proportion="0.33170733" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/exception/ObjectClassNotSupportedException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="38" selection-start="1009" selection-end="1009" vertical-scroll-proportion="0.5243902" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/ldapimpl/LdapAggregation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="50" selection-start="1665" selection-end="1665" vertical-scroll-proportion="-0.3846154" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="23" selection-start="1499" selection-end="1499" vertical-scroll-proportion="0.29512194" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="269" column="0" selection-start="8028" selection-end="8028" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/IAnnotationHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="17" selection-start="4162" selection-end="4162" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="482" column="25" selection-start="20238" selection-end="20238" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/EntityBindingTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="132" column="39" selection-start="5161" selection-end="5168" vertical-scroll-proportion="0.26573426">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/PersonTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="121" column="52" selection-start="4402" selection-end="4402" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/resources/add-person.ldif">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="129" column="0" selection-start="8287" selection-end="8287" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="79" selection-start="3176" selection-end="3176" vertical-scroll-proportion="0.8015267">
-          <folding />
+    <entry file="uml://JAVA/ca">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>JAVA</ID>
+          <OriginalElement>ca</OriginalElement>
+          <nodes>
+            <node x="0.0" y="0.0">ca.tnt</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.1" x="38.0" y="14.5" />
+          <SelectedNodes>
+            <node>ca.tnt</node>
+          </SelectedNodes>
+          <Categories />
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>private</VISIBILITY>
         </state>
       </provider>
     </entry>
@@ -927,21 +1008,93 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="267" column="66" selection-start="9922" selection-end="9922" vertical-scroll-proportion="0.013157895">
+        <state line="201" column="44" selection-start="7564" selection-end="7564" vertical-scroll-proportion="0.17105263">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java">
+    <entry file="file://$PROJECT_DIR$/src/test/resources/add-businesses.ldif">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="793" column="0" selection-start="29148" selection-end="29148" vertical-scroll-proportion="0.0">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.6585366">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/add-busgroups.ldif">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="14" selection-start="2264" selection-end="2268" vertical-scroll-proportion="0.5243902">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/AnnotationsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="224" column="61" selection-start="8134" selection-end="8143" vertical-scroll-proportion="0.33170733">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/ldapimpl/AlternateAggregates.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="70" selection-start="1696" selection-end="1696" vertical-scroll-proportion="0.22195122">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/LdapOrganizationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="91" column="0" selection-start="2958" selection-end="3190" vertical-scroll-proportion="0.4414634">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/IAnnotationHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="106" column="17" selection-start="4162" selection-end="4162" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/EntityBindingTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="103" column="14" selection-start="3694" selection-end="3694" vertical-scroll-proportion="0.7202797">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="590" column="30" selection-start="25045" selection-end="25045" vertical-scroll-proportion="0.33173078">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/TypeHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="68" column="0" selection-start="2771" selection-end="2771" vertical-scroll-proportion="0.49519232">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="296" column="21" selection-start="9198" selection-end="9198" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityBinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="272" column="0" selection-start="9471" selection-end="9471" vertical-scroll-proportion="0.1958042">
+        <state line="238" column="0" selection-start="8538" selection-end="8538" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="788" column="13" selection-start="29034" selection-end="29034" vertical-scroll-proportion="0.41958043">
           <folding />
         </state>
       </provider>

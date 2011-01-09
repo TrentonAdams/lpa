@@ -23,6 +23,7 @@ package ca.tnt.ldaputils.annotations.processing;
 import ca.tnt.ldaputils.LdapManager;
 import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.annotations.LdapEntity;
+import ca.tnt.ldaputils.annotations.TypeHandler;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
 
@@ -33,6 +34,7 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.ldap.LdapName;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.*;
 
@@ -165,12 +167,87 @@ public class LdapEntityBinder extends LdapEntityHandler
         throws NamingException, IllegalAccessException
     {
         final Object returnValue = null;    // always null, we're reading
-        System.out.println(
-            "attribute foreign aggregate field: " + field.getName() + ": " +
-                field.get(entity));
+        final Class fieldType = field.getType();
+        final Object fieldValue;
+        final Object fieldInstance = field.get(entity);
+
+        if (fieldType.equals(aggClass))
+        {   // field not a collection of any kind, but is a
+            // single object type of the aggClass.
+            processForeignAggregate(fieldInstance);
+        }
+        else
+        {   // BEGIN handling collection of aggregates.
+
+            if (fieldType.isArray())
+            {   // convert to the array type used in the field
+                final Object[] aggregateInstances = (Object[]) fieldInstance;
+                for (final Object aggregateInstance : aggregateInstances)
+                {
+                    processForeignAggregate(aggregateInstance);
+                }
+            }
+            else if (Collection.class.isInstance(fieldInstance))
+            {   // simply Collection of some sort
+                final Collection aggregateInstances =
+                    (Collection) fieldInstance;
+                for (final Object aggregateInstance : aggregateInstances)
+                {
+                    processForeignAggregate(aggregateInstance);
+                }
+            }
+            else if (entity instanceof TypeHandler)
+            {
+                // attribute values for current object
+                final Collection values =
+                    ((TypeHandler) entity).getValues(aggClass, fieldType,
+                        fieldInstance);
+                final Attribute attribute = new BasicAttribute(
+                    attrAnnotation.name());
+                for (final Object attributeValue : values)
+                {
+                    attribute.add(attributeValue);
+                }
+                if (values.size() > 0)
+                {   // empty attributes won't bind, so let's add non empty only
+                    attributes.put(attribute);
+                }
+
+                // REQUIRED FEATURE process the aggregates as well.
+            }
+            else
+            {
+                throw new LpaAnnotationException(
+                    "unhandled field type: " + fieldType);
+            }
+        }   // END handling collection of aggregates.
 
 
         return returnValue;
+    }
+
+    /**
+     * Processes actual instances of foreign aggregates, such as a groups.
+     * <p/>
+     * Currently not supported, and does nothing.
+     *
+     * @param aggregateInstance the aggregate {@link LdapEntity} annotated
+     *                          instance
+     */
+    private void processForeignAggregate(final Object aggregateInstance)
+    {
+/*        if (aggregateInstance != null)
+        {
+            final AnnotationProcessor annotationProcessor =
+                new AnnotationProcessor();
+            final LdapEntityBinder entityBinder;
+            entityBinder = new LdapEntityBinder(aggregateInstance);
+            entityBinder.setManager(manager);
+            annotationProcessor.addHandler(entityBinder);
+            annotationProcessor.processAnnotations();
+            dnList.addAll(entityBinder.getDnList());
+            attributesList.addAll(entityBinder.getAttributesList());
+        }*/
     }
 
     /**
@@ -265,7 +342,7 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     /**
-     * Retrieve the processed attributes for LDAP.
+     * Retrieve the processed attributes for LDAP.  Each entry in the list is for a single
      * <p/>
      * <span style="color:red;">WARNING! WARNING! WARNING!</span> you may only
      * call this method a SINGLE time. Once it has been called, the list of

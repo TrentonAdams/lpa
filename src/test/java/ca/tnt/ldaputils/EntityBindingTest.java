@@ -88,6 +88,10 @@ public class EntityBindingTest extends AbstractLdapTestUnit
         final LdapName ldapName = new LdapName(
             "o=New Organization,ou=businesses,dc=example,dc=com");
 
+        final long beforeBind;
+        final long afterBind;
+
+        beforeBind = System.currentTimeMillis();
         final ILdapOrganization organization = new LdapOrganization();
         organization.setDn(ldapName);
         organization.setOrganization("New Organization", 0);
@@ -96,9 +100,19 @@ public class EntityBindingTest extends AbstractLdapTestUnit
         organization.setStreet("123 Ldap Way", 0);
         organization.setPostalCode("A1A 2B2", 0);
         manager.bind(organization);
+        afterBind = System.currentTimeMillis();
+        System.out.println("binding took: " + (afterBind - beforeBind) + "ms");
 
+
+        final long beforeQuery;
+        final long afterQuery;
+
+        beforeQuery = System.currentTimeMillis();
         final ILdapOrganization organization2 =
             (ILdapOrganization) manager.find(LdapOrganization.class, ldapName);
+        afterQuery = System.currentTimeMillis();
+        System.out.println("query took: " + (afterQuery - beforeQuery) + "ms");
+
         Assert.assertEquals("dn", organization.getDn(), organization2.getDn());
         Assert.assertEquals("organization", organization.getOrganization(),
             organization2.getOrganization());
@@ -144,4 +158,17 @@ public class EntityBindingTest extends AbstractLdapTestUnit
             organization2.getPostalCode());
     }
 
+    @Test
+    public void testForeignAggregateBinding() throws InvalidNameException
+    {
+        final LdapName ldapName = new LdapName(
+            "o=Pulp Mill.,ou=businesses,dc=example,dc=com");
+        final ILdapOrganization ldapEntry = (ILdapOrganization) manager.find(
+            LdapOrganization.class, ldapName);
+
+        ldapEntry.setOrganization("Pulp Mill2", 0);
+        ldapEntry.setDn(new LdapName(
+            "o=Pulp Mill2.,ou=businesses,dc=example,dc=com"));
+        manager.bind(ldapEntry);
+    }
 }
