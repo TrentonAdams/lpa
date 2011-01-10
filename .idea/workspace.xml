@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="be6f29de-fdbb-4b6d-9e4f-c767f47181e2" name="Default" comment="" />
+    <list default="true" id="be6f29de-fdbb-4b6d-9e4f-c767f47181e2" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java" afterPath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java" afterPath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapEntry.java" afterPath="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapEntry.java" />
+    </list>
     <ignored path="ldaputil.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -80,13 +84,13 @@
   <component name="FileEditorManager">
     <splitter split-orientation="vertical" split-proportion="0.479638">
       <split-first>
-        <splitter split-orientation="horizontal" split-proportion="0.5">
+        <splitter split-orientation="horizontal" split-proportion="0.49644932">
           <split-first>
             <leaf>
-              <file leaf-file-name="LdapEntityLoader.java" pinned="false" current="false" current-in-tab="true">
+              <file leaf-file-name="LdapEntityLoader.java" pinned="false" current="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="195" column="41" selection-start="7296" selection-end="7296" vertical-scroll-proportion="0.062240664">
+                    <state line="219" column="0" selection-start="8300" selection-end="8300" vertical-scroll-proportion="0.0">
                       <folding />
                     </state>
                   </provider>
@@ -101,10 +105,10 @@
                   </provider>
                 </entry>
               </file>
-              <file leaf-file-name="LdapAttribute.java" pinned="false" current="false" current-in-tab="false">
+              <file leaf-file-name="LdapAttribute.java" pinned="false" current="true" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="195" column="50" selection-start="10303" selection-end="10303" vertical-scroll-proportion="0.0">
+                    <state line="87" column="0" selection-start="4450" selection-end="4450" vertical-scroll-proportion="0.79389316">
                       <folding />
                     </state>
                   </provider>
@@ -114,10 +118,19 @@
           </split-first>
           <split-second>
             <leaf>
-              <file leaf-file-name="LdapOrganization.java" pinned="false" current="false" current-in-tab="true">
+              <file leaf-file-name="LdapOrganization.java" pinned="false" current="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="82" column="51" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.05905512">
+                    <state line="86" column="22" selection-start="3067" selection-end="3067" vertical-scroll-proportion="0.0">
+                      <folding />
+                    </state>
+                  </provider>
+                </entry>
+              </file>
+              <file leaf-file-name="LdapEntry.java" pinned="false" current="false" current-in-tab="true">
+                <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapEntry.java">
+                  <provider selected="true" editor-type-id="text-editor">
+                    <state line="72" column="0" selection-start="2223" selection-end="2223" vertical-scroll-proportion="0.4105263">
                       <folding />
                     </state>
                   </provider>
@@ -131,10 +144,10 @@
         <splitter split-orientation="horizontal" split-proportion="0.5">
           <split-first>
             <leaf>
-              <file leaf-file-name="LdapEntityBinder.java" pinned="false" current="false" current-in-tab="false">
+              <file leaf-file-name="LdapEntityBinder.java" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityBinder.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="156" column="0" selection-start="5354" selection-end="5354" vertical-scroll-proportion="0.0">
+                    <state line="156" column="0" selection-start="5354" selection-end="5354" vertical-scroll-proportion="0.22439024">
                       <folding>
                         <element signature="imports" expanded="true" />
                       </folding>
@@ -154,7 +167,7 @@
               <file leaf-file-name="LdapAttribute.java" pinned="false" current="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="197" column="7" selection-start="10323" selection-end="10323" vertical-scroll-proportion="0.0">
+                    <state line="202" column="7" selection-start="10659" selection-end="10659" vertical-scroll-proportion="0.0">
                       <folding />
                     </state>
                   </provider>
@@ -169,10 +182,10 @@
                   </provider>
                 </entry>
               </file>
-              <file leaf-file-name="LdapManager.java" pinned="false" current="true" current-in-tab="true">
+              <file leaf-file-name="LdapManager.java" pinned="false" current="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="761" column="0" selection-start="27712" selection-end="27712" vertical-scroll-proportion="0.33333334">
+                    <state line="761" column="0" selection-start="27712" selection-end="27712" vertical-scroll-proportion="0.0">
                       <folding />
                     </state>
                   </provider>
@@ -182,19 +195,19 @@
           </split-first>
           <split-second>
             <leaf>
-              <file leaf-file-name="EntityBindingTest.java" pinned="false" current="false" current-in-tab="false">
+              <file leaf-file-name="EntityBindingTest.java" pinned="false" current="false" current-in-tab="true">
                 <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/EntityBindingTest.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="90" column="23" selection-start="3125" selection-end="3125" vertical-scroll-proportion="0.0">
+                    <state line="90" column="23" selection-start="3125" selection-end="3125" vertical-scroll-proportion="0.34965035">
                       <folding />
                     </state>
                   </provider>
                 </entry>
               </file>
-              <file leaf-file-name="AlternateAggregates.java" pinned="false" current="false" current-in-tab="true">
+              <file leaf-file-name="AlternateAggregates.java" pinned="false" current="false" current-in-tab="false">
                 <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/ldapimpl/AlternateAggregates.java">
                   <provider selected="true" editor-type-id="text-editor">
-                    <state line="69" column="0" selection-start="2323" selection-end="2375" vertical-scroll-proportion="0.054151624">
+                    <state line="79" column="34" selection-start="2652" selection-end="2652" vertical-scroll-proportion="0.0">
                       <folding />
                     </state>
                   </provider>
@@ -248,10 +261,10 @@
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/TypeHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java" />
       </list>
     </option>
   </component>
@@ -855,19 +868,19 @@
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32881355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17210048" sideWeight="0.67118645" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32768363" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32881355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17210048" sideWeight="0.6723164" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32768363" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32881355" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -911,11 +924,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/resources/add-busgroups.ldif">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="14" selection-start="2264" selection-end="2268" vertical-scroll-proportion="0.5243902" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/AnnotationsTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="224" column="61" selection-start="8134" selection-end="8143" vertical-scroll-proportion="0.33170733">
@@ -951,13 +959,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/EntityBindingTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="23" selection-start="3125" selection-end="3125" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/PersonTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="121" column="52" selection-start="4402" selection-end="4402" vertical-scroll-proportion="0.0">
@@ -972,16 +973,51 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="269" column="7" selection-start="10057" selection-end="10057" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="761" column="0" selection-start="27712" selection-end="27712" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/ldapimpl/AlternateAggregates.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="69" column="0" selection-start="2323" selection-end="2375" vertical-scroll-proportion="0.054151624">
+        <state line="79" column="34" selection-start="2652" selection-end="2652" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/ca/tnt/ldaputils/EntityBindingTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="90" column="23" selection-start="3125" selection-end="3125" vertical-scroll-proportion="0.34965035">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="86" column="22" selection-start="3067" selection-end="3067" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapEntry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="0" selection-start="2223" selection-end="2223" vertical-scroll-proportion="0.4105263">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityBinder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="156" column="0" selection-start="5354" selection-end="5354" vertical-scroll-proportion="0.0">
+        <state line="156" column="0" selection-start="5354" selection-end="5354" vertical-scroll-proportion="0.22439024">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -990,35 +1026,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityLoader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="195" column="41" selection-start="7296" selection-end="7296" vertical-scroll-proportion="0.062240664">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/processing/LdapEntityHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="269" column="7" selection-start="10057" selection-end="10057" vertical-scroll-proportion="0.0">
+        <state line="219" column="0" selection-start="8300" selection-end="8300" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/annotations/LdapAttribute.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="197" column="7" selection-start="10323" selection-end="10323" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/impl/LdapOrganization.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="202" column="7" selection-start="5821" selection-end="5821" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ca/tnt/ldaputils/LdapManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="761" column="0" selection-start="27712" selection-end="27712" vertical-scroll-proportion="0.33333334">
+        <state line="87" column="0" selection-start="4450" selection-end="4450" vertical-scroll-proportion="0.79389316">
           <folding />
         </state>
       </provider>

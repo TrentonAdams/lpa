@@ -34,10 +34,14 @@ import java.lang.annotation.Target;
  * <p/>
  * The "dn" attribute is a special case, seeing "dn" is not loaded by the LDAP
  * API, as it is not technically an attribute, but is the namespace of the
- * entire entry.  As such, the dn is determined during a "search" and punched in
+ * entire entry.  As such, the dn is determined during a "find" and punched in
  * as an LdapAttribute, manually by the factory, or cloned from the LdapName dn
  * given by the developer (when doing a direct entry retrieval, as opposed to a
- * search).
+ * search).  See {@link DN} for more information.
+ * <p/>
+ * If you are using a "Collection", you need to initialize it in your no args
+ * constructor, otherwise a NullPointerException will be thrown by the system,
+ * with a message indicating as much.
  * <p/>
  * Because of the nature of LDAP, being able to have multiple objectClass
  * attribute values on any given ldap entry, thereby defining it as using
@@ -78,10 +82,11 @@ import java.lang.annotation.Target;
  * Another feature of aggregation, is the ability to load an entirely different
  * LDAP entry, to inject into the field.  This is done for things like groups,
  * where they have a series of unique member attributes.  Or, in some cases,
- * other entries refer to the group, via some attribute.  So, we also prevent
- * recursive loading, so that each object can refer to the other.  e.g. the
- * group can refer to it's members, while all those members may refer to their
- * groups.
+ * other entries refer to the group, via some attribute.  So, we also plan on
+ * preventing recursive loading, so that each object can refer to the other.
+ * However, recursive loading is not supported where ldap entries refer to each
+ * other. e.g. the group can refer to it's members, while all those members may
+ * refer to their groups.
  * <p/>
  * FEATURE we need to think about the implications of having entries in multiple
  * groups, and those groups pointing to multiple other entries.  This could

@@ -75,9 +75,11 @@ public class LdapEntry implements ILdapEntry, Comparable
 /*    @Factory
     private LDAPFactory factory;*/
 
+    @SuppressWarnings({"CollectionWithoutInitialCapacity"})
     public LdapEntry()
     {
         modificationItems = new LinkedHashMap();
+        objectClasses = new ArrayList<String>(5);
     }
 
     /**

@@ -133,22 +133,23 @@ public class LdapEntityLoader extends LdapEntityHandler
         final Attribute attr = attributes.get(attrName);
         final NamingEnumeration attrValues =
             attr != null ? attr.getAll() : null;
-        Object fieldValue = null;
+        Object fieldValue = field.get(entity);
         if (attr != null)
         {
             if (isMultiValued(fieldType))
             {   // assumed to accept list of ALL attribute values
-                if (List.class.equals(fieldType))
+                if (fieldValue instanceof Collection)
                 {
-                    fieldValue = Collections.list(attrValues);
+                    ((Collection) fieldValue).addAll(Collections.list(
+                        attrValues));
                 }
-                else if (SortedSet.class.equals(fieldType))
+                else if (fieldValue == null)
                 {
-                    // This is inefficient, but we don't care,
-                    // because the chance of an LDAP entry having
-                    // hundreds of values in a single attribute is
-                    // SLIM to NONE.
-                    fieldValue = new TreeSet(Collections.list(attrValues));
+                    throw new NullPointerException(
+                        "field \"" + field.getName() +
+                            "\" is null; LPA REQUIRES Collection fields of " +
+                            "LdapEntity objects to be initialized in their " +
+                            "no args constructor.");
                 }
                 else
                 {
@@ -170,7 +171,8 @@ public class LdapEntityLoader extends LdapEntityHandler
         {"unchecked", "MethodWithMultipleReturnPoints", "ReturnOfNull"})
     protected Object processForeignAggregate(final Field field,
         final Class<?> aggClass, final String dnReference,
-        final LdapAttribute attrAnnotation) throws NamingException
+        final LdapAttribute attrAnnotation)
+        throws NamingException, IllegalAccessException
     {
         final String attrName = attrAnnotation.name();
         final Attribute attr = attributes.get(attrName);
@@ -183,7 +185,7 @@ public class LdapEntityLoader extends LdapEntityHandler
         }
 
         final Class fieldType = field.getType();
-        final Object fieldValue;
+        Object fieldValue;
         if (fieldType.equals(aggClass))
         {   // field not a collection of any kind, but is a
             // single object type of the aggClass.
@@ -193,6 +195,7 @@ public class LdapEntityLoader extends LdapEntityHandler
         else
         {   // BEGIN handling collection of aggregates.
 
+            fieldValue = field.get(entity);
             final List ldapEntities = loadAggregates(aggClass,
                 attrValues, dnReference);
 
@@ -204,13 +207,17 @@ public class LdapEntityLoader extends LdapEntityHandler
                 fieldValue = ldapEntities.toArray(
                     (Object[]) refArray);
             }
-            else if (List.class.equals(fieldType))
-            {   // simply unordered List
-                fieldValue = ldapEntities;
+            else if (fieldValue instanceof Collection)
+            {
+                ((Collection)fieldValue).addAll(ldapEntities);
             }
-            else if (SortedSet.class.equals(fieldType))
-            {   // sorted, Comparable on objects required
-                fieldValue = new TreeSet(ldapEntities);
+            else if (fieldValue == null)
+            {
+                throw new NullPointerException(
+                    "field \"" + field.getName() +
+                        "\" is null; LPA REQUIRES Collection fields of " +
+                        "LdapEntity annotated objects to be initialized in " +
+                        "their no args constructor.");
             }
             else if (entity instanceof TypeHandler)
             {
