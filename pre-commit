@@ -1,0 +1,55 @@
+#!/bin/sh
+#
+# git pre-commit hook to verify that any closed issues are in fact removed
+# from the comments in the source files, so that we don't have lingering
+# "todo" items.  For the master branch, this should be required.  For other
+# branches, simple warnings should be issued.
+#
+# Future features
+#  - allow commit on github connection failure, or print a message
+#    suggesting the --no-verify option be passed to "git commit".
+#  - verify that all open issues have a TODO tag assigned from the list in
+#    the README file, and exist in a comment somewhere.  This one should be
+#    done on the master branch only, as other branches should not be
+#    required to be updated, or it becomes a bit restrictive.
+#  - automatically generate new issues from the source code comments.  They
+#    must meet a specific format, or this will not be done.  Whatever that
+#    format is.  Perhaps something like CRITICAL title="blah hoodlum".
+#    Then the commit MUST fail, and warn the user that an issue was in fact
+#    created, and that the comments must be updated to reflect the new
+#    issue number.  In fact, we could backup the original file, tell them
+#    the backup name, do an automatic replace for each issue from the 
+#    previous mentioned format to "CRITICAL (issue-##)", and finally ask
+#    them to review the changes for errors.  We could also make a
+#    .git/issue-outstanding file, and if it exists, do not allow commits
+#    period, forcing them to review.  This should tie into the next feature
+#  - REQUIRE that all tagged items in source code have an open issue
+#    assigned
+#  - use github.token config variable
+#
+# WARNING! WARNING! WARNING! This will be very slow if you have a lot of
+# open issues, or you have a lot of code.
+
+GITHUB_TOKEN=$(git config github.token)
+CISSUES=$(curl -F "token=$GITHUB_TOKEN" http://github.com/api/v2/xml/issues/list/TrentonAdams/lpa/closed 2>/dev/null | xpath -e '/issues/issue/number/text()' 2>/dev/null)
+ERR_CNT=0
+printf "ERRORS\n"
+for issue in $CISSUES; do
+  grep -rl "(issue-${issue})" src/ > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    printf "\tIssue #$issue should be removed from the comments, as it has been closed\n";
+    ERR_CNT=$((ERR_CNT + 1));
+  fi;
+done;
+
+printf "SUGGESTIONS\n"
+# terribly inefficient doing it a second time
+OISSUES=$(curl -F "token=$GITHUB_TOKEN" http://github.com/api/v2/xml/issues/list/TrentonAdams/lpa/open 2>/dev/null | xpath -e '/issues/issue/number/text()' 2>/dev/null)
+for issue in $OISSUES; do
+  grep -rl "(issue-${issue})" src/ > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    printf "\tIssue #$issue is still open, and should be commented somewhere\n";
+  fi;
+done;
+
+exit $ERR_CNT;
