@@ -462,11 +462,7 @@ public class LdapManager
     /**
      * Gets an LDAP directory context.
      * <p/>
-     * CRITICAL implement something that let's developers choose how to
-     * authenticate, or even allow passing of DirContext???  Perhaps we make
-     * LdapManager an instance based object, where an instance is created for
-     * every user?  That way authentication could be done through
-     * ldap.properties, or by passing principal/credentials.
+     * REQUIRED_FEATURE authentication mechanism (issue-14)
      *
      * @param isPooled       turn pooling on?
      * @param timeout        the connection timeout value
@@ -759,7 +755,7 @@ public class LdapManager
      * Binds the {@link LdapEntity} annotated object to ldap, with all of it's
      * attributes.
      * <p/>
-     * CRITICAL updating annotation processor https://github.com/TrentonAdams/lpa/issues/5
+     * CRITICAL updating annotation processor (issue-5)
      *
      * @param ldapEntry {@link LdapEntity} annotated object
      *

@@ -77,7 +77,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * someone has declared something else, it must be a collection of some
      * sort, or their own type
      * <p/>
-     * REQUIRED_FEATURE support other LDAP providers https://github.com/TrentonAdams/lpa/issues/7
+     * REQUIRED_FEATURE support other LDAP providers (issue-7)
      * We'll have to figure something else out if we want to work with other
      * LDAP JNDI service providers in the future.
      *

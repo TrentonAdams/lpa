@@ -127,7 +127,7 @@ public class LdapEntityLoader extends LdapEntityHandler
         // cases
         // http://download.oracle.com/javase/jndi/tutorial/ldap/misc/attrs.html
         //
-        // CRITICAL we need to do TypeHandler calls for unknown types
+        // CRITICAL ldap types (issue-16)
         final Class fieldType = field.getType();
         final String attrName = attrAnnotation.name();
         final Attribute attr = attributes.get(attrName);
@@ -209,7 +209,7 @@ public class LdapEntityLoader extends LdapEntityHandler
             }
             else if (fieldValue instanceof Collection)
             {
-                ((Collection)fieldValue).addAll(ldapEntities);
+                ((Collection) fieldValue).addAll(ldapEntities);
             }
             else if (fieldValue == null)
             {

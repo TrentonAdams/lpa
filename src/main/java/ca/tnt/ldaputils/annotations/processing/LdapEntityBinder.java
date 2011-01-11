@@ -153,9 +153,6 @@ public class LdapEntityBinder extends LdapEntityHandler
     /**
      * Process the field as a foreign aggregate for binding, generates a JNDI
      * Attribute for it, and stores it in the list of JNDI Attributes
-     * <p/>
-     * CRITICAL binding annotation processing of aggregates
-     * https://github.com/TrentonAdams/lpa/issues/issue/10
      *
      * @return always null, as we are not attempting to write to the instance,
      *         we're binding to LDAP using the instance values.

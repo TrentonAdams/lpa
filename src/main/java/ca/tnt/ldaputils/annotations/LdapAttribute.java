@@ -99,20 +99,9 @@ import java.lang.annotation.Target;
  * cache them. The memory footprint will be much smaller when groups use
  * references to their members, and vice-versa, rather than a clone.
  * <p/>
- * CRITICAL add support for other "types" of attributes.  For example, LdapName
- * is a special case, for attributes that are DN qualified.  It may be that we
- * can add another annotation called LdapType, to define the "type" as being
- * able to handle conversion from "attribute" format, to a specific type.  For
- * example, it would be nice if uniqueMember attributes of a group would come
- * into your object as an LdapName, as opposed to a "string".  So, we might go
- * at-sign LdapAttribute(name = "uniqueMember", array = true, type = LdapName,
- * typeHandler = LdapNameHandler)  Also determine if annotations can work on
- * static members, because it may be that we want to have a utility class that
- * handles all sorts of different types.  We can implement the above, using
- * another annotation for a method that can handle the storage, and return the
- * exact Object desired.
+ * CRITICAL ldap types (issue-16)
  * <p/>
- * CRITICAL annotation documentation restructuring https://github.com/TrentonAdams/lpa/issues/6
+ * CRITICAL annotation documentation restructuring (issue-6)
  * Created :  16-Aug-2010 10:43:42 PM MST
  *
  * @author Trenton D. Adams
@@ -193,18 +182,7 @@ public @interface LdapAttribute
      * implicitly a local aggregate.  See the {@link LdapAttribute LdapAttribute
      * class} documentation for more information.
      * <p/>
-     * CRITICAL somehow take into account infinite recursion.  e.g. we may have
-     * support for loading groups, from a certain attribute in an entry, like
-     * the above.  Those groups however, may also contain some sort of
-     * annotations, that try to load the objects in their member attributes.
-     * This could cause an infinite recursive loop.  We need to find a way of
-     * detecting this, and referencing each other.
-     * <p/>
-     * CRITICAL as per the above, we should look into how JPA does it, as I've
-     * forgotten.  They use annotations to make it simpler I think, so that no
-     * complex logic is required.  What they do is have a "mappedBy" member in
-     * the annotation, which is the name of a field containing the reference
-     * back to the existing entry.
+     * CRITICAL fix infinite recursion (issue-15)
      *
      * @return the method that returns the DN entry to load, with the bind
      *         variable ('?')

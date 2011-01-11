@@ -29,6 +29,7 @@ TODO             - probably obsolete, and should be discontinued
 FEATURE          - a good feature to have, but not necessarily core
 REQUIRED_FEATURE - a required feature to truly have a "functional" end product
 MINOR            - a minor issue to deal with, does not imply small
+CRITICAL         - a very critical part of the system.
 TEST             - something that needs a test case
 DOC              - something that needs better documentation
 
