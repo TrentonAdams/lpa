@@ -198,10 +198,9 @@ public class LdapOrganization extends LdapEntry
     /**
      * returns the category dn with a bind variable.
      * <p/>
-     * CRITICAL replace with a configurable property.
+     * CRITICAL dn return value config option (issue-23)
      * <p/>
-     * CRITICAL also allow hard coding of reference dn, as it may be an in house
-     * app that doesn't change
+     * CRITICAL dn reference hardcoding (issue-22)
      *
      * @return the dn with a bind variable.
      */

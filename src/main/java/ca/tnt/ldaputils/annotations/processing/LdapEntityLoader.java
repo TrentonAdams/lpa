@@ -179,8 +179,7 @@ public class LdapEntityLoader extends LdapEntityHandler
         final NamingEnumeration attrValues =
             attr != null ? attr.getAll() : null;
         if (attr == null)
-        {   // FEATURE perhaps we want the option of exception or silent failure?
-            // FEATURE perhaps we want the option of required vs not required, and in combination with the silent feature?
+        {   // FEATURE silent failure option (issue-18)
             return null;
         }
 

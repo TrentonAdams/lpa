@@ -77,9 +77,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * someone has declared something else, it must be a collection of some
      * sort, or their own type
      * <p/>
-     * REQUIRED_FEATURE support other LDAP providers (issue-7)
-     * We'll have to figure something else out if we want to work with other
-     * LDAP JNDI service providers in the future.
+     * REQUIRED_FEATURE support other LDAP providers (issue-7) We'll have to
+     * figure something else out if we want to work with other LDAP JNDI service
+     * providers in the future.
      *
      * @param fieldType the field's type
      *
@@ -267,7 +267,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * Validates that the class is annotated with {@link DN}, and that the
      * property getter is available.
      * <p/>
-     * CRITICAL ensure a dn setter is also available.
+     * CRITICAL ldap entities REQUIRE dn setter too (issue-17)
      *
      * @param annotatedClass the {@link LdapEntity} annotated class
      * @param field          the field annotated with DN
@@ -336,16 +336,13 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * <p/>
      * Processing for {@link LdapAttribute } annotation.
      * <p/>
-     * DOC move this to the appropriate subclass if needed, when we're done. If
-     * the LdapEntity annotated Class is an instanceof {@link TypeHandler}, the
-     * {@link TypeHandler#processValues(List, Class)} will be called for all
+     * DOC move this to the appropriate subclass if needed, when we're done.
+     * <p/>
+     * If the LdapEntity annotated Class is an instanceof {@link TypeHandler},
+     * the {@link TypeHandler#processValues(List, Class)} will be called for all
      * aggregate fields, instead of the normal type processing that goes on,
      * described by {@link LdapAttribute}
      * <p/>
-     * IMPORTANT FEATURE we need to support ALL types of attribute types,
-     * including images and what not.  We do this via the TypeHandler, by
-     * putting "raw" types, directly into the list, before passing it to the
-     * type handler implementation.
      *
      * @param annotatedClass the class of the annotated object
      * @param field          the field the annotation is on

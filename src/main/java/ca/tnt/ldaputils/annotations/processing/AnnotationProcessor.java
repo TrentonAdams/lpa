@@ -106,7 +106,7 @@ public class AnnotationProcessor
         }
         else
         {   // not annotated, handler can enforce annotation requirements or not
-            // MINOR  This is stupid, all we need is for the processAnnotation() method to throw an error if it doesn't like it, don't we?  We could create a well-defined method.
+            // MINOR refactor annotationg processor (issue-19)
             handler.noAnnotation(annotatedClass);
         }
 
