@@ -31,7 +31,7 @@
 # open issues, or you have a lot of code.
 
 GITHUB_TOKEN=$(git config github.token)
-CISSUES=$(curl -F "token=$GITHUB_TOKEN" http://github.com/api/v2/xml/issues/list/TrentonAdams/lpa/closed 2>/dev/null | xpath -e '/issues/issue/number/text()' 2>/dev/null)
+CISSUES=$(curl -F"login=TrentonAdams" -F "token=$GITHUB_TOKEN" http://github.com/api/v2/xml/issues/list/TrentonAdams/lpa/closed 2>/dev/null | xpath -e '/issues/issue/number/text()' 2>/dev/null)
 ERR_CNT=0
 printf "ERRORS\n"
 for issue in $CISSUES; do
