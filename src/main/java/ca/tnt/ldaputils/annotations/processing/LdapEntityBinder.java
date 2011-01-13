@@ -210,7 +210,7 @@ public class LdapEntityBinder extends LdapEntityHandler
                     attributes.put(attribute);
                 }
 
-                // REQUIRED FEATURE aggregate processing during binding (issue-20)
+                // REQUIRED_FEATURE binding annotation processing of aggregates (issue-10)
             }
             else
             {
