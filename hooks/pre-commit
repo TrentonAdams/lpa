@@ -42,14 +42,21 @@ for issue in $CISSUES; do
   fi;
 done;
 
+if [ $ERR_CNT -eq 0 ]; then printf "\tnone\n"; fi
 printf "SUGGESTIONS\n"
 # terribly inefficient doing it a second time
-OISSUES=$(curl -F "token=$GITHUB_TOKEN" http://github.com/api/v2/xml/issues/list/TrentonAdams/lpa/open 2>/dev/null | xpath -e '/issues/issue/number/text()' 2>/dev/null)
+TMP_FILE=$(mktemp)
+curl -F "token=$GITHUB_TOKEN" http://github.com/api/v2/xml/issues/list/TrentonAdams/lpa/open \
+ 2>/dev/null > $TMP_FILE
+OISSUES=$(xpath -e '/issues/issue/number/text()' $TMP_FILE 2>/dev/null)
 for issue in $OISSUES; do
+  NOSOURCE=$(xpath -e "/issues/issue[number=${issue}]/labels/label/name/text()" $TMP_FILE  2>/dev/null | grep nosource)
+  if [ "$NOSOURCE" = "nosource" ]; then continue; fi
   grep -rl "(issue-${issue})" src/ > /dev/null 2>&1
   if [ $? -ne 0 ]; then
     printf "\tIssue #$issue is still open, and should be commented somewhere\n";
   fi;
 done;
 
+rm $TMP_FILE
 exit $ERR_CNT;
