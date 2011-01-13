@@ -55,4 +55,12 @@ of special LDAP schema.  Ultimately, please write a unit test demonstrating
 the problem, if it is not trivial.  This can be done easily by forking LPA
 from github
 
+If you are a developer, you may create new issues from source comments, using
+the format below.  Once you're finished, you may run the issue creation script.
+Square brackets indicate optional elements.  Basically, the contents of the
+new-issue below are simply in shell environment variable format, so that they
+can be sourced inside of a shell script.  Labels are separated by spaces.
+
+# new-issue{title="blah";label="critical[ persisting]";content="new issue"}
+
 Thanks.
