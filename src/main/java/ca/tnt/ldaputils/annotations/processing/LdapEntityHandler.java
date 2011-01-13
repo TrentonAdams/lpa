@@ -474,17 +474,35 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
 
         // local aggregates are loaded from the current ldap entry
         final String referenceDNMethod = attrAnnotation.referencedDNMethod();
-        final boolean isLocalAggregate = "".equals(referenceDNMethod);
+        final String referenceDN = attrAnnotation.referencedDN();
+        final boolean isLocalAggregate = "".equals(referenceDNMethod) &&
+            "".equals(referenceDN);
+        if (!"".equals(referenceDNMethod) && !"".equals(referenceDN))
+        {
+            throw new LpaAnnotationException(
+                "invalid @LdapAttribute item, cannot use referenceDNMethod " +
+                    "and referenceDN at the same time");
+        }
+
         if (isLocalAggregate)
         {   // use current ldap entry for population of aggregate
             fieldValue = processLocalAggregate(field, aggClass, attrAnnotation);
         }
         else
         {   // BEGIN foreign ldap entry processing for aggregate
-            final Method getDnReference = annotatedClass.getMethod(
-                referenceDNMethod);
-            final String dnReference =
-                (String) getDnReference.invoke(entity);
+            final String dnReference;
+
+            if (!"".equals(referenceDNMethod))
+            {
+                final Method getDnReference = annotatedClass.getMethod(
+                    referenceDNMethod);
+                dnReference = (String) getDnReference.invoke(entity);
+            }
+            else
+            {
+                dnReference = referenceDN;
+            }
+
             if (!dnReference.contains("?"))
             {
                 throw new LpaAnnotationException(dnReference +

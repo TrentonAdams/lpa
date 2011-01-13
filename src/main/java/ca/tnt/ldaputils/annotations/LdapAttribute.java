@@ -101,8 +101,8 @@ import java.lang.annotation.Target;
  * <p/>
  * CRITICAL ldap types (issue-16)
  * <p/>
- * CRITICAL annotation documentation restructuring (issue-6)
- * Created :  16-Aug-2010 10:43:42 PM MST
+ * CRITICAL annotation documentation restructuring (issue-6) Created :
+ * 16-Aug-2010 10:43:42 PM MST
  *
  * @author Trenton D. Adams
  */
@@ -188,4 +188,14 @@ public @interface LdapAttribute
      *         variable ('?')
      */
     String referencedDNMethod() default "";
+
+    /**
+     * Exact same as {@link #referencedDNMethod()} except that there is no need
+     * for a method, this returns the DN with replaceable parameter embedded.
+     *
+     * TEST test reference DNs properly (issue-25)
+     *
+     * @return the DN reference with the bind variable ('?')
+     */
+    String referencedDN() default "";
 }

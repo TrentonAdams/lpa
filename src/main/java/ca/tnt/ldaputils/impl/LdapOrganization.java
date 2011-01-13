@@ -47,7 +47,7 @@ public class LdapOrganization extends LdapEntry
         LdapOrganization.class);
 
     @LdapAttribute(name = "businessCategory", aggregateClass = LdapGroup.class,
-        referencedDNMethod = "getCategoryDN"
+        referencedDN = "cn=?,ou=bus-categories,dc=example,dc=com"
         /*"cn=?,ou=bus-categories,dc=example,dc=com"*/
     )
     private SortedMap<String, ILdapGroup> businessCategories;
@@ -199,8 +199,6 @@ public class LdapOrganization extends LdapEntry
      * returns the category dn with a bind variable.
      * <p/>
      * CRITICAL dn return value config option (issue-23)
-     * <p/>
-     * CRITICAL dn reference hardcoding (issue-22)
      *
      * @return the dn with a bind variable.
      */
