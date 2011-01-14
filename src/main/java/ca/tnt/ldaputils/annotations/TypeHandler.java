@@ -27,6 +27,7 @@ import java.util.SortedSet;
  * Handler interface for handling Class types that the default annotation
  * processor for LPA does not support
  * <p/>
+ * MINOR TypeHandler simplification (issue-12)
  * Created :  13-Dec-2010 12:26:00 AM MST
  *
  * @author Trenton D. Adams

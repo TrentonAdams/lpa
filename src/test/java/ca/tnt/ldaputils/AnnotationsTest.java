@@ -52,8 +52,7 @@ import java.util.Map;
  * <p/>
  * TEST for unhandled field types.  The field should simply not be touched.
  * <p/>
- * TEST for searches and finds where an ldap entry does not have a "supported"
- * object class
+ * TEST supported object class searches (issue-21)
  * <p/>
  * Created :  16-Aug-2010 8:03:48 PM MST
  *

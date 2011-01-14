@@ -39,6 +39,7 @@ import java.util.*;
  * the purpose of loading the {@link LdapEntity} annotated instance from the
  * ldap query results.
  * <p/>
+ * FEATURE MINOR native support for Map (issue-13)
  * Created :  22-Aug-2010 12:44:56 AM MST
  *
  * @author Trenton D. Adams
