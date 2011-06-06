@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" href="./impl/LdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="16,211,131,245"/>
-<area shape="rect" href="./ILdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="117,11,195,48"/>
-<area shape="rect" href="./ILdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="97,107,215,144"/>
-<area shape="rect" href="./proprietary/ILdapBusiness.html" title="&lt;TABLE&gt;" alt="" coords="176,203,301,253"/>
+<area shape="rect" id="c413" href="./impl/LdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="16,215,133,251"/>
+<area shape="rect" id="c415" href="./ILdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="117,11,197,50"/>
+<area shape="rect" id="c418" href="./ILdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="97,110,217,149"/>
+<area shape="rect" id="c437" href="./proprietary/ILdapBusiness.html" title="&lt;TABLE&gt;" alt="" coords="178,208,305,259"/>
 </map>

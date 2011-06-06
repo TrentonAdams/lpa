@@ -1,9 +1,9 @@
 <map id="G" name="G">
-<area shape="rect" href="../../LdapManager.html" title="&lt;TABLE&gt;" alt="" coords="409,300,503,335"/>
-<area shape="rect" href="../LdapAttribute.html" title="&lt;TABLE&gt;" alt="" coords="16,300,147,335"/>
-<area shape="rect" href="../LdapEntity.html" title="&lt;TABLE&gt;" alt="" coords="192,300,323,335"/>
-<area shape="rect" href="./LdapEntityLoader.html" title="&lt;TABLE&gt;" alt="" coords="160,209,275,233"/>
-<area shape="rect" href="./LdapEntityHandler.html" title="&lt;TABLE&gt;" alt="" coords="236,113,356,137"/>
-<area shape="rect" href="./LdapEntityBinder.html" title="&lt;TABLE&gt;" alt="" coords="320,209,429,233"/>
-<area shape="rect" href="./IAnnotationHandler.html" title="&lt;TABLE&gt;" alt="" coords="351,11,473,48"/>
+<area shape="rect" id="c865" href="../../LdapManager.html" title="&lt;TABLE&gt;" alt="" coords="409,302,505,338"/>
+<area shape="rect" id="c876" href="../LdapAttribute.html" title="&lt;TABLE&gt;" alt="" coords="16,302,147,338"/>
+<area shape="rect" id="c878" href="../LdapEntity.html" title="&lt;TABLE&gt;" alt="" coords="192,302,323,338"/>
+<area shape="rect" id="c881" href="./LdapEntityLoader.html" title="&lt;TABLE&gt;" alt="" coords="158,212,274,236"/>
+<area shape="rect" id="c882" href="./LdapEntityHandler.html" title="&lt;TABLE&gt;" alt="" coords="234,116,355,140"/>
+<area shape="rect" id="c883" href="./LdapEntityBinder.html" title="&lt;TABLE&gt;" alt="" coords="318,212,431,236"/>
+<area shape="rect" id="c884" href="./IAnnotationHandler.html" title="&lt;TABLE&gt;" alt="" coords="349,11,475,50"/>
 </map>

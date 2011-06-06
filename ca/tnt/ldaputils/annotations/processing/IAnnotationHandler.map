@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" href="../../LdapManager.html" title="&lt;TABLE&gt;" alt="" coords="36,300,129,335"/>
-<area shape="rect" href="./AnnotationProcessor.html" title="&lt;TABLE&gt;" alt="" coords="16,17,149,41"/>
-<area shape="rect" href="./IAnnotationHandler.html" title="&lt;TABLE&gt;" alt="" coords="21,107,144,144"/>
-<area shape="rect" href="./LdapEntityHandler.html" title="&lt;TABLE&gt;" alt="" coords="77,209,197,233"/>
+<area shape="rect" id="c921" href="../../LdapManager.html" title="&lt;TABLE&gt;" alt="" coords="35,302,131,338"/>
+<area shape="rect" id="c936" href="./AnnotationProcessor.html" title="&lt;TABLE&gt;" alt="" coords="16,17,149,41"/>
+<area shape="rect" id="c940" href="./IAnnotationHandler.html" title="&lt;TABLE&gt;" alt="" coords="20,107,145,146"/>
+<area shape="rect" id="c938" href="./LdapEntityHandler.html" title="&lt;TABLE&gt;" alt="" coords="77,212,198,236"/>
 </map>

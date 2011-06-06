@@ -1,10 +1,10 @@
 <map id="G" name="G">
-<area shape="rect" href="./ILdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="260,11,337,48"/>
-<area shape="rect" href="./ILdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="16,107,133,144"/>
-<area shape="rect" href="./ILdapPerson.html" title="&lt;TABLE&gt;" alt="" coords="179,107,267,144"/>
-<area shape="rect" href="./ILdapInetOrgPerson.html" title="&lt;TABLE&gt;" alt="" coords="312,107,440,144"/>
-<area shape="rect" href="./ILdapGroup.html" title="&lt;TABLE&gt;" alt="" coords="485,107,568,144"/>
-<area shape="rect" href="./ILabeledURI.html" title="&lt;TABLE&gt;" alt="" coords="383,11,468,48"/>
-<area shape="rect" href="./LdapManager.html" title="&lt;TABLE&gt;" alt="" coords="513,17,607,41"/>
-<area shape="rect" href="./Property.html" title="&lt;TABLE&gt;" alt="" coords="652,17,713,41"/>
+<area shape="rect" id="c32" href="./ILdapEntry.html" title="&lt;TABLE&gt;" alt="" coords="261,11,341,50"/>
+<area shape="rect" id="c35" href="./ILdapOrganization.html" title="&lt;TABLE&gt;" alt="" coords="16,110,136,149"/>
+<area shape="rect" id="c37" href="./ILdapPerson.html" title="&lt;TABLE&gt;" alt="" coords="181,110,270,149"/>
+<area shape="rect" id="c38" href="./ILdapInetOrgPerson.html" title="&lt;TABLE&gt;" alt="" coords="314,110,443,149"/>
+<area shape="rect" id="c39" href="./ILdapGroup.html" title="&lt;TABLE&gt;" alt="" coords="487,110,571,149"/>
+<area shape="rect" id="c33" href="./ILabeledURI.html" title="&lt;TABLE&gt;" alt="" coords="387,11,475,50"/>
+<area shape="rect" id="c34" href="./LdapManager.html" title="&lt;TABLE&gt;" alt="" coords="520,19,616,43"/>
+<area shape="rect" id="c36" href="./Property.html" title="&lt;TABLE&gt;" alt="" coords="661,19,726,43"/>
 </map>

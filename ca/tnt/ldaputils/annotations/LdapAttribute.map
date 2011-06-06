@@ -1,6 +1,6 @@
 <map id="G" name="G">
-<area shape="rect" href="./LdapAttribute.html" title="&lt;TABLE&gt;" alt="" coords="81,209,172,233"/>
-<area shape="rect" href="./processing/LdapEntityLoader.html" title="&lt;TABLE&gt;" alt="" coords="37,108,216,143"/>
-<area shape="rect" href="./processing/LdapEntityHandler.html" title="&lt;TABLE&gt;" alt="" coords="37,12,216,47"/>
-<area shape="rect" href="./processing/LdapEntityBinder.html" title="&lt;TABLE&gt;" alt="" coords="261,108,440,143"/>
+<area shape="rect" id="c708" href="./LdapAttribute.html" title="&lt;TABLE&gt;" alt="" coords="79,209,171,233"/>
+<area shape="rect" id="c713" href="./processing/LdapEntityLoader.html" title="&lt;TABLE&gt;" alt="" coords="36,107,214,143"/>
+<area shape="rect" id="c714" href="./processing/LdapEntityHandler.html" title="&lt;TABLE&gt;" alt="" coords="36,11,214,47"/>
+<area shape="rect" id="c715" href="./processing/LdapEntityBinder.html" title="&lt;TABLE&gt;" alt="" coords="260,107,438,143"/>
 </map>

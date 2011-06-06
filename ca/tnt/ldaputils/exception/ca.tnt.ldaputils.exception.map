@@ -1,5 +1,5 @@
 <map id="G" name="G">
-<area shape="rect" href="./ObjectClassNotSupportedException.html" title="&lt;TABLE&gt;" alt="" coords="16,113,229,137"/>
-<area shape="rect" href="./LpaAnnotationException.html" title="&lt;TABLE&gt;" alt="" coords="275,113,424,137"/>
-<area shape="rect" href="./LdapNamingException.html" title="&lt;TABLE&gt;" alt="" coords="165,17,307,41"/>
+<area shape="rect" id="c68" href="./ObjectClassNotSupportedException.html" title="&lt;TABLE&gt;" alt="" coords="15,113,230,137"/>
+<area shape="rect" id="c69" href="./LpaAnnotationException.html" title="&lt;TABLE&gt;" alt="" coords="274,113,427,137"/>
+<area shape="rect" id="c70" href="./LdapNamingException.html" title="&lt;TABLE&gt;" alt="" coords="164,17,308,41"/>
 </map>
