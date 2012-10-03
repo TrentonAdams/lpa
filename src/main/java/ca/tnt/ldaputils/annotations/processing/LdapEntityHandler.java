@@ -490,7 +490,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         }
         else
         {   // BEGIN foreign ldap entry processing for aggregate
-            final String dnReference;
+            String dnReference;
 
             if (!"".equals(referenceDNMethod))
             {
@@ -500,7 +500,16 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
             }
             else
             {
-                dnReference = referenceDN;
+                if (referenceDN.matches("^\\$\\{(.*)\\}$"))
+                {
+                    dnReference = referenceDN.replaceAll("^\\$\\{(.*)\\}$", "$1");
+                    // The reference is in ${property.name} syntax
+                    dnReference = manager.getProperty(dnReference);
+                }
+                else
+                {
+                    dnReference = referenceDN;
+                }
             }
 
             if (!dnReference.contains("?"))

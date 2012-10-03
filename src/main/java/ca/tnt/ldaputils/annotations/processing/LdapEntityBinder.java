@@ -337,6 +337,7 @@ public class LdapEntityBinder extends LdapEntityHandler
     @Override
     public void setManager(final LdapManager managerInstance)
     {
+        manager = managerInstance;
     }
 
     /**

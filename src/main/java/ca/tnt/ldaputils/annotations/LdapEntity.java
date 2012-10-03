@@ -1,21 +1,21 @@
 /**
  * This file is part of the LDAP Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils.annotations;
@@ -25,7 +25,9 @@ import ca.tnt.ldaputils.impl.LdapEntry;
 import java.lang.annotation.*;
 
 /**
- * If you annotate with this, your POJO MUST contain an @DN annotation as well.
+ * Declares a class as being persistable to/from ldap.  In other words, it's assumed you've annotated it with  If you annotate with
+ * this, your POJO, or a super class of it, MUST contain an @DN annotation as
+ * well.
  * <p/>
  * It is recommended, though not required, that you inherit from {@link
  * LdapEntry}, as it covers a lot of functionality that is useful for updating

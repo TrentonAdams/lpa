@@ -192,6 +192,13 @@ public @interface LdapAttribute
     /**
      * Exact same as {@link #referencedDNMethod()} except that there is no need
      * for a method, this returns the DN with replaceable parameter embedded.
+     * <p/>
+     * If the reference is in ${property.name} syntax, then anything inside of
+     * ${...} is a property name and should be loaded from ldap.properties in
+     * the classpath.  An example might be referenceDN =
+     * "${LdapOrganization.categoryDN}", where the property is defined as
+     *
+     * <pre>LdapOrganization.categoryDN=cn=?,ou=bus-categories,dc=example,dc=com</pre>
      *
      * TEST test reference DNs properly (issue-25)
      *

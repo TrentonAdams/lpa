@@ -47,7 +47,7 @@ public class LdapOrganization extends LdapEntry
         LdapOrganization.class);
 
     @LdapAttribute(name = "businessCategory", aggregateClass = LdapGroup.class,
-        referencedDN = "cn=?,ou=bus-categories,dc=example,dc=com"
+        referencedDN = "${LdapOrganization.categoryDN}"
         /*"cn=?,ou=bus-categories,dc=example,dc=com"*/
     )
     private SortedMap<String, ILdapGroup> businessCategories;

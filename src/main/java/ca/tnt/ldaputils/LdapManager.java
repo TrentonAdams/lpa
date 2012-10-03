@@ -84,6 +84,11 @@ public class LdapManager
 
 
     /**
+     * The properties from the /ldap.properties in the classpath.
+     */
+    private Properties properties;
+
+    /**
      * Initializes internal data store parameters.  Namely loads the
      * ldap.properties file from the classpath.
      */
@@ -92,12 +97,7 @@ public class LdapManager
     {
         try
         {
-            /*
-             * Get all the properties we need from the CAS properties file in
-             * /etc
-             */
-            final Properties properties;
-            properties = Property.loadProperties("/ldap.properties");
+            init();
 
             if (properties == null)
             {
@@ -135,6 +135,14 @@ public class LdapManager
         }
     }
 
+    /*
+    * Get all the properties we need from the properties file in ldap.properties
+    */
+    private void init()
+    {
+        properties = Property.loadProperties("/ldap.properties");
+    }
+
     /**
      * Initialize LdapManager instance with the host, port, auth dn, and auth
      * password set.
@@ -149,6 +157,7 @@ public class LdapManager
     public LdapManager(final String sLDAPHost, final String sLDAPPort,
         final String sLDAPManagerDN, final String sLDAPManagerPW)
     {
+        init();
         this.sLDAPManagerDN = sLDAPManagerDN;
         this.sLDAPManagerPW = sLDAPManagerPW;
         sLDAPURL = "ldap://" + sLDAPHost + ':' + sLDAPPort;
@@ -832,4 +841,8 @@ public class LdapManager
         unbind(ldapEntry.getDn());
     }
 
+    public String getProperty(String propertyName)
+    {
+        return properties.getProperty(propertyName);
+    }
 }
