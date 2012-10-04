@@ -266,8 +266,6 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * <p/>
      * Validates that the class is annotated with {@link DN}, and that the
      * property getter is available.
-     * <p/>
-     * CRITICAL ldap entities REQUIRE dn setter too (issue-17)
      *
      * @param annotatedClass the {@link LdapEntity} annotated class
      * @param field          the field annotated with DN
