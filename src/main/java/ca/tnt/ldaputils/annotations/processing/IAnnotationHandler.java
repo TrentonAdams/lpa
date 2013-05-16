@@ -121,11 +121,4 @@ public interface IAnnotationHandler
      */
     void validateProcessing();
 
-    /**
-     * Sets the established ldap manager object, which should be
-     * pre-authenticated.
-     *
-     * @param managerInstance the already authenticated manager
-     */
-    void setManager(final LdapManager managerInstance);
 }
