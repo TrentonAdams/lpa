@@ -542,8 +542,17 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         final String dnReference, final Object attributeValue)
         throws InvalidNameException
     {
-        final String dnLocalReference = dnReference.replace("?",
-            Rdn.escapeValue(attributeValue));
+        final String dnLocalReference;
+        if ("?".equals(dnReference))
+        {
+            dnLocalReference = dnReference.replace("?",
+                (String)attributeValue);
+        }
+        else
+        {
+            dnLocalReference = dnReference.replace("?",
+                Rdn.escapeValue(attributeValue));
+        }
         final LdapName ldapName = new LdapName(dnLocalReference);
         return manager.find(entityClass, ldapName);
     }
