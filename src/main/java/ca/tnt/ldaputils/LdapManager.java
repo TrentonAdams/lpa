@@ -163,6 +163,15 @@ public class LdapManager
         sLDAPURL = "ldap://" + sLDAPHost + ':' + sLDAPPort;
     }
 
+    public LdapManager(final String sLDAPUrl,
+        final String sLDAPManagerDN, final String sLDAPManagerPW)
+    {
+        init();
+        this.sLDAPManagerDN = sLDAPManagerDN;
+        this.sLDAPManagerPW = sLDAPManagerPW;
+        sLDAPURL = sLDAPUrl;
+    }
+
     /**
      * Do a search and return a Map of the entries.  They key is the value of
      * the keyAttribute that you passed in.  So, if you wanted "cn" to be the
@@ -203,7 +212,8 @@ public class LdapManager
      * @param sorted         One of NO_ORDER, SEARCH_ORDER, SORTED_ORDER
      * @param searchScope    One of the scope values in {@link SearchControls}
      *
-     * @return a map of LDAPObjects with the keys being the keyAttribute value
+     * @return a map of LDAPObjects with the keys being the keyAttribute value.
+     *         An empty map if nothing was found.
      *
      * @throws LdapNamingException if any naming problems occur
      * @see LdapManager#NO_ORDER
@@ -251,8 +261,8 @@ public class LdapManager
                 entryAttributes = entry.getAttributes();
 
                 logger.debug("keyAttribute: " + keyAttribute);
-                logger.debug("keyAttribute - " +
-                    entryAttributes.get(keyAttribute).get());
+                logger.debug("keyAttribute - " + entryAttributes.get(
+                    keyAttribute).get());
                 final String keyValue;
                 keyValue = (String) entryAttributes.get(keyAttribute).get();
 
@@ -262,13 +272,13 @@ public class LdapManager
         }
         catch (NamingException namingException)
         {
-            throw new LdapNamingException("an error occurred doing an ldap " +
-                "search", namingException);
+            throw new LdapNamingException(
+                "an error occurred doing an ldap " + "search", namingException);
         }
         catch (Exception exception)
         {
-            throw new LdapNamingException("an error occurred doing an ldap " +
-                "search", exception);
+            throw new LdapNamingException(
+                "an error occurred doing an ldap " + "search", exception);
         }
 
         finally
@@ -281,8 +291,9 @@ public class LdapManager
                 }
                 catch (NamingException e)
                 {
-                    logger.error("error closing results: " +
-                        getNamingExceptionMessage(e));
+                    logger.error(
+                        "error closing results: " + getNamingExceptionMessage(
+                            e));
                 }
             }
 
@@ -534,16 +545,14 @@ public class LdapManager
      */
     public static void releaseConnection(final DirContext conn)
     {
-        if (conn == null)
-            return;
+        if (conn == null) return;
         try
         {
             conn.close();
         }
         catch (Exception e)
         {
-            logger.error("this error should not occur - " +
-                e.getMessage());
+            logger.error("this error should not occur - " + e.getMessage());
         }
     }
 
@@ -551,9 +560,9 @@ public class LdapManager
     {
         final String explanation;
         explanation = namingException.getExplanation();
-        if (explanation != null &&
-            (explanation.indexOf("user entry not found") != -1 ||
-                explanation.indexOf("Invalid Credentials") != -1))
+        if (explanation != null && (explanation.indexOf(
+            "user entry not found") != -1 || explanation.indexOf(
+            "Invalid Credentials") != -1))
         {
             /**
              * no big deal, we don't care about this much, as it's probably
@@ -628,8 +637,8 @@ public class LdapManager
                     attributes = args[4].split(",");
                 }
 
-                sortedEntries =
-                    manager.search(baseDN, filter, keyAttribute, attributes);
+                sortedEntries = manager.search(baseDN, filter, keyAttribute,
+                    attributes);
                 for (final Object o : sortedEntries.values())
                 {
                     ldapEntry = (ILdapEntry) o;
@@ -692,17 +701,15 @@ public class LdapManager
                 }
 
                 System.out.println("dn: " + dn);
-                System.out
-                    .println("attributes: " + Arrays.toString(attributes));
+                System.out.println("attributes: " + Arrays.toString(
+                    attributes));
 
-                ldapEntry =
-                    (ILdapEntry) manager.find(LdapEntry.class, dn);
+                ldapEntry = (ILdapEntry) manager.find(LdapEntry.class, dn);
                 System.out.println("ldapObject : " + ldapEntry);
 
                 for (final String value : values)
                 {
-                    ldapEntry.modifyBatchAttribute(iop, modAttr, value
-                    );
+                    ldapEntry.modifyBatchAttribute(iop, modAttr, value);
                 }
 
                 if (values.length == 0)
@@ -713,8 +720,7 @@ public class LdapManager
                 ldapEntry.modifyBatchAttributes();
 
                 final List attributeValues;
-                attributeValues =
-                    ldapEntry.getAttributeValues(modAttr);
+                attributeValues = ldapEntry.getAttributeValues(modAttr);
                 for (final Object attributeValue : attributeValues)
                 {   // print out all the new values
                     System.out.println(modAttr + " : " +
@@ -752,9 +758,8 @@ public class LdapManager
         throws NamingException
     {
         final Map sortedEntries;
-        sortedEntries = find(baseDN, searchFilter, keyAttribute,
-            attributes, LdapEntry.class, SEARCH_ORDER,
-            SearchControls.SUBTREE_SCOPE);
+        sortedEntries = find(baseDN, searchFilter, keyAttribute, attributes,
+            LdapEntry.class, SEARCH_ORDER, SearchControls.SUBTREE_SCOPE);
 
         return sortedEntries;
     }

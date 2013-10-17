@@ -182,7 +182,11 @@ public @interface LdapAttribute
      * implicitly a local aggregate.  See the {@link LdapAttribute LdapAttribute
      * class} documentation for more information.
      * <p/>
-     * CRITICAL fix infinite recursion (issue-15)
+     * If only a '?' bind parameter is returned by the method, then the
+     * attribute is assumed to contain the entire DN, and no ldap attribute
+     * escaping will occur on the attribute.
+     * <p/>
+     * * CRITICAL fix infinite recursion (issue-15)
      *
      * @return the method that returns the DN entry to load, with the bind
      *         variable ('?')
@@ -197,9 +201,13 @@ public @interface LdapAttribute
      * ${...} is a property name and should be loaded from ldap.properties in
      * the classpath.  An example might be referenceDN =
      * "${LdapOrganization.categoryDN}", where the property is defined as
-     *
+     * <p/>
      * <pre>LdapOrganization.categoryDN=cn=?,ou=bus-categories,dc=example,dc=com</pre>
-     *
+     * <p/>
+     * If only a '?' bind parameter is given, then the attribute is assumed to
+     * contain the entire DN, and no ldap attribute escaping will occur on the
+     * attribute.
+     * <p/>
      * TEST test reference DNs properly (issue-25)
      *
      * @return the DN reference with the bind variable ('?')

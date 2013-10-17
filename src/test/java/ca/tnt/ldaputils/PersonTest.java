@@ -20,8 +20,6 @@
  */
 package ca.tnt.ldaputils;
 
-import ca.tnt.ldaputils.impl.LdapEntry;
-import ca.tnt.ldaputils.impl.LdapOrganization;
 import ca.tnt.ldaputils.ldapimpl.InetOrgPerson;
 import org.apache.directory.server.annotations.CreateLdapServer;
 import org.apache.directory.server.annotations.CreateTransport;
@@ -36,13 +34,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.naming.InvalidNameException;
 import javax.naming.NamingException;
 import javax.naming.ldap.LdapName;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.SortedMap;
 
 /**
  * Created by IntelliJ IDEA.
