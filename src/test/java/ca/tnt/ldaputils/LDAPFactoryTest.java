@@ -21,7 +21,6 @@
 package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.exception.LdapNamingException;
-import ca.tnt.ldaputils.impl.LDAPEntryImpl;
 import ca.tnt.ldaputils.impl.LdapEntry;
 import ca.tnt.ldaputils.proprietary.ILdapBusiness;
 import junit.framework.TestCase;
@@ -173,7 +172,7 @@ public class LDAPFactoryTest extends TestCase
             searchTest("o=" + Rdn.escapeValue("Bilsky,  B & R Trucking"),
                 "o");
             logger.info("adding mail trent@example.com");
-            ldapObject.modifyBatchAttribute(LDAPEntryImpl.ADD_ATTRIBUTE,
+            ldapObject.modifyBatchAttribute(LdapEntry.ADD_ATTRIBUTE,
                 "mail", "trent@example.com");
             ldapObject.modifyBatchAttributes();
 
@@ -199,7 +198,7 @@ public class LDAPFactoryTest extends TestCase
             searchTest("o=" + Rdn.escapeValue("Bilsky,  B & R Trucking"),
                 "o");
             logger.info("removing mail trent@example.com");
-            ldapObject.modifyBatchAttribute(LDAPEntryImpl.REMOVE_ATTRIBUTE,
+            ldapObject.modifyBatchAttribute(LdapEntry.REMOVE_ATTRIBUTE,
                 "mail", "trent@example.com");
             ldapObject.modifyBatchAttributes();
 
@@ -229,7 +228,7 @@ public class LDAPFactoryTest extends TestCase
             logger.info("replacing mail trent@example.com");
             final String oldMail;
             oldMail = ldapObject.getMail();
-            ldapObject.modifyBatchAttribute(LDAPEntryImpl.REPLACE_ATTRIBUTE,
+            ldapObject.modifyBatchAttribute(LdapEntry.REPLACE_ATTRIBUTE,
                 "mail", "trent@example.com" );
             ldapObject.modifyBatchAttributes();
 
@@ -239,7 +238,7 @@ public class LDAPFactoryTest extends TestCase
             assertEquals(ldapObject.getMail(), "trent@example.com");
 
             logger.info("reverting mail");
-            ldapObject.modifyBatchAttribute(LDAPEntryImpl.REPLACE_ATTRIBUTE,
+            ldapObject.modifyBatchAttribute(LdapEntry.REPLACE_ATTRIBUTE,
                 "mail", oldMail );
             ldapObject.modifyBatchAttributes();
 

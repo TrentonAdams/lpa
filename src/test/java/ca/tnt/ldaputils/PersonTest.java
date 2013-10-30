@@ -51,41 +51,34 @@ import java.security.NoSuchAlgorithmException;
     {"JavaDoc", "ClassWithoutConstructor", "PublicMethodNotExposedInInterface"})
 @RunWith(FrameworkRunner.class)
 @CreateLdapServer(
-    transports =
-        {
-            @CreateTransport(protocol = "LDAP")
-        })
+    transports = {
+        @CreateTransport(protocol = "LDAP")})
 @CreateDS(allowAnonAccess = false, name = "example-partition",
-    partitions =
-        {
-            @CreatePartition(
-                name = "example",
-                suffix = "dc=example,dc=com",
-                contextEntry = @ContextEntry(
-                    entryLdif = "dn: dc=example,dc=com\n" +
-                        "objectclass: dcObject\n" +
-                        "objectclass: organization\n" +
-                        "o: Example\n" +
-                        "dc: example"))
-        })
+    partitions = {
+        @CreatePartition(
+            name = "example",
+            suffix = "dc=example,dc=com",
+            contextEntry = @ContextEntry(
+                entryLdif = "dn: dc=example,dc=com\n" +
+                    "objectclass: dcObject\n" +
+                    "objectclass: organization\n" +
+                    "o: Example\n" +
+                    "dc: example"))})
 @ApplyLdifFiles({
-    "example.schema.ldif",
-    "add-domain.ldif",
-    "add-person.ldif"})
+    "example.schema.ldif", "add-domain.ldif", "add-person.ldif"})
 public class PersonTest extends AbstractLdapTestUnit
 {
     private LdapManager manager;
 
     @Before
-    public void setUp()
+    public void setUp() throws NoSuchFieldException
     {
         manager = new LdapManager("localhost", "" + ldapServer.getPort(),
             "uid=admin,ou=system", "secret");
     }
 
     @Test
-    public void testLdapOrg()
-        throws NamingException, NoSuchAlgorithmException
+    public void testLdapOrg() throws NamingException, NoSuchAlgorithmException
     {
         final LdapName ldapName = new LdapName(
             "uid=iop,ou=People,dc=example,dc=com");
@@ -93,8 +86,7 @@ public class PersonTest extends AbstractLdapTestUnit
             InetOrgPerson.class, ldapName);
         Assert.assertEquals("photo count", 2, ldapEntry.getJpegPhotos().size());
         final MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] thedigest = md.digest(
-            (byte[]) ldapEntry.getJpegPhotos().get(0));
+        byte[] thedigest = md.digest((byte[]) ldapEntry.getJpegPhotos().get(0));
         BigInteger bigInt = new BigInteger(1, thedigest);
         String hashtext = bigInt.toString(16);
 
@@ -106,8 +98,7 @@ public class PersonTest extends AbstractLdapTestUnit
             hashtext);
 
 
-        thedigest = md.digest(
-            (byte[]) ldapEntry.getJpegPhotos().get(1));
+        thedigest = md.digest((byte[]) ldapEntry.getJpegPhotos().get(1));
         bigInt = new BigInteger(1, thedigest);
         hashtext = bigInt.toString(16);
 
@@ -118,5 +109,4 @@ public class PersonTest extends AbstractLdapTestUnit
         Assert.assertEquals("md5", "516b9132d13e43b4b6af84b5e35a1109",
             hashtext);
     }
-
 }

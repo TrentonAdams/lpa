@@ -213,4 +213,20 @@ public @interface LdapAttribute
      * @return the DN reference with the bind variable ('?')
      */
     String referencedDN() default "";
+
+    /**
+     * If a field can not be nullified on load, set this.  Currently,
+     * collections are cleared, and primitive fields are nullified.
+     *
+     * @return true by default, false if specified
+     */
+    boolean canBeNull() default true;
+
+    /**
+     * The method for clearing the instance, or creating a new empty one, if
+     * canBeNull is set to false.  If not specified, and canBeNull is set to
+     * false, a simple no args constructor call is made to create a new empty
+     * instance.
+     */
+    String clear() default "";
 }

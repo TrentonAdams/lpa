@@ -21,7 +21,9 @@
 package ca.tnt.ldaputils.annotations.processing;
 
 import ca.tnt.ldaputils.LdapManager;
-import ca.tnt.ldaputils.annotations.*;
+import ca.tnt.ldaputils.annotations.LdapAttribute;
+import ca.tnt.ldaputils.annotations.LdapEntity;
+import ca.tnt.ldaputils.annotations.TypeHandler;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
 import org.apache.log4j.Logger;
 
@@ -30,9 +32,12 @@ import javax.naming.NamingException;
 import javax.naming.directory.Attribute;
 import javax.naming.directory.Attributes;
 import javax.naming.ldap.LdapName;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * {@link IAnnotationHandler} implementation that processes LPA annotations for
@@ -86,7 +91,7 @@ public class LdapEntityLoader extends LdapEntityHandler
     protected boolean preProcessAnnotation(final LdapEntity annotation,
         final Class annotatedClass)
     {
-        return validateObjectClasses((LdapEntity) annotation, attributes);
+        return validateObjectClasses(annotation, attributes);
     }
 
     @Override
@@ -95,7 +100,6 @@ public class LdapEntityLoader extends LdapEntityHandler
     {
         field.setAccessible(true);
         field.set(entity, attributes);
-        field.setAccessible(false);
     }
 
     @Override
@@ -104,7 +108,6 @@ public class LdapEntityLoader extends LdapEntityHandler
     {
         field.setAccessible(true);
         field.set(entity, dn.clone());
-        field.setAccessible(false);
         isDnSet = validateDN(annotatedClass, field);
     }
 
@@ -164,6 +167,10 @@ public class LdapEntityLoader extends LdapEntityHandler
                 fieldValue = attr.get();
             }
         }
+/*        else
+        {
+            fieldValue = null;
+        }*/
         return fieldValue;
     }   // END processAttribute() - simple attribute processing
 

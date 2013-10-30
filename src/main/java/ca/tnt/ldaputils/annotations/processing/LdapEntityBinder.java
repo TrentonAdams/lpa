@@ -34,9 +34,11 @@ import javax.naming.directory.Attributes;
 import javax.naming.directory.BasicAttribute;
 import javax.naming.directory.BasicAttributes;
 import javax.naming.ldap.LdapName;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * {@link IAnnotationHandler} implementation that processes LPA annotations for
@@ -104,48 +106,41 @@ public class LdapEntityBinder extends LdapEntityHandler
         throws NamingException, IllegalAccessException
     {
         final Object returnValue = null;    // always null, we're reading
-        try
+        field.setAccessible(true);
+
+        final Class fieldType = field.getType();
+        final String attrName = attrAnnotation.name();
+        final Object fieldValue = field.get(entity);
+        final Attribute attribute = new BasicAttribute(attrName);
+
+        if (fieldValue != null)
         {
-            field.setAccessible(true);
-
-            final Class fieldType = field.getType();
-            final String attrName = attrAnnotation.name();
-            final Object fieldValue = field.get(entity);
-            final Attribute attribute = new BasicAttribute(attrName);
-
-            if (fieldValue != null)
-            {
-                if (isMultiValued(fieldType))
-                {   // assumed to accept list of ALL attribute values
-                    if (fieldValue instanceof Collection)
+            if (isMultiValued(fieldType))
+            {   // assumed to accept list of ALL attribute values
+                if (fieldValue instanceof Collection)
+                {
+                    final Collection values = (Collection) fieldValue;
+                    for (final Object value : values)
                     {
-                        final Collection values = (Collection) fieldValue;
-                        for (final Object value : values)
-                        {
-                            attribute.add(value);
-                        }
-                    }
-                    else
-                    {
-                        throw new LpaAnnotationException(
-                            "unsupported Class type; we plan on supporting " +
-                                "TypeHandler for non aggregates in the future");
+                        attribute.add(value);
                     }
                 }
                 else
-                {   // accepts single valued String attributes attribute
-                    attribute.add(fieldValue);
+                {
+                    throw new LpaAnnotationException(
+                        "unsupported Class type; we plan on supporting " +
+                            "TypeHandler for non aggregates in the future");
                 }
             }
-
-            if (attribute.size() > 0)
-            {
-                attributes.put(attribute);
+            else
+            {   // accepts single valued String attributes attribute
+                attribute.add(fieldValue);
             }
         }
-        finally
+
+        if (attribute.size() > 0)
         {
-            field.setAccessible(false);
+            attributes.put(attribute);
         }
         return returnValue;
     }
@@ -159,8 +154,8 @@ public class LdapEntityBinder extends LdapEntityHandler
      */
     @Override
     protected Object processForeignAggregate(final Field field,
-        final Class<?> aggClass,
-        final String dnReference, final LdapAttribute attrAnnotation)
+        final Class<?> aggClass, final String dnReference,
+        final LdapAttribute attrAnnotation)
         throws NamingException, IllegalAccessException
     {
         final Object returnValue = null;    // always null, we're reading
@@ -196,9 +191,8 @@ public class LdapEntityBinder extends LdapEntityHandler
             else if (entity instanceof TypeHandler)
             {
                 // attribute values for current object
-                final Collection values =
-                    ((TypeHandler) entity).getValues(aggClass, fieldType,
-                        fieldInstance);
+                final Collection values = ((TypeHandler) entity).getValues(
+                    aggClass, fieldType, fieldInstance);
                 final Attribute attribute = new BasicAttribute(
                     attrAnnotation.name());
                 for (final Object attributeValue : values)
@@ -302,7 +296,6 @@ public class LdapEntityBinder extends LdapEntityHandler
         validateDN(annotatedClass, field);
         field.setAccessible(true);
         dn = (LdapName) field.get(entity);
-        field.setAccessible(false);
     }
 
     /**
@@ -341,7 +334,8 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     /**
-     * Retrieve the processed attributes for LDAP.  Each entry in the list is for a single
+     * Retrieve the processed attributes for LDAP.  Each entry in the list is
+     * for a single
      * <p/>
      * <span style="color:red;">WARNING! WARNING! WARNING!</span> you may only
      * call this method a SINGLE time. Once it has been called, the list of

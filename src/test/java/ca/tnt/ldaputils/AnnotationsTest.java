@@ -22,7 +22,6 @@ package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.impl.LDAPEntryImpl;
 import ca.tnt.ldaputils.impl.LdapEntry;
-import ca.tnt.ldaputils.impl.LdapGroup;
 import ca.tnt.ldaputils.impl.LdapOrganization;
 import ca.tnt.ldaputils.ldapimpl.*;
 import ca.tnt.ldaputils.proprietary.ILdapBusiness;

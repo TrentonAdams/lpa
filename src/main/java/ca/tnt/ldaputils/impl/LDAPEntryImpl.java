@@ -22,6 +22,7 @@ package ca.tnt.ldaputils.impl;
 
 import ca.tnt.ldaputils.ILdapEntry;
 import ca.tnt.ldaputils.LdapManager;
+import ca.tnt.ldaputils.annotations.Manager;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.ObjectClassNotSupportedException;
 import org.apache.log4j.Logger;
@@ -60,6 +61,8 @@ public class LDAPEntryImpl implements ILdapEntry, Serializable
     protected List objectClasses;
     protected LinkedHashMap modificationItems;
 
+    @Manager
+    protected LdapManager manager;
     /**
      * This contains all of the attributes for the object
      */
@@ -306,6 +309,12 @@ public class LDAPEntryImpl implements ILdapEntry, Serializable
     }
 
     public void modifyBatchAttributes()
+    {
+        modifyBatchAttributes(manager.getBindDN(), manager.getBindPassword());
+    }
+
+    public void modifyBatchAttributes(final String bindDN,
+        final String bindPassword)
     {   // BEGIN modifyBatchAttributes()
         DirContext ldapContext = null;
 
@@ -313,7 +322,6 @@ public class LDAPEntryImpl implements ILdapEntry, Serializable
         {
             throw new IllegalStateException("No modification items for batch");
         }
-        final LdapManager manager = new LdapManager();
 
         try
         {
@@ -326,7 +334,8 @@ public class LDAPEntryImpl implements ILdapEntry, Serializable
                 modItems[index] = (ModificationItem) tempModItems[index];
             }
 
-            ldapContext = manager.getConnection();
+            ldapContext = manager.getConnection(bindDN,
+                bindPassword);
             ldapContext.modifyAttributes(getDn(), modItems);
 
             /**
@@ -392,7 +401,6 @@ public class LDAPEntryImpl implements ILdapEntry, Serializable
 
         returningAttributes = new String[1];
         returningAttributes[0] = attrName;
-        final LdapManager manager = new LdapManager();
         returnedAttributes = manager.getAttributes(dn, returningAttributes);
 
         if (returnedAttributes.size() == 1)

@@ -21,11 +21,7 @@
 package ca.tnt.ldaputils.annotations.processing;
 
 import ca.tnt.ldaputils.LdapManager;
-import ca.tnt.ldaputils.annotations.DN;
-import ca.tnt.ldaputils.annotations.LdapAttribute;
-import ca.tnt.ldaputils.annotations.LdapEntity;
-import ca.tnt.ldaputils.annotations.Manager;
-import ca.tnt.ldaputils.annotations.TypeHandler;
+import ca.tnt.ldaputils.annotations.*;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
 import org.apache.log4j.Logger;
@@ -87,8 +83,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      */
     protected static boolean isMultiValued(final Class fieldType)
     {
-        return !String.class.equals(fieldType) &&
-            !(byte.class.equals(fieldType) && fieldType.isArray());
+        return !String.class.equals(fieldType) && !(byte.class.equals(
+            fieldType) && fieldType.isArray());
     }
 
     /**
@@ -230,7 +226,6 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
     {
         field.setAccessible(true);
         field.set(entity, manager);
-        field.setAccessible(false);
     }
 
     /**
@@ -303,27 +298,6 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
     }
 
     /**
-     * Only to be used if the field needs to be injected.  If you're doing
-     * read-only processing for your subclass of LdapEntityLoader, then override
-     * this, and have it do nothing.
-     *
-     * @param field      the field
-     * @param fieldValue the value of the field to inject
-     *
-     * @throws IllegalAccessException if java policies prevent access to fields
-     *                                via reflection
-     */
-    private void injectField(final Field field, final Object fieldValue)
-        throws IllegalAccessException
-    {
-        if (fieldValue != null)
-        {   // never set to null, as the contructor may have initialized
-            // a default empty collection or something.
-            field.set(entity, fieldValue);
-        }
-    }
-
-    /**
      * <span style="color:red;">WARNING! WARNING! WARNING!</span> It is not
      * recommended that you override this method.  We do checks to determine
      * what is classified as a regular attribute field vs an aggregatized one
@@ -379,25 +353,48 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         }
         final Class<?> aggClass = attrAnnotation.aggregateClass();
 
-        try
-        {
-            final boolean isAggregate = !Object.class.equals(aggClass);
-            if (!isAggregate)
-            {   // regular string or byte array attributes in a collection, or
-                // by themselves.
-                fieldValue = processAttribute(field, attrAnnotation);
-            }
-            else
-            {   // an aggregate, attribut must be a string
-                fieldValue = processAggregate(field, annotatedClass,
-                    aggClass, attrAnnotation);
-            }
-
-            injectField(field, fieldValue); // may do nothing
+        final boolean isAggregate = !Object.class.equals(aggClass);
+        if (!isAggregate)
+        {   // regular string or byte array attributes in a collection, or
+            // by themselves.
+            fieldValue = processAttribute(field, attrAnnotation);
         }
-        finally
-        {   // reset java language checks
-            field.setAccessible(false);
+        else
+        {   // an aggregate, attribut must be a string
+            fieldValue = processAggregate(field, annotatedClass, aggClass,
+                attrAnnotation);
+        }
+
+/*        if (fieldValue == null)
+        {   // special empty handling
+            final Object theField = field.get(entity);
+
+            if (!field.getType().isInterface())
+            {
+                if (theField instanceof Collection)
+                {
+                    ((Collection) theField).clear();
+                }
+                else if ("".equals(attrAnnotation.clear()))
+                {
+                    field.set(entity, field.getType().newInstance());
+                }
+                else if (theField != null)
+                {   // not a collection
+                    final Method clearMethod = annotatedClass.getDeclaredMethod(
+                        attrAnnotation.clear());
+                    clearMethod.invoke(entity);
+                }
+            }
+        }
+        else
+        {
+            field.set(entity, fieldValue);
+        }*/
+
+        if (fieldValue != null)
+        {
+            field.set(entity, fieldValue);
         }
     }   // END processLdapAttribute()
 
@@ -460,8 +457,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
     protected Object processAggregate(final Field field,
-        final Class annotatedClass,
-        final Class<?> aggClass,
+        final Class annotatedClass, final Class<?> aggClass,
         final LdapAttribute attrAnnotation)
         throws InstantiationException, IllegalAccessException,
         NoSuchMethodException, InvocationTargetException, NamingException
@@ -500,7 +496,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
             {
                 if (referenceDN.matches("^\\$\\{(.*)\\}$"))
                 {
-                    dnReference = referenceDN.replaceAll("^\\$\\{(.*)\\}$", "$1");
+                    dnReference = referenceDN.replaceAll("^\\$\\{(.*)\\}$",
+                        "$1");
                     // The reference is in ${property.name} syntax
                     dnReference = manager.getProperty(dnReference);
                 }
@@ -518,8 +515,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
                     "with '?'");
             }
 
-            fieldValue = processForeignAggregate(field, aggClass,
-                dnReference, attrAnnotation);
+            fieldValue = processForeignAggregate(field, aggClass, dnReference,
+                attrAnnotation);
         }   // END foreign ldap entry processing for aggregate
         return fieldValue;
     }
@@ -546,12 +543,12 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         if ("?".equals(dnReference))
         {
             dnLocalReference = dnReference.replace("?",
-                (String)attributeValue);
+                (String) attributeValue);
         }
         else
         {
-            dnLocalReference = dnReference.replace("?",
-                Rdn.escapeValue(attributeValue));
+            dnLocalReference = dnReference.replace("?", Rdn.escapeValue(
+                attributeValue));
         }
         final LdapName ldapName = new LdapName(dnLocalReference);
         return manager.find(entityClass, ldapName);
@@ -578,10 +575,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
         // loaded, this is certainly the fastest way of comparing them.
         if (annotatedClass == entity.getClass())
         {   // top level class required to be annotated.
-            throw new IllegalArgumentException(
-                annotatedClass.getName() +
-                    " is not a valid LdapEntity POJO; @LdapEntity" +
-                    " annotation REQUIRED");
+            throw new IllegalArgumentException(annotatedClass.getName() +
+                " is not a valid LdapEntity POJO; @LdapEntity" +
+                " annotation REQUIRED");
         }
     }
 

@@ -58,13 +58,13 @@ public class LdapManager
 {
     // logging
     private static Logger logger = Logger.getLogger(LdapManager.class);
-    private static final int TIMEOUT = 300;
+    public static final int TIMEOUT = 300;
 
     // internal configuration
     private final String sLDAPURL;
     private String sLDAPuidAttribute;
-    private final String sLDAPManagerDN;
-    private final String sLDAPManagerPW;
+    private String bindDN;
+    private String bindPassword;
 
     /**
      * Return search results in no particular order.  i.e. the are stored in a
@@ -114,13 +114,13 @@ public class LdapManager
 
             // don't use defaults in code because it could be a security
             // vulnerability
-            sLDAPManagerDN = properties.getProperty("LDAP.managerdn");
-            sLDAPManagerPW = properties.getProperty("LDAP.managerpw");
+            bindDN = properties.getProperty("LDAP.managerdn");
+            bindPassword = properties.getProperty("LDAP.managerpw");
 
             if (sLDAPHost == null ||
                 sLDAPPort == null ||
                 sLDAPBaseDN == null ||
-                sLDAPManagerDN == null || sLDAPManagerPW == null)
+                bindDN == null || bindPassword == null)
             {
                 throw new NullPointerException(
                     "please ensure all properties are set in ldap.properties");
@@ -147,28 +147,28 @@ public class LdapManager
      * Initialize LdapManager instance with the host, port, auth dn, and auth
      * password set.
      *
-     * @param sLDAPHost      the ldap host
-     * @param sLDAPPort      the ldap port
-     * @param sLDAPManagerDN the fully qualified DN of the ldap manager account,
-     *                       or one of sufficient privileges to carry out the
-     *                       required operations
-     * @param sLDAPManagerPW the password of the sLDAPManagerDN account.
+     * @param sLDAPHost    the ldap host
+     * @param sLDAPPort    the ldap port
+     * @param bindDN       the fully qualified DN of the ldap manager account,
+     *                     or one of sufficient privileges to carry out the
+     *                     required operations
+     * @param bindPassword the password of the bindDN account.
      */
     public LdapManager(final String sLDAPHost, final String sLDAPPort,
-        final String sLDAPManagerDN, final String sLDAPManagerPW)
+        final String bindDN, final String bindPassword)
     {
         init();
-        this.sLDAPManagerDN = sLDAPManagerDN;
-        this.sLDAPManagerPW = sLDAPManagerPW;
+        this.bindDN = bindDN;
+        this.bindPassword = bindPassword;
         sLDAPURL = "ldap://" + sLDAPHost + ':' + sLDAPPort;
     }
 
-    public LdapManager(final String sLDAPUrl,
-        final String sLDAPManagerDN, final String sLDAPManagerPW)
+    public LdapManager(final String sLDAPUrl, final String bindDN,
+        final String bindPassword)
     {
         init();
-        this.sLDAPManagerDN = sLDAPManagerDN;
-        this.sLDAPManagerPW = sLDAPManagerPW;
+        this.bindDN = bindDN;
+        this.bindPassword = bindPassword;
         sLDAPURL = sLDAPUrl;
     }
 
@@ -207,10 +207,10 @@ public class LdapManager
      *                       want ALL attributes to be loaded for a particular
      *                       LDAPObject, then pass in a null value for this
      *                       parameter
-     * @param ldapEntryClass the clas of the object that is {@link LdapEntity
-     *                       annotated}
+     * @param ldapEntryClass the clas of the object that is {@link
+     *                       ca.tnt.ldaputils.annotations.LdapEntity annotated}
      * @param sorted         One of NO_ORDER, SEARCH_ORDER, SORTED_ORDER
-     * @param searchScope    One of the scope values in {@link SearchControls}
+     * @param searchScope    One of the scope values in {@link javax.naming.directory.SearchControls}
      *
      * @return a map of LDAPObjects with the keys being the keyAttribute value.
      *         An empty map if nothing was found.
@@ -220,11 +220,25 @@ public class LdapManager
      * @see LdapManager#SEARCH_ORDER
      * @see LdapManager#SORTED_ORDER
      */
+    public Map find(final LdapName baseDN, final String searchFilter,
+        final String keyAttribute, final String[] attributes,
+        final Class ldapEntryClass, final int sorted, final int searchScope)
+    {
+        return find(baseDN, searchFilter, keyAttribute, attributes,
+            ldapEntryClass, sorted, searchScope, bindDN, bindPassword);
+    }
+
+    /**
+     * Searches for entries using the bind DN and password specified. See the
+     * {@link #find(LdapName, String, String, String[], Class, int, int)} for
+     * more information
+     */
     @SuppressWarnings(
         {"unchecked", "ObjectAllocationInLoop", "ChainedMethodCall"})
     public Map find(final LdapName baseDN, final String searchFilter,
         final String keyAttribute, final String[] attributes,
-        final Class ldapEntryClass, final int sorted, final int searchScope)
+        final Class ldapEntryClass, final int sorted, final int searchScope,
+        final String bindDN, final String bindPassword)
     {
         DirContext ldapContext = null;
         final SearchControls searchControls;
@@ -239,16 +253,15 @@ public class LdapManager
         searchControls.setSearchScope(scope);
 
         final Map sortedLDAPObjects;
-        if (sorted == SORTED_ORDER)
-            sortedLDAPObjects = new TreeMap();
-        else if (sorted == NO_ORDER)
-            sortedLDAPObjects = new HashMap();
+        if (sorted == SORTED_ORDER) sortedLDAPObjects = new TreeMap();
+        else if (sorted == NO_ORDER) sortedLDAPObjects = new HashMap();
         else    // assume SEARCH_ORDER
             sortedLDAPObjects = new LinkedHashMap();
 
         try
         {
-            ldapContext = getConnection();
+            ldapContext = getConnection(false, TIMEOUT, sLDAPURL, bindDN,
+                bindPassword);
 
             // perform a search to find the entries
             results = ldapContext.search(baseDN, searchFilter, searchControls);
@@ -319,7 +332,21 @@ public class LdapManager
      */
     public Object find(final Class annotatedClass, final LdapName dn)
     {
-        return find(annotatedClass, dn, getAttributes(dn, null));
+        return find(annotatedClass, dn, getAttributes(dn, null, bindDN,
+            bindPassword));
+    }
+
+    /**
+     * Provides for grabbing the pojo you specified, using a different bind
+     * DN/password.  See {@link #find(Class, LdapName)} for more information.
+     *
+     * @see #find(Class, LdapName)
+     */
+    public Object find(final Class annotatedClass, final LdapName dn,
+        final String bindDN, final String bindPassword)
+    {
+        return find(annotatedClass, dn, getAttributes(dn, null, bindDN,
+            bindPassword));
     }
 
     /**
@@ -338,7 +365,7 @@ public class LdapManager
      * @throws IllegalArgumentException if the annotatedClass is not correctly
      *                                  annotated in some way
      */
-    private Object find(final Class annotatedClass, final LdapName dn,
+    public Object find(final Class annotatedClass, final LdapName dn,
         final Attributes attributes)
     {
         Object newObject = null;
@@ -370,6 +397,28 @@ public class LdapManager
         return newObject;
     }
 
+    public boolean reloadAttributes(final Object instance)
+    {
+        final AnnotationProcessor annotationProcessor =
+            new AnnotationProcessor();
+        final LdapEntityLoader entityLoader = new LdapEntityLoader(instance,
+            ((LdapEntry) instance).getAttributes(),
+            ((LdapEntry) instance).getDn());
+        entityLoader.setManager(this);
+        annotationProcessor.addHandler(entityLoader);
+        if (!annotationProcessor.processAnnotations())
+        {
+            return false;
+        }
+        return true;
+    }
+
+
+    public Attributes getAttributes(final LdapName dn,
+        final String[] returningAttributes)
+    {
+        return getAttributes(dn, returningAttributes, bindDN, bindPassword);
+    }
 
     /**
      * Generic method for retrieving entry attributes from the LDAP store. There
@@ -452,14 +501,16 @@ public class LdapManager
     } // BEGIN getAttributes ()
 
     public Attributes getAttributes(final LdapName dn,
-        final String[] attributes)
+        final String[] attributes, final String bindDN,
+        final String bindPassword)
     {   // BEGIN getAttributes(dn)
         Attributes returnedAttributes = null;
         DirContext ldapContext = null;
 
         try
         { // BEGIN LDAP try block
-            ldapContext = getConnection();
+            ldapContext = getConnection(false, TIMEOUT, sLDAPURL, bindDN,
+                bindPassword);
             returnedAttributes = ldapContext.getAttributes(dn, attributes);
         } // END LDAP try block
         catch (NamingException exception)
@@ -494,8 +545,7 @@ public class LdapManager
      *
      * @throws NamingException if a JNDI error occurs.
      */
-    @SuppressWarnings(
-        {"UseOfObsoleteCollectionType", "MagicNumber"})
+    @SuppressWarnings({"UseOfObsoleteCollectionType", "MagicNumber"})
     public static DirContext getConnection(final boolean isPooled,
         final int timeout, final String sLDAPURL, final String sLDAPManagerDN,
         final String sLDAPManagerPW) throws NamingException
@@ -532,10 +582,15 @@ public class LdapManager
 
     } // END getConnection ()
 
+    public DirContext getConnection(final String bindDN,
+        final String bindPassword) throws NamingException
+    {
+        return getConnection(true, TIMEOUT, sLDAPURL, bindDN, bindPassword);
+    }
+
     public DirContext getConnection() throws NamingException
     {
-        return getConnection(true, TIMEOUT, sLDAPURL, sLDAPManagerDN,
-            sLDAPManagerPW);
+        return getConnection(true, TIMEOUT, sLDAPURL, bindDN, bindPassword);
     }
 
     /**
@@ -846,8 +901,28 @@ public class LdapManager
         unbind(ldapEntry.getDn());
     }
 
-    public String getProperty(String propertyName)
+    public String getProperty(final String propertyName)
     {
         return properties.getProperty(propertyName);
+    }
+
+    public void setBindDN(String bindDN)
+    {
+        this.bindDN = bindDN;
+    }
+
+    public String getBindDN()
+    {
+        return bindDN;
+    }
+
+    public String getBindPassword()
+    {
+        return bindPassword;
+    }
+
+    public void setBindPassword(final String bindPassword)
+    {
+        this.bindPassword = bindPassword;
     }
 }

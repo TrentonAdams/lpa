@@ -1,28 +1,31 @@
 /**
  * This file is part of the LDAP Persistence API (LPA).
- * 
+ *
  * Copyright Trenton D. Adams <lpa at trentonadams daught ca>
- * 
+ *
  * LPA is free software: you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or (at your
  * option) any later version.
- * 
+ *
  * LPA is distributed in the hope that it will be useful, but WITHOUT ANY
  * WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
  * License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public 
  * License along with LPA.  If not, see <http://www.gnu.org/licenses/>.
- * 
+ *
  * See the COPYING file for more information.
  */
 package ca.tnt.ldaputils.impl;
 
 import ca.tnt.ldaputils.ILdapEntry;
 import ca.tnt.ldaputils.LdapManager;
-import ca.tnt.ldaputils.annotations.*;
+import ca.tnt.ldaputils.annotations.DN;
+import ca.tnt.ldaputils.annotations.LdapAttribute;
+import ca.tnt.ldaputils.annotations.LdapEntity;
+import ca.tnt.ldaputils.annotations.Manager;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -84,7 +87,8 @@ public class LdapEntry implements ILdapEntry, Comparable
 
     /**
      * LDAP Distinguished Name
-     */ /**
+     */
+    /**
      * @return the distinquished name of the object. ie, fully qualified path in
      *         LDAP tree.
      */
@@ -185,8 +189,7 @@ public class LdapEntry implements ILdapEntry, Comparable
      * @see #REMOVE_ATTRIBUTE REMOVE_ATTRIBUTE
      */
     public void modifyAttribute(final int operation, final String attribute,
-        final Object value
-    )
+        final Object value)
     {
         modifyBatchAttribute(operation, attribute, value);
         modifyBatchAttributes();   // run the attribute operation
@@ -219,8 +222,7 @@ public class LdapEntry implements ILdapEntry, Comparable
      * @see #REMOVE_ATTRIBUTE REMOVE_ATTRIBUTE
      */
     public void modifyBatchAttribute(final int operation,
-        final String attribute, final Object value
-    )
+        final String attribute, final Object value)
     {
         final Attribute newAttribute;
         ModificationItem modItem;
@@ -262,10 +264,20 @@ public class LdapEntry implements ILdapEntry, Comparable
     }
 
     /**
+     * Binds as a different user/password to modify the attributes. See {@link
+     * #modifyBatchAttributes(String, String) for more information}
+     */
+    public void modifyBatchAttributes()
+    {
+        modifyBatchAttributes(manager.getBindDN(), manager.getBindPassword());
+    }
+
+    /**
      * Runs the batch modifications requested through the {@link
      * ILdapEntry#modifyBatchAttribute(int, String, Object)}
      */
-    public void modifyBatchAttributes()
+    public void modifyBatchAttributes(final String bindDN,
+        final String bindPassword)
     {   // BEGIN modifyBatchAttributes()
         DirContext ldapContext = null;
 
@@ -284,7 +296,7 @@ public class LdapEntry implements ILdapEntry, Comparable
                 modItems[index] = (ModificationItem) tempModItems[index];
             }
 
-            ldapContext = manager.getConnection();
+            ldapContext = manager.getConnection(bindDN, bindPassword);
             ldapContext.modifyAttributes(getDn(), modItems);
 
             /**
@@ -296,6 +308,7 @@ public class LdapEntry implements ILdapEntry, Comparable
                 attribute = modItem.getAttribute();
                 updateAttribute(attribute.getID());
             }
+//            manager.reloadAttributes(this);
         }
         catch (NamingException namingException)
         {
@@ -351,6 +364,8 @@ public class LdapEntry implements ILdapEntry, Comparable
      * <p/>
      * MINOR : Instead of using LDAPFactory.getAttributes, using
      * DirContext.getAttributes().  Then we can remove the getAttributes().
+     * <p/>
+     * CRITICAL reload the attribute using the reflection framework somehow.
      *
      * @param attrName the name of the attribute
      *
@@ -363,7 +378,8 @@ public class LdapEntry implements ILdapEntry, Comparable
 
         returningAttributes = new String[1];
         returningAttributes[0] = attrName;
-        returnedAttributes = manager.getAttributes(getDn(), returningAttributes);
+        returnedAttributes = manager.getAttributes(getDn(),
+            returningAttributes);
 
         if (returnedAttributes.size() == 1)
         {   // only attempt to load the attributes if the search found them.
@@ -413,12 +429,9 @@ public class LdapEntry implements ILdapEntry, Comparable
     {
         final LdapEntry rhs = (LdapEntry) o;
 
-        return new EqualsBuilder()
-            .appendSuper(super.equals(o))
-            .append(getDn(), rhs.getDn())
-            .append(getCn(), rhs.getCn())
-            .append(objectClasses, rhs.objectClasses)
-            .isEquals();
+        return new EqualsBuilder().appendSuper(super.equals(o)).append(getDn(),
+            rhs.getDn()).append(getCn(), rhs.getCn()).append(objectClasses,
+            rhs.objectClasses).isEquals();
     }
 
     @SuppressWarnings(
@@ -438,11 +451,9 @@ public class LdapEntry implements ILdapEntry, Comparable
     public int compareTo(final Object o)
     {
         final LdapEntry myClass = (LdapEntry) o;
-        return new CompareToBuilder()
-            .append(getDn(), myClass.getDn())
-            .append(getCn(), myClass.getCn())
-            .append(objectClasses, myClass.objectClasses)
-            .toComparison();
+        return new CompareToBuilder().append(getDn(), myClass.getDn()).append(
+            getCn(), myClass.getCn()).append(objectClasses,
+            myClass.objectClasses).toComparison();
     }
 
     @Override
