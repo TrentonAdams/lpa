@@ -585,7 +585,7 @@ public class LdapManager
     public DirContext getConnection(final String bindDN,
         final String bindPassword) throws NamingException
     {
-        return getConnection(true, TIMEOUT, sLDAPURL, bindDN, bindPassword);
+        return getConnection(false, TIMEOUT, sLDAPURL, bindDN, bindPassword);
     }
 
     public DirContext getConnection() throws NamingException
