@@ -28,7 +28,7 @@ See the COPYING file for more information.
   <groupId>com.github.trentonadams</groupId>
   <artifactId>lpa</artifactId>
   <packaging>jar</packaging>
-  <version>0.3.1-SNAPSHOT</version>
+  <version>0.3.1</version>
   <name>LDAP Persistence API</name>
   <description>A persistence API for LDAP, using annotations; similar to JPA,
     but only for LDAP</description>
