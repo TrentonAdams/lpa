@@ -36,7 +36,6 @@ import org.junit.runner.RunWith;
 
 import javax.naming.InvalidNameException;
 import javax.naming.ldap.LdapName;
-import java.util.SortedMap;
 
 /**
  * Hardcoded port for ldap server, so we can test the loading of properties.

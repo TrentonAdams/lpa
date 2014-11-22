@@ -22,10 +22,7 @@ package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.impl.LdapGroup;
 
-import java.util.Map;
 import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * LDAPOrganization represents an object with a class of "organization"

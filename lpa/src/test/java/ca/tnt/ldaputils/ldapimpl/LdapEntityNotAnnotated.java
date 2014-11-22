@@ -24,7 +24,6 @@ import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.impl.LdapEntry;
 
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * Created by IntelliJ IDEA.
