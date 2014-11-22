@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="japa" />
         <module name="lpa" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="japa" target="1.6" />
       <module name="lpa" target="1.6" />
       <module name="root" target="1.6" />
     </bytecodeTargetLevel>

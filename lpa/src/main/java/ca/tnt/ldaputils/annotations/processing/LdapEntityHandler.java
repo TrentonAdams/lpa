@@ -649,4 +649,12 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
     protected abstract Object processLocalAggregate(Field field,
         Class<?> aggClass, LdapAttribute attrAnnotation)
         throws IllegalAccessException, InstantiationException, NamingException;
+
+    /**
+     * Sets the established ldap manager object, which should be
+     * pre-authenticated.
+     *
+     * @param managerInstance the already authenticated manager
+     */
+    public abstract void setManager(final LdapManager managerInstance);
 }

@@ -138,5 +138,10 @@ See the COPYING file for more information.
       <artifactId>commons-lang</artifactId>
       <version>2.5</version>
     </dependency>
+    <dependency>
+      <groupId>com.github.trentonadams</groupId>
+      <artifactId>japa</artifactId>
+      <version>0.3.2-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 </project>

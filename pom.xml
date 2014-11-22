@@ -33,6 +33,7 @@ See the COPYING file for more information.
   <version>0.3.2-SNAPSHOT</version>
   <modules>
     <module>lpa</module>
+    <module>japa</module>
   </modules>
   <name>LDAP Persistence API Root</name>
   <description>A persistence API for LDAP, using annotations; similar to JPA,
