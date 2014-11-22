@@ -28,6 +28,7 @@ import java.util.List;
  * Processes annotations all the way through a tree of Java classes, using
  * callbacks as the method of handling them.  See the {@link IAnnotationHandler}
  * for more information on the callbacks.
+ *
  * <p/>
  * Created :  21-Aug-2010 11:34:50 PM MST
  *
@@ -116,6 +117,7 @@ public class AnnotationProcessor
                 annotationClass);
             processed = handler.processAnnotation(annotation, annotatedClass) &&
                 processed;
+            // TODO Call the "processAnnotation()" above, but
         }
         else
         {

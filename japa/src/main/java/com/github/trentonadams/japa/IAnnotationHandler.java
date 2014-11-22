@@ -27,6 +27,10 @@ import java.lang.annotation.ElementType;
  * Annotation callback handler.  Implement this when you want to process
  * annotations recursively through the entire tree of subclasses.
  * <p/>
+ * TODO perhaps make each handler have a getFieldAnnotations() and a
+ * getMethodAnnotations().  If we do, we'll need to finish the calls for field
+ * ad method processing.
+ * <p/>
  * Created :  21-Aug-2010 11:51:11 PM MST
  *
  * @author Trenton D. Adams
@@ -61,7 +65,7 @@ public interface IAnnotationHandler
      *
      * @return true if annotation processing was successful
      *
-     * @throws RuntimeException The implementor may throw a RuntimeException
+     * @throws RuntimeException The implementer may throw a RuntimeException
      *                          from this method.  It is recommended that this
      *                          does not occur, unless it is severe.  First see
      *                          {@link #complete()}
