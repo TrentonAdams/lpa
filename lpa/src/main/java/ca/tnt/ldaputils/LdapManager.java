@@ -21,7 +21,7 @@
 package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.annotations.LdapEntity;
-import ca.tnt.ldaputils.annotations.processing.AnnotationProcessor;
+import com.github.trentonadams.japa.AnnotationProcessor;
 import ca.tnt.ldaputils.annotations.processing.LdapEntityBinder;
 import ca.tnt.ldaputils.annotations.processing.LdapEntityLoader;
 import ca.tnt.ldaputils.exception.LdapNamingException;

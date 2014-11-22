@@ -18,9 +18,7 @@
  *
  * See the COPYING file for more information.
  */
-package ca.tnt.ldaputils.annotations.processing;
-
-import ca.tnt.ldaputils.LdapManager;
+package com.github.trentonadams.japa;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;

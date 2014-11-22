@@ -26,6 +26,7 @@ import ca.tnt.ldaputils.annotations.LdapEntity;
 import ca.tnt.ldaputils.annotations.TypeHandler;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
+import com.github.trentonadams.japa.AnnotationProcessor;
 
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -41,7 +42,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * {@link IAnnotationHandler} implementation that processes LPA annotations for
+ * {@link com.github.trentonadams.japa.IAnnotationHandler} implementation that processes LPA annotations for
  * the purpose of generating JNDI Attributes for the bind call.
  * <p/>
  * Created :  02/01/11 1:09 PM MST

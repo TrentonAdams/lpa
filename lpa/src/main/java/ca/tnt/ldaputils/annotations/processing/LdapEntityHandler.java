@@ -24,6 +24,7 @@ import ca.tnt.ldaputils.LdapManager;
 import ca.tnt.ldaputils.annotations.*;
 import ca.tnt.ldaputils.exception.LdapNamingException;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
+import com.github.trentonadams.japa.IAnnotationHandler;
 import org.apache.log4j.Logger;
 
 import javax.naming.InvalidNameException;
@@ -40,7 +41,7 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 
 /**
- * {@link IAnnotationHandler} abstract implementation that processes LPA
+ * {@link com.github.trentonadams.japa.IAnnotationHandler} abstract implementation that processes LPA
  * annotations for the purpose of providing a base Class for other {@link
  * LdapEntity} annotation processing handlers.
  * <p/>

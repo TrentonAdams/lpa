@@ -25,6 +25,7 @@ import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.annotations.LdapEntity;
 import ca.tnt.ldaputils.annotations.TypeHandler;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
+import com.github.trentonadams.japa.AnnotationProcessor;
 import org.apache.log4j.Logger;
 
 import javax.naming.NamingEnumeration;
@@ -40,7 +41,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * {@link IAnnotationHandler} implementation that processes LPA annotations for
+ * {@link com.github.trentonadams.japa.IAnnotationHandler} implementation that processes LPA annotations for
  * the purpose of loading the {@link LdapEntity} annotated instance from the
  * ldap query results.
  * <p/>
