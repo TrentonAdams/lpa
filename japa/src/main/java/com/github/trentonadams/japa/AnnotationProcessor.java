@@ -40,7 +40,7 @@ public class AnnotationProcessor
     protected List<IAnnotationHandler> handlers;
 
     /**
-     * no args constructor
+     * Initializes the handlers list.
      */
     public AnnotationProcessor()
     {
@@ -58,7 +58,9 @@ public class AnnotationProcessor
     }
 
     /**
-     * process the annotations using the handler
+     * Process the annotations using the handlers
+     *
+     * @return true
      */
     public boolean processAnnotations()
     {
@@ -67,7 +69,7 @@ public class AnnotationProcessor
             final Class annotatedClass = handler.getAnnotatedClass();
             if (processAnnotation(handler, annotatedClass))
             {
-                handler.validateProcessing();
+                handler.complete();
                 return true;
             }
             else
@@ -116,8 +118,7 @@ public class AnnotationProcessor
                 processed;
         }
         else
-        {   // not annotated, handler can enforce annotation requirements or not
-            // MINOR refactor annotationg processor (issue-19)
+        {
             handler.noAnnotation(annotatedClass);
         }
 

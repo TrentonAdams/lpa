@@ -324,7 +324,7 @@ public class LdapEntityBinder extends LdapEntityHandler
     }
 
     @Override
-    public void validateProcessing()
+    public void complete()
     {
     }
 

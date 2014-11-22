@@ -275,7 +275,7 @@ public class LdapEntityLoader extends LdapEntityHandler
 
     @SuppressWarnings({"ChainedMethodCall"})
     @Override
-    public void validateProcessing()
+    public void complete()
     {
         if (!isDnSet())
         {   // an object in the tree must store the DN

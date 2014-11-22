@@ -53,8 +53,8 @@ public interface IAnnotationHandler
      * to actually do something with the annotation.
      * <p/>
      * it is recommended that the implementing object keeps track of problems
-     * and throws a RuntimeException in the {@link #validateProcessing()} method
-     * if something went wrong.
+     * and throws a RuntimeException in the {@link #complete()} method if
+     * something went wrong.
      *
      * @param annotation     the annotation
      * @param annotatedClass the field to process
@@ -64,7 +64,7 @@ public interface IAnnotationHandler
      * @throws RuntimeException The implementor may throw a RuntimeException
      *                          from this method.  It is recommended that this
      *                          does not occur, unless it is severe.  First see
-     *                          {@link #validateProcessing()}
+     *                          {@link #complete()}
      */
     boolean processAnnotation(final Annotation annotation,
         final Class annotatedClass);
@@ -82,7 +82,7 @@ public interface IAnnotationHandler
      * This is the primary Annotation (with target {@link ElementType#TYPE})
      * that this handler expects the annotated Class to be annotated with. If
      * the annotated class is annotated with this annotation, this indicates
-     * that this handler supports the Class being processed.  If this handler
+     * that the handler supports the Class being processed.  If your handler
      * does not support the Class being processed, the handler will never be
      * called.
      *
@@ -105,18 +105,21 @@ public interface IAnnotationHandler
     void noAnnotation(final Class annotatedClass);
 
     /**
-     * Method for validating the processing of the annotations.  This is called
-     * after all classes in the class tree have been traversed and processed.
-     * This is the final validation, and is meant for problems that could not be
-     * detected until traversing the entire class tree.  For example, it may be
-     * that you require a particular annotation on at least one class in the
-     * hierarchy, but your handler doesn't know when the end of Class hierarchy
-     * traversal is complete; this method is called after traversal completion.
+     * Method for notifying implementing class that the traversal of the entire
+     * class hierarchy is complete.  This is called after all classes in the
+     * class tree have been traversed and processed. This is the final
+     * validation, and is meant for problems that could not be detected until
+     * traversing the entire class tree.
+     * <p/>
+     * For example, it may be that you require a particular annotation on at
+     * least one class in the hierarchy, but your handler doesn't know when the
+     * end of Class hierarchy traversal is complete; this method is called after
+     * traversal completion.
      *
      * @throws RuntimeException if it is determined that a processing error has
      *                          occurred that could not be determined until
      *                          class hierarchy traversal is complete
      */
-    void validateProcessing();
+    void complete();
 
 }
