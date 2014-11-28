@@ -25,6 +25,7 @@ import ca.tnt.ldaputils.annotations.LdapAttribute;
 import ca.tnt.ldaputils.annotations.LdapEntity;
 import ca.tnt.ldaputils.annotations.TypeHandler;
 import ca.tnt.ldaputils.exception.LpaAnnotationException;
+import ca.tnt.ldaputils.exception.LpaMissingRequiredClassesException;
 import com.github.trentonadams.japa.AnnotationProcessor;
 import org.apache.log4j.Logger;
 
@@ -41,12 +42,12 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * {@link com.github.trentonadams.japa.IAnnotationHandler} implementation that processes LPA annotations for
- * the purpose of loading the {@link LdapEntity} annotated instance from the
- * ldap query results.
+ * {@link com.github.trentonadams.japa.IAnnotationHandler} implementation that
+ * processes LPA annotations for the purpose of loading the {@link LdapEntity}
+ * annotated instance from the ldap query results.
  * <p/>
- * FEATURE MINOR native support for Map (issue-13)
- * Created :  22-Aug-2010 12:44:56 AM MST
+ * FEATURE MINOR native support for Map (issue-13) Created :  22-Aug-2010
+ * 12:44:56 AM MST
  *
  * @author Trenton D. Adams
  */
@@ -89,10 +90,14 @@ public class LdapEntityLoader extends LdapEntityHandler
 
     @SuppressWarnings({"RefusedBequest"})
     @Override
-    protected boolean preProcessAnnotation(final LdapEntity annotation,
+    protected void preProcessAnnotation(final LdapEntity annotation,
         final Class annotatedClass)
     {
-        return validateObjectClasses(annotation, attributes);
+        if (!validateObjectClasses(annotation, attributes))
+        {
+            throw new LpaMissingRequiredClassesException("The load request " +
+                "did not contain all of the required objectClasses");
+        }
     }
 
     @Override
@@ -290,7 +295,7 @@ public class LdapEntityLoader extends LdapEntityHandler
      * Checks if the distinguished name was set
      *
      * @return true if the distinguished name was processed and set, false
-     *         otherwise.
+     * otherwise.
      */
     protected boolean isDnSet()
     {

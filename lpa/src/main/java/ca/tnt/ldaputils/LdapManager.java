@@ -21,11 +21,12 @@
 package ca.tnt.ldaputils;
 
 import ca.tnt.ldaputils.annotations.LdapEntity;
-import com.github.trentonadams.japa.AnnotationProcessor;
 import ca.tnt.ldaputils.annotations.processing.LdapEntityBinder;
 import ca.tnt.ldaputils.annotations.processing.LdapEntityLoader;
 import ca.tnt.ldaputils.exception.LdapNamingException;
+import ca.tnt.ldaputils.exception.LpaMissingRequiredClassesException;
 import ca.tnt.ldaputils.impl.LdapEntry;
+import com.github.trentonadams.japa.AnnotationProcessor;
 import org.apache.log4j.Logger;
 
 import javax.naming.Context;
@@ -378,10 +379,13 @@ public class LdapManager
                 newObject, attributes, dn);
             entityLoader.setManager(this);
             annotationProcessor.addHandler(entityLoader);
-            if (!annotationProcessor.processAnnotations())
-            {
-                return null;
-            }
+                annotationProcessor.processAnnotations();
+        }
+        catch (LpaMissingRequiredClassesException e)
+        {
+            logger.warn("attempting to load ldap entry that doesn't have" +
+                " the required objectClasses", e);
+            return null;
         }
         catch (InstantiationException e)
         {   // instantiation problems will mean it's not a valid object
@@ -397,7 +401,7 @@ public class LdapManager
         return newObject;
     }
 
-    public boolean reloadAttributes(final Object instance)
+    public void reloadAttributes(final Object instance)
     {
         final AnnotationProcessor annotationProcessor =
             new AnnotationProcessor();
@@ -406,11 +410,7 @@ public class LdapManager
             ((LdapEntry) instance).getDn());
         entityLoader.setManager(this);
         annotationProcessor.addHandler(entityLoader);
-        if (!annotationProcessor.processAnnotations())
-        {
-            return false;
-        }
-        return true;
+        annotationProcessor.processAnnotations();
     }
 
 
@@ -846,10 +846,7 @@ public class LdapManager
                 ldapEntry);
             entityBinder.setManager(this);
             annotationProcessor.addHandler(entityBinder);
-            if (!annotationProcessor.processAnnotations())
-            {
-                throw new LdapNamingException("annotation processing failed");
-            }
+            annotationProcessor.processAnnotations();
             ldapContext = (LdapContext) getConnection();
             final List<Attributes> attributesList =
                 entityBinder.getAttributesList();

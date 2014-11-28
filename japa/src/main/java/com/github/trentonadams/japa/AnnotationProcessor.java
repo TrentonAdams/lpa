@@ -21,6 +21,7 @@
 package com.github.trentonadams.japa;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,10 @@ import java.util.List;
  * Processes annotations all the way through a tree of Java classes, using
  * callbacks as the method of handling them.  See the {@link IAnnotationHandler}
  * for more information on the callbacks.
- *
+ * <p/>
+ * Package processing occurs.  Classes are processed first.  Once the class
+ * annotation processing has occurred, the constructor, field, and method
+ * processing follow, in that order.
  * <p/>
  * Created :  21-Aug-2010 11:34:50 PM MST
  *
@@ -63,7 +67,7 @@ public class AnnotationProcessor
      *
      * @return true
      */
-    public boolean processAnnotations()
+    public void processAnnotations()
     {
         for (final IAnnotationHandler handler : handlers)
         {
@@ -71,15 +75,8 @@ public class AnnotationProcessor
             if (processAnnotation(handler, annotatedClass))
             {
                 handler.complete();
-                return true;
-            }
-            else
-            {
-                return false;
             }
         }
-
-        return false;
     }
 
     /**
@@ -109,19 +106,23 @@ public class AnnotationProcessor
             processed = processAnnotation(handler, annotatedSuper);
         }
 
-        final Class<? extends Annotation> annotationClass =
-            handler.getAnnotationClass();
-        if (annotatedClass.isAnnotationPresent(annotationClass))
-        {   // annotated, ask handler to do it's thing
-            final Annotation annotation = annotatedClass.getAnnotation(
-                annotationClass);
-            processed = handler.processAnnotation(annotation, annotatedClass) &&
-                processed;
-            // TODO Call the "processAnnotation()" above, but
-        }
-        else
+        final Annotation[] classAnnotations = annotatedClass.getAnnotations();
+        for (final Annotation classAnnotation : classAnnotations)
         {
-            handler.noAnnotation(annotatedClass);
+            handler.processAnnotation(classAnnotation, annotatedClass);
+        }
+
+        handler.classAnnotationsComplete(annotatedClass);
+
+        final Field[] fields = annotatedClass.getDeclaredFields();
+        for (final Field field : fields)
+        {
+            final Annotation[] fieldAnnotations = field.getAnnotations();
+            for (final Annotation fieldAnnotation : fieldAnnotations)
+            {
+                handler.processAnnotation(fieldAnnotation, annotatedClass,
+                    field);
+            }
         }
 
         return processed;

@@ -22,6 +22,9 @@ package com.github.trentonadams.japa;
 
 import java.lang.annotation.Annotation;
 import java.lang.annotation.ElementType;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Annotation callback handler.  Implement this when you want to process
@@ -29,7 +32,8 @@ import java.lang.annotation.ElementType;
  * <p/>
  * TODO perhaps make each handler have a getFieldAnnotations() and a
  * getMethodAnnotations().  If we do, we'll need to finish the calls for field
- * ad method processing.
+ * and method processing.  We should also set the fields and methods as
+ * accessible before, and inaccessible afterwards.
  * <p/>
  * Created :  21-Aug-2010 11:51:11 PM MST
  *
@@ -40,28 +44,67 @@ public interface IAnnotationHandler
     /**
      * Process the annotation on the given field.
      *
-     * @param annotation the annotation
-     * @param field      the field to process
-    void processAnnotation(Annotation annotation, Field field);
+     * @param annotation     the annotation
+     * @param annotatedClass the class to process
+     * @param field          the field to process
+     */
+    void processAnnotation(Annotation annotation, Class annotatedClass,
+        Field field);
 
     /**
      * Process the annotation on the given method.
      *
-     * @param annotation the annotation
-     * @param method     the field to process
-    void processAnnotation(Annotation annotation, Method method);
+     * @param annotation     the annotation
+     * @param annotatedClass the class to process
+     * @param method         the field to process
      */
+    void processAnnotation(Annotation annotation, Class annotatedClass,
+        Method method);
+
+    /**
+     * Process the annotation on the given package
+     *
+     * @param annotation     the annotation
+     * @param annotatedClass the class to process
+     * @param javaPackage    the package to process
+     */
+    void processAnnotation(Annotation annotation, Class annotatedClass,
+        Package javaPackage);
+
+    /**
+     * Process the annotation on the given constructor.
+     *
+     * @param annotation     the annotation
+     * @param annotatedClass the class to process
+     * @param constructor    the constructor to process
+     */
+    void processAnnotation(Annotation annotation, Class annotatedClass,
+        Constructor constructor);
 
     /**
      * Process the annotation on the given annotatedClass.  This is a callback
-     * to actually do something with the annotation.
+     * to actually do something with the annotation.  Generally speaking, the
+     * implementing class should NOT deal with annotations on methods, packages,
+     * fields, or constructors, by itself.  It should only deal with the class
+     * level annotations.  The other methods will be called appropriately.
+     * Namely {@link #processAnnotation(java.lang.annotation.Annotation, Class,
+     * java.lang.reflect.Constructor)}, {@link #processAnnotation(java.lang.annotation.Annotation,
+     * Class, java.lang.reflect.Field)}, {@link #processAnnotation(java.lang.annotation.Annotation,
+     * Class, java.lang.reflect.Method)}, and {@link #processAnnotation(java.lang.annotation.Annotation,
+     * Class, Package)}
      * <p/>
-     * it is recommended that the implementing object keeps track of problems
-     * and throws a RuntimeException in the {@link #complete()} method if
-     * something went wrong.
+     * It is recommended that the implementing object throws a RuntimeException
+     * if it can determine something went wrong up front.  In the case where it
+     * cannot be determined if there's a problem with the object, until all
+     * processing is complete, we recommend throwing the RuntimeException from
+     * within the {@link #complete()} method.
+     * <p/>
+     * Issues that could be wrong are things like improper use of annotations.
+     * Things like a class level annotation being present but no required field
+     * level annotations.
      *
      * @param annotation     the annotation
-     * @param annotatedClass the field to process
+     * @param annotatedClass the class to process
      *
      * @return true if annotation processing was successful
      *
@@ -70,7 +113,7 @@ public interface IAnnotationHandler
      *                          does not occur, unless it is severe.  First see
      *                          {@link #complete()}
      */
-    boolean processAnnotation(final Annotation annotation,
+    void processAnnotation(final Annotation annotation,
         final Class annotatedClass);
 
     /**
@@ -108,6 +151,8 @@ public interface IAnnotationHandler
      */
     void noAnnotation(final Class annotatedClass);
 
+    void classAnnotationsComplete(final Class annotatedClass);
+
     /**
      * Method for notifying implementing class that the traversal of the entire
      * class hierarchy is complete.  This is called after all classes in the
@@ -125,5 +170,4 @@ public interface IAnnotationHandler
      *                          class hierarchy traversal is complete
      */
     void complete();
-
 }

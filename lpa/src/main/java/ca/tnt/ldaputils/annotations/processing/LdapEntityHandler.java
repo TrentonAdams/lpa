@@ -34,16 +34,13 @@ import javax.naming.directory.Attributes;
 import javax.naming.ldap.LdapName;
 import javax.naming.ldap.Rdn;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
 import java.util.List;
 
 /**
- * {@link com.github.trentonadams.japa.IAnnotationHandler} abstract implementation that processes LPA
- * annotations for the purpose of providing a base Class for other {@link
- * LdapEntity} annotation processing handlers.
+ * {@link com.github.trentonadams.japa.IAnnotationHandler} abstract
+ * implementation that processes LPA annotations for the purpose of providing a
+ * base Class for other {@link LdapEntity} annotation processing handlers.
  * <p/>
  * This class was engineered in such a way; wait, back the truck up just a bit
  * (hehe). Let's face it, this class was HACKED together in such a way that
@@ -67,6 +64,8 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      */
     protected LdapManager manager;
 
+    private boolean entityClass = true;
+
     /**
      * Simply determines if this is a multi valued field.  We assume it is if it
      * is not either a String or a byte array.  These are the only supported
@@ -88,6 +87,89 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
             fieldType) && fieldType.isArray());
     }
 
+    @Override
+    public void classAnnotationsComplete(final Class annotatedClass)
+    {
+        if (!entityClass)
+        {
+            noAnnotation(annotatedClass);
+        }
+    }
+
+    @Override
+    public void processAnnotation(final Annotation annotation,
+        final Class annotatedClass, final Field field)
+    {
+        try
+        {
+            if (annotation instanceof Manager)
+            {
+                processManager(field);
+            }
+
+            if (annotation instanceof DN)
+            {
+                logger.debug(String.format("%-20s annotation on ", "@DN") +
+                    annotatedClass.getName() + ':' + field.getName());
+                processDN(annotatedClass, field);
+            }
+
+            if (annotation instanceof LdapAttribute)
+            {   // BEGIN LdapAttribute annotation processing
+                logger.debug(String.format("%-20s annotation on ",
+                    "@LdapAttribute") + annotatedClass.getName() + ':' +
+                    field.getName());
+                processLdapAttribute(annotatedClass, field);
+            }   // END LdapAttribute annotation processing
+        }
+        catch (final NamingException e)
+        {
+            throw new LdapNamingException(e);
+        }
+        catch (final IllegalAccessException e)
+        {
+            throw new IllegalArgumentException(e);
+        }
+        catch (final NoSuchMethodException e)
+        {
+            throw new IllegalArgumentException(annotatedClass.getName() +
+                " is not a valid LdapEntity POJO; method incorrectly defined " +
+                "or does not exist", e);
+        }
+        catch (final InstantiationException e)
+        {
+            throw new IllegalArgumentException(e);
+        }
+        catch (final InvocationTargetException e)
+        {
+            throw new IllegalArgumentException(annotatedClass.getName() +
+                " is not a valid LdapEntity POJO; method incorrectly defined",
+                e);
+        }
+
+    }
+
+    @Override
+    public void processAnnotation(final Annotation annotation,
+        final Class annotatedClass, final Method method)
+    {
+
+    }
+
+    @Override
+    public void processAnnotation(final Annotation annotation,
+        final Class annotatedClass, final Package javaPackage)
+    {
+
+    }
+
+    @Override
+    public void processAnnotation(final Annotation annotation,
+        final Class annotatedClass, final Constructor constructor)
+    {
+
+    }
+
     /**
      * <span style="color:red;">WARNING! WARNING! WARNING!</span> It is not
      * recommended that you override this method.  It makes the basic calls to
@@ -101,67 +183,16 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      */
     @SuppressWarnings({"ChainedMethodCall", "MethodWithMultipleReturnPoints"})
     @Override
-    public boolean processAnnotation(final Annotation annotation,
+    public void processAnnotation(final Annotation annotation,
         final Class annotatedClass)
     {
-        try
-        {
-            final String className = entity.getClass().getName();
+        final String className = entity.getClass().getName();
 
-            if (!preProcessAnnotation((LdapEntity) annotation, annotatedClass))
-            {
-                return false;
-            }
-
-            for (final Field field : annotatedClass.getDeclaredFields())
-            {   // BEGIN field iteration
-                if (field.isAnnotationPresent(Manager.class))
-                {
-                    processManager(field);
-                }
-
-                if (field.isAnnotationPresent(DN.class))
-                {
-                    logger.debug(String.format("%-20s annotation on ", "@DN") +
-                        className + ':' + field.getName());
-                    processDN(annotatedClass, field);
-                }
-
-                if (field.isAnnotationPresent(LdapAttribute.class))
-                {   // BEGIN LdapAttribute annotation processing
-                    logger.debug(String.format("%-20s annotation on ",
-                        "@LdapAttribute") + className + ':' + field.getName());
-                    processLdapAttribute(annotatedClass, field);
-                }   // END LdapAttribute annotation processing
-            }   // END field iteration
-
-        }
-        catch (NamingException e)
+        if (annotation instanceof LdapEntity)
         {
-            throw new LdapNamingException(e);
+            preProcessAnnotation((LdapEntity) annotation, annotatedClass);
+            entityClass = true;
         }
-        catch (IllegalAccessException e)
-        {
-            throw new IllegalArgumentException(e);
-        }
-        catch (NoSuchMethodException e)
-        {
-            throw new IllegalArgumentException(annotatedClass.getName() +
-                " is not a valid LdapEntity POJO; method incorrectly defined " +
-                "or does not exist", e);
-        }
-        catch (InstantiationException e)
-        {
-            throw new IllegalArgumentException(e);
-        }
-        catch (InvocationTargetException e)
-        {
-            throw new IllegalArgumentException(annotatedClass.getName() +
-                " is not a valid LdapEntity POJO; method incorrectly defined",
-                e);
-        }
-
-        return true;
     }
 
     /**
@@ -174,10 +205,10 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *
      * @return true if nothing went wrong during processing
      */
-    protected boolean preProcessAnnotation(final LdapEntity annotation,
+    protected void preProcessAnnotation(final LdapEntity annotation,
         final Class annotatedClass)
     {
-        return true;
+
     }
 
     /**
@@ -333,9 +364,9 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @throws InstantiationException    if an error occurs creating an
      *                                   aggregate instance
      * @throws ClassCastException        if you use a supported collection that
-     *                                   is not parameterized, such as
-     *                                   SortedSet, instead of SortedSet&lt;String&gt;,
-     *                                   for example.
+     *                                   is not parametrized, such as SortedSet,
+     *                                   instead of SortedSet&lt;String&gt;, for
+     *                                   example.
      */
     @SuppressWarnings({"MethodWithMultipleReturnPoints", "unchecked"})
     protected void processLdapAttribute(final Class annotatedClass,
@@ -608,7 +639,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *                       processed
      *
      * @return the new aggregate instance, or collection of aggregate instances;
-     *         subclasses may also return null
+     * subclasses may also return null
      *
      * @throws NamingException        general JNDI exception wrapper for any
      *                                errors that occur in the directory
@@ -638,7 +669,7 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      *                       processed
      *
      * @return the new fieldValue if one is needed; subclasses may also return
-     *         null
+     * null
      *
      * @throws IllegalAccessException if java policies prevent access to fields
      *                                via reflection
@@ -658,4 +689,5 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * @param managerInstance the already authenticated manager
      */
     public abstract void setManager(final LdapManager managerInstance);
+
 }

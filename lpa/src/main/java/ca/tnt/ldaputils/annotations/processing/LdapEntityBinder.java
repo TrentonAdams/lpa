@@ -306,7 +306,7 @@ public class LdapEntityBinder extends LdapEntityHandler
      */
     @SuppressWarnings({"RefusedBequest"})
     @Override
-    protected boolean preProcessAnnotation(final LdapEntity annotation,
+    protected void preProcessAnnotation(final LdapEntity annotation,
         final Class annotatedClass)
     {
         final Attribute attribute = new BasicAttribute("objectClass");
@@ -319,8 +319,6 @@ public class LdapEntityBinder extends LdapEntityHandler
         {
             attributes.put(attribute);
         }
-
-        return true;
     }
 
     @Override
