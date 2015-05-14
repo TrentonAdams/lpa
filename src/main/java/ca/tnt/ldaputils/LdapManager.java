@@ -58,6 +58,8 @@ public class LdapManager
 {
     // logging
     private static Logger logger = Logger.getLogger(LdapManager.class);
+
+    // We set the TIMEOUT to zero so that no changes are made to the timeout.
     public static final int TIMEOUT = 0;
 
     // internal configuration
