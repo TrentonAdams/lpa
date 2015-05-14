@@ -58,7 +58,7 @@ public class LdapManager
 {
     // logging
     private static Logger logger = Logger.getLogger(LdapManager.class);
-    public static final int TIMEOUT = 300;
+    public static final int TIMEOUT = 0;
 
     // internal configuration
     private final String sLDAPURL;
