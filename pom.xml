@@ -60,6 +60,7 @@ See the COPYING file for more information.
             -collpackages java.util.* -qualify
             -postfixpackage -nodefontsize 9
             -nodefontpackagesize 7
+            -Xdoclint:none
           </additionalparam>
           <overview>src/main/java/overview.html</overview>
           <bottom><![CDATA[
