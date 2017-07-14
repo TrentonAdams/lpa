@@ -42,8 +42,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * {@link com.github.trentonadams.japa.IAnnotationHandler} implementation that processes LPA annotations for
- * the purpose of generating JNDI Attributes for the bind call.
+ * {@link com.github.trentonadams.japa.IAnnotationHandler} implementation that
+ * processes LPA annotations for the purpose of generating JNDI Attributes for
+ * the bind call.  i.e. we're storing an LDAP POJO, and we need to grab it's
+ * data from the annotated fields to store them in LDAP.
  * <p/>
  * Created :  02/01/11 1:09 PM MST
  *

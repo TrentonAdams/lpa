@@ -43,8 +43,8 @@ import java.util.List;
 
 /**
  * {@link com.github.trentonadams.japa.IAnnotationHandler} implementation that
- * processes LPA annotations for the purpose of loading the {@link LdapEntity}
- * annotated instance from the ldap query results.
+ * processes LPA annotations for the purpose of inject the {@link LdapEntity}
+ * annotated instance with attributes from the ldap query results.
  * <p/>
  * FEATURE MINOR native support for Map (issue-13) Created :  22-Aug-2010
  * 12:44:56 AM MST

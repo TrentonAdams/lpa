@@ -151,6 +151,13 @@ public interface IAnnotationHandler
      */
     void noAnnotation(final Class annotatedClass);
 
+    /**
+     * Called after the designated class has had it's class based annotations
+     * processed.  Just used in case your implementation of an
+     * {@link IAnnotationHandler} needs to know in some way.
+     *
+     * @param annotatedClass the class that was or was not annotated.
+     */
     void classAnnotationsComplete(final Class annotatedClass);
 
     /**
@@ -163,11 +170,13 @@ public interface IAnnotationHandler
      * For example, it may be that you require a particular annotation on at
      * least one class in the hierarchy, but your handler doesn't know when the
      * end of Class hierarchy traversal is complete; this method is called after
-     * traversal completion.
+     * traversal completion so that you know, and can determine a course of
+     * action.
      *
      * @throws RuntimeException if it is determined that a processing error has
      *                          occurred that could not be determined until
-     *                          class hierarchy traversal is complete
+     *                          class hierarchy traversal is complete.  More
+     *                          specifically, your RuntimeException subclass.
      */
     void complete();
 }

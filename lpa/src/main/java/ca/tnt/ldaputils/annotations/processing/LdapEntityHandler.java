@@ -465,6 +465,21 @@ public abstract class LdapEntityHandler implements IAnnotationHandler
      * Class, String, LdapAttribute)} or the {@link #processLocalAggregate(Field,
      * Class, LdapAttribute)} as appropriate.
      *
+     * A local aggregate is a member field that has a type that is itself an
+     * {@link LdapEntity}, but the data for that aggregate comes from the same
+     * LDAP entry as the parent class. An example might be to split address
+     * information into it's own POJO, but since an inetOrgPerson has all the
+     * data, we just inject all POJOs with the ldap attributes values from one
+     * result.
+     *
+     * A foreign aggregate is a member field that has a type that is itself an
+     * {@link LdapEntity}, but the data for that aggregate comes from an
+     * an entirely different ldap entry.  Generally this is done when an ldap
+     * attributes is actually a pointer to somewhere else in the LDAP tree. A
+     * good use case is an LDAP group.  All the ldap group attribute has in it
+     * is a DN to the ldap group.  Then the LDAP group may have a bunch of
+     * member attributes indicating everyone that's a member of that group.
+     *
      * @param field          the field being processed
      * @param annotatedClass the annotated {@link LdapEntity} class
      * @param aggClass       the aggregate class as defined by {@link
