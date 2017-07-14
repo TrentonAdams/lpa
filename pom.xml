@@ -30,7 +30,7 @@ See the COPYING file for more information.
   <groupId>com.github.trentonadams</groupId>
   <artifactId>root</artifactId>
   <packaging>pom</packaging>
-  <version>0.3.2-SNAPSHOT</version>
+  <version>0.3.3-SNAPSHOT</version>
   <modules>
     <module>lpa</module>
     <module>japa</module>
@@ -67,6 +67,7 @@ See the COPYING file for more information.
             -collpackages java.util.* -qualify
             -postfixpackage -nodefontsize 9
             -nodefontpackagesize 7
+            -Xdoclint:none
           </additionalparam>
           <overview>lpa/main/java/overview.html</overview>
           <bottom><![CDATA[
