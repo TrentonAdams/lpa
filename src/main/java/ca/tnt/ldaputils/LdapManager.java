@@ -53,14 +53,15 @@ import java.util.*;
  *
  * @author Trenton D. Adams <trent.nospam@telus.net>
  */
-@SuppressWarnings({"PublicMethodNotExposedInInterface", "ReturnOfNull"})
+@SuppressWarnings({
+    "PublicMethodNotExposedInInterface", "ReturnOfNull", "CastToConcreteClass"})
 public class LdapManager
 {
     // logging
-    private static Logger logger = Logger.getLogger(LdapManager.class);
+    private static final Logger logger = Logger.getLogger(LdapManager.class);
 
     // We set the TIMEOUT to zero so that no changes are made to the timeout.
-    public static final int TIMEOUT = 0;
+    private int timeout = 0;
 
     // internal configuration
     private final String sLDAPURL;
@@ -72,17 +73,17 @@ public class LdapManager
      * Return search results in no particular order.  i.e. the are stored in a
      * non sorted Map.  Probably a Hashtable.
      */
-    public static final int NO_ORDER = 0;
+    private static final int NO_ORDER = 0;
 
     /**
      * Return search results in the order they were found.
      */
-    public static final int SEARCH_ORDER = 1;
+    private static final int SEARCH_ORDER = 1;
 
     /**
      * Return search result in alphanumeric order, sorting by the keyAttribute.
      */
-    public static final int SORTED_ORDER = 2;
+    static final int SORTED_ORDER = 2;
 
 
     /**
@@ -130,7 +131,7 @@ public class LdapManager
 
             logger.info("loaded new " + LdapManager.class);
         }
-        catch (Throwable exception)
+        catch (final Throwable exception)
         {
             throw new LdapNamingException("error loading ldap settings",
                 exception);
@@ -262,7 +263,7 @@ public class LdapManager
 
         try
         {
-            ldapContext = getConnection(false, TIMEOUT, sLDAPURL, bindDN,
+            ldapContext = getConnection(false, timeout, sLDAPURL, bindDN,
                 bindPassword);
 
             // perform a search to find the entries
@@ -285,12 +286,12 @@ public class LdapManager
                     new LdapName(entry.getNameInNamespace()), entryAttributes));
             }
         }
-        catch (NamingException namingException)
+        catch (final NamingException namingException)
         {
             throw new LdapNamingException(
                 "an error occurred doing an ldap " + "search", namingException);
         }
-        catch (Exception exception)
+        catch (final Exception exception)
         {
             throw new LdapNamingException(
                 "an error occurred doing an ldap " + "search", exception);
@@ -304,7 +305,7 @@ public class LdapManager
                 {
                     results.close();
                 }
-                catch (NamingException e)
+                catch (final NamingException e)
                 {
                     logger.error(
                         "error closing results: " + getNamingExceptionMessage(
@@ -385,11 +386,11 @@ public class LdapManager
                 return null;
             }
         }
-        catch (InstantiationException e)
+        catch (final InstantiationException e)
         {   // instantiation problems will mean it's not a valid object
             throw new IllegalArgumentException(e);
         }
-        catch (IllegalAccessException e)
+        catch (final IllegalAccessException e)
         {
             throw new IllegalArgumentException("If this is happening, there " +
                 "is something wrong with your policy, or it is a " +
@@ -480,7 +481,7 @@ public class LdapManager
                 // a zero length array
             }
         } // END LDAP try block
-        catch (NamingException exception)
+        catch (final NamingException exception)
         {
             if (ldapContext == null)
             {
@@ -489,7 +490,7 @@ public class LdapManager
 
             throw new LdapNamingException(exception);  // propogate
         }
-        catch (Exception exception)
+        catch (final Exception exception)
         {
             logger.error("getAttributes - ", exception);
             throw new LdapNamingException(exception);
@@ -502,7 +503,7 @@ public class LdapManager
         return returnedEntries.toArray();
     } // BEGIN getAttributes ()
 
-    public Attributes getAttributes(final LdapName dn,
+    private Attributes getAttributes(final LdapName dn,
         final String[] attributes, final String bindDN,
         final String bindPassword)
     {   // BEGIN getAttributes(dn)
@@ -511,15 +512,15 @@ public class LdapManager
 
         try
         { // BEGIN LDAP try block
-            ldapContext = getConnection(false, TIMEOUT, sLDAPURL, bindDN,
+            ldapContext = getConnection(false, timeout, sLDAPURL, bindDN,
                 bindPassword);
             returnedAttributes = ldapContext.getAttributes(dn, attributes);
         } // END LDAP try block
-        catch (NamingException exception)
+        catch (final NamingException exception)
         {
             throw new LdapNamingException(exception);  // propogate
         }
-        catch (Exception exception)
+        catch (final Exception exception)
         {
             throw new LdapNamingException(
                 "unknown exception while retrieving attributes", exception);
@@ -548,7 +549,7 @@ public class LdapManager
      * @throws NamingException if a JNDI error occurs.
      */
     @SuppressWarnings({"UseOfObsoleteCollectionType", "MagicNumber"})
-    public static DirContext getConnection(final boolean isPooled,
+    private static DirContext getConnection(final boolean isPooled,
         final int timeout, final String sLDAPURL, final String sLDAPManagerDN,
         final String sLDAPManagerPW) throws NamingException
     { // BEGIN getConnection ()
@@ -587,12 +588,12 @@ public class LdapManager
     public DirContext getConnection(final String bindDN,
         final String bindPassword) throws NamingException
     {
-        return getConnection(false, TIMEOUT, sLDAPURL, bindDN, bindPassword);
+        return getConnection(false, timeout, sLDAPURL, bindDN, bindPassword);
     }
 
-    public DirContext getConnection() throws NamingException
+    private DirContext getConnection() throws NamingException
     {
-        return getConnection(true, TIMEOUT, sLDAPURL, bindDN, bindPassword);
+        return getConnection(true, timeout, sLDAPURL, bindDN, bindPassword);
     }
 
     /**
@@ -600,14 +601,14 @@ public class LdapManager
      *
      * @param conn LDAP directory context object
      */
-    public static void releaseConnection(final DirContext conn)
+    private static void releaseConnection(final DirContext conn)
     {
         if (conn == null) return;
         try
         {
             conn.close();
         }
-        catch (Exception e)
+        catch (final Exception e)
         {
             logger.error("this error should not occur - " + e.getMessage());
         }
@@ -617,9 +618,9 @@ public class LdapManager
     {
         final String explanation;
         explanation = namingException.getExplanation();
-        if (explanation != null && (explanation.indexOf(
-            "user entry not found") != -1 || explanation.indexOf(
-            "Invalid Credentials") != -1))
+        if (explanation != null && (explanation.contains(
+            "user entry not found") || explanation.contains(
+            "Invalid Credentials")))
         {
             /**
              * no big deal, we don't care about this much, as it's probably
@@ -643,7 +644,7 @@ public class LdapManager
      *
      * @return the message to log
      */
-    public static String getNamingExceptionMessage(
+    private static String getNamingExceptionMessage(
         final NamingException namingException)
     {
         final String explanation;
@@ -657,6 +658,7 @@ public class LdapManager
      *
      * @param args the arguments to pass in.
      */
+    @SuppressWarnings("AssignmentToNull")
     public static void main(final String[] args)
     {   // BEGIN main()
         if (args.length < 5)
@@ -785,7 +787,7 @@ public class LdapManager
                 }
             }
         }
-        catch (NamingException namingException)
+        catch (final NamingException namingException)
         {
             logNamingException(namingException);
         }
@@ -836,7 +838,7 @@ public class LdapManager
      *                                       happen, if it does, it's a bug, and
      *                                       needs to be reported.
      */
-    public void bind(final Object ldapEntry)
+    void bind(final Object ldapEntry)
     {
         LdapContext ldapContext = null;
         try
@@ -868,7 +870,7 @@ public class LdapManager
                 ldapContext.bind(dn, null, attributes);
             }
         }
-        catch (NamingException e)
+        catch (final NamingException e)
         {
             logger.error(e);
         }
@@ -879,7 +881,7 @@ public class LdapManager
 
     }
 
-    public void unbind(final LdapName dn)
+    private void unbind(final LdapName dn)
     {
         LdapContext ldapContext = null;
         try
@@ -887,7 +889,7 @@ public class LdapManager
             ldapContext = (LdapContext) getConnection();
             ldapContext.unbind(dn);
         }
-        catch (NamingException e)
+        catch (final NamingException e)
         {
             logger.error(e);
         }
@@ -898,7 +900,7 @@ public class LdapManager
 
     }
 
-    public void unbind(final ILdapEntry ldapEntry)
+    void unbind(final ILdapEntry ldapEntry)
     {
         unbind(ldapEntry.getDn());
     }
@@ -908,7 +910,7 @@ public class LdapManager
         return properties.getProperty(propertyName);
     }
 
-    public void setBindDN(String bindDN)
+    public void setBindDN(final String bindDN)
     {
         this.bindDN = bindDN;
     }
@@ -926,5 +928,15 @@ public class LdapManager
     public void setBindPassword(final String bindPassword)
     {
         this.bindPassword = bindPassword;
+    }
+
+    public int getTimeout()
+    {
+        return timeout;
+    }
+
+    public void setTimeout(final int timeout)
+    {
+        this.timeout = timeout;
     }
 }
